@@ -432,13 +432,3 @@ html.modo-oscuro .rama-accion-fila, body.modo-oscuro .rama-accion-fila { backgro
   margin-top: 8px !important;
   margin-bottom: 10px !important;
 }
-
-/* VISOR-ADMIN: búsqueda arriba, estadísticas debajo, sin solapamiento */
-.file-search-bar + #stats,
-#stats {
-  position: relative !important;
-  top: auto !important;
-  bottom: auto !important;
-  float: none !important;
-  clear: both !important;
-}

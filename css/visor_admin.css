@@ -3512,24 +3512,3 @@ html:not(.modo-oscuro) .editor-box select {
   margin-top: 8px !important;
   margin-bottom: 10px !important;
 }
-
-/* VISOR-ADMIN: la búsqueda NO se superpone a estadísticas ni al contenido */
-.file-search-bar {
-  position: relative !important;
-  top: auto !important;
-  z-index: 20 !important;
-  width: min(1100px, calc(100% - 32px)) !important;
-  margin: 12px auto 0 !important;
-  padding: 10px 14px 8px !important;
-  background: transparent !important;
-}
-
-/* VISOR-ADMIN: búsqueda arriba, estadísticas debajo, sin solapamiento */
-.file-search-bar + #stats,
-#stats {
-  position: relative !important;
-  top: auto !important;
-  bottom: auto !important;
-  float: none !important;
-  clear: both !important;
-}
