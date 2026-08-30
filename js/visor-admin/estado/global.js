@@ -21,19 +21,7 @@ function mostrarCargaGlobal() {
       <span style="font-size:15px;color:#cbd5e1">Cargando documentos de la rama…</span>
     </div>`;
   const stats = document.getElementById('stats');
-  if (stats) {
-    stats.style.display = 'grid';
-    stats.style.visibility = 'visible';
-    stats.style.opacity = '1';
-    stats.innerHTML = `
-      <div class="stat stat-loading"><b>…</b><span>archivos totales</span></div>
-      <div class="stat stat-loading"><b>…</b><span>enunciados</span></div>
-      <div class="stat stat-loading"><b>…</b><span>renombres</span></div>
-      <div class="stat stat-loading"><b>…</b><span>limpiezas</span></div>
-      <div class="stat stat-loading"><b>…</b><span>apuntes</span></div>
-      <div class="stat stat-loading"><b>…</b><span>aplicados</span></div>
-      <div class="stat stat-loading"><b>…</b><span>originales</span></div>`;
-  }
+  if (stats) stats.innerHTML = '';
 }
 
 function mostrarSeleccionarRama() {
@@ -70,27 +58,8 @@ async function load() {
   const urlArchivo = params.get('archivo');
   const urlReturn = params.get('return');
   const urlPos = params.get('pos');
-  const urlTodas = params.get('todas') === '1';
-  if (urlRama || urlAsig || urlTri || urlArchivo || urlReturn || urlPos !== null || urlTodas) {
-    // Una navegación explícita tiene prioridad absoluta sobre cualquier
-    // documento/rama que hubiera quedado guardado de una visita anterior.
-    if (urlRama || urlAsig || urlTri || urlArchivo || urlTodas) {
-      contexto = { ...contexto,
-        ...(urlRama ? {rama:urlRama, todas:false} : {}),
-        ...(urlAsig ? {asignatura:urlAsig} : {}),
-        ...(urlTri ? {trimestre:urlTri} : {}),
-        ...(urlArchivo ? {archivo:urlArchivo, directo:true} : {}),
-        ...(urlTodas ? {rama:'', todas:true, archivo:'', directo:false} : {})
-      };
-      // Si no estamos entrando con un archivo concreto, no arrastramos la
-      // última apertura del visor.
-      if (!urlArchivo) {
-        localStorage.removeItem('last_open');
-        localStorage.removeItem('last_archivo');
-        localStorage.removeItem('visor_pos');
-      }
-    }
-    contexto = { ...contexto, ...(urlReturn ? {returnPath:urlReturn} : {}) };
+  if (urlRama || urlAsig || urlTri || urlArchivo || urlReturn || urlPos !== null) {
+    contexto = { ...contexto, ...(urlRama ? {rama:urlRama} : {}), ...(urlAsig ? {asignatura:urlAsig} : {}), ...(urlTri ? {trimestre:urlTri} : {}), ...(urlArchivo ? {archivo:urlArchivo} : {}), ...(urlReturn ? {returnPath:urlReturn} : {}) };
     // Los parámetros solo sirven para la entrada inicial desde otra página.
     // En cuanto se consumen, se eliminan de la barra del navegador.
     try {
@@ -100,23 +69,23 @@ async function load() {
       window.history.replaceState({}, document.title, window.location.pathname);
     } catch (_) {}
   }
-  const modoTodas = contexto.todas === true || contexto.rama === '__TODAS__';
+  const modoTodas = contexto.todas === true ||
+    contexto.rama === '__TODAS__' ||
+    sessionStorage.getItem('visorAdminBranchMode') === 'all';
   const savedGrado = modoTodas ? '' : (contexto.rama || localStorage.getItem('last_grado') || localStorage.getItem('rama_actual'));
+  if (modoTodas) {
+    contexto.todas = true;
+    contexto.rama = '';
+    try {
+      localStorage.setItem('visor_contexto', JSON.stringify(contexto));
+      localStorage.removeItem('last_grado');
+      sessionStorage.removeItem('visorAdminBranchMode');
+    } catch (_) {}
+  }
   const filtroAsignatura = contexto.asignatura || '';
   const filtroTrimestre = contexto.trimestre || '';
   window.VISOR_FILTRO = { asignatura: filtroAsignatura, trimestre: filtroTrimestre };
   const archivoContexto = contexto.directo ? String(contexto.archivo || '').trim() : '';
-  // Un filtro de asignatura/trimestre es navegación al listado, NO una orden de
-  // reabrir el último documento. Evitamos que el estado persistido del visor
-  // (last_open/visor_pos) se arrastre desde una visita anterior.
-  const hayFiltroContextual = !!(filtroAsignatura || filtroTrimestre);
-  if (hayFiltroContextual && !urlArchivo && !archivoContexto) {
-    try {
-      localStorage.setItem('last_open', '0');
-      localStorage.removeItem('last_archivo');
-      localStorage.removeItem('visor_pos');
-    } catch (_) {}
-  }
   const hayRamaObjetivo = !!savedGrado || modoTodas;
   const esHomeVisor = !hayRamaObjetivo && !params.get('archivo') && !params.get('pos');
   if (esHomeVisor) { contexto.todas = true; try { localStorage.setItem('visor_contexto', JSON.stringify(contexto)); } catch (_) {} }
@@ -185,36 +154,13 @@ async function load() {
     const archivoObjetivo = urlArchivo || archivoContexto;
     let abrioArchivoObjetivo = false;
     if (archivoObjetivo) {
-      const normalizarRutaArchivo = (valor) => {
-        let v = String(valor || '').trim().replace(/\\/g, '/');
-        try { v = decodeURIComponent(v); } catch (_) {}
-        // Acepta tanto rutas del repo como enlaces github.com/.../blob/...
-        // o raw.githubusercontent.com/.../...
-        const m = v.match(/(?:github\.com|raw\.githubusercontent\.com)\/[^/]+\/[^/]+(?:\/blob)?\/(?:[^/]+\/)?(.+)$/i);
-        if (m) v = m[1];
-        return v.replace(/^\/+/, '').toLowerCase();
-      };
-      const rutaObjetivo = normalizarRutaArchivo(archivoObjetivo);
-      const nombreObjetivo = rutaObjetivo.split('/').pop();
-      let idxObjetivo = ITEMS.findIndex(it => normalizarRutaArchivo(it.archivo) === rutaObjetivo);
-      if (idxObjetivo < 0) {
-        idxObjetivo = ITEMS.findIndex(it => normalizarRutaArchivo(it.archivo).split('/').pop() === nombreObjetivo);
-      }
+      const nombreObjetivo = String(archivoObjetivo).split('/').pop();
+      const objetivo = nombreObjetivo.toLowerCase();
+      const idxObjetivo = ITEMS.findIndex(it => String(it.archivo || '').split('/').pop().toLowerCase() === objetivo);
       const inputBusqueda = document.getElementById('inputBuscarArchivo');
       if (inputBusqueda) {
         inputBusqueda.value = nombreObjetivo;
         try { filtrarArchivos(nombreObjetivo); } catch (_) {}
-      }
-      if (idxObjetivo < 0 && archivoObjetivo && hayFiltroContextual) {
-        // El archivo mandado por el botón es más específico que el filtro de
-        // trimestre/asignatura. Si el backend no trae exactamente esos metadatos,
-        // reconstruimos la colección sin ocultar el archivo solicitado.
-        const filtroAnterior = window.VISOR_FILTRO;
-        window.VISOR_FILTRO = {};
-        buildAllItems();
-        window.VISOR_FILTRO = filtroAnterior;
-        idxObjetivo = ITEMS.findIndex(it => normalizarRutaArchivo(it.archivo) === rutaObjetivo);
-        if (idxObjetivo < 0) idxObjetivo = ITEMS.findIndex(it => normalizarRutaArchivo(it.archivo).split('/').pop() === nombreObjetivo);
       }
       if (idxObjetivo >= 0) {
         abrioArchivoObjetivo = true;
@@ -228,11 +174,11 @@ async function load() {
     }
 
     const openParam = params.get('pos');
-    const storedPos = hayFiltroContextual ? null : localStorage.getItem('visor_pos');
+    const storedPos = localStorage.getItem('visor_pos');
     if (!abrioArchivoObjetivo && (openParam !== null || storedPos !== null)) {
       const p = parseInt(openParam !== null ? openParam : storedPos, 10);
       if (p >= 0 && p < ITEMS.length) { POS = p; openOv(); }
-    } else if (!modoTodas && !hayFiltroContextual && !abrioArchivoObjetivo && localStorage.getItem('last_open') === '1') {
+    } else if (!modoTodas && !abrioArchivoObjetivo && localStorage.getItem('last_open') === '1') {
       const savedArch = localStorage.getItem('last_archivo');
       let idx = -1;
       if (savedArch) idx = ITEMS.findIndex(item => item.archivo === savedArch);
@@ -302,12 +248,7 @@ function filtrarArchivos(valor) {
   window.ITEMS_BUSQUEDA = ITEMS_BUSQUEDA;
   const count = document.getElementById('fileSearchCount');
   const clear = document.getElementById('btnLimpiarBusqueda');
-  if (count) {
-    const total = Array.isArray(ITEMS) ? ITEMS.length : 0;
-    count.textContent = BUSQUEDA_ARCHIVO
-      ? `${ITEMS_BUSQUEDA.length} encontrado${ITEMS_BUSQUEDA.length === 1 ? '' : 's'}`
-      : `${total} archivo${total === 1 ? '' : 's'}`;
-  }
+  if (count) count.textContent = BUSQUEDA_ARCHIVO ? `${ITEMS_BUSQUEDA.length} encontrado${ITEMS_BUSQUEDA.length === 1 ? '' : 's'}` : '';
   if (clear) clear.style.display = BUSQUEDA_ARCHIVO ? 'inline-flex' : 'none';
   if (typeof render === 'function' && grad && (grad === '__TODAS__' || DATA[grad])) render();
   if (typeof precargarPrimerosOriginales === 'function') {
@@ -320,3 +261,89 @@ function limpiarBusquedaArchivos() {
   if (input) input.value = '';
   filtrarArchivos('');
 }
+
+
+/* Selector de ramas: siempre conserva SELECCIONAR y permite TODAS las ramas */
+function ensureAllBranchesOption(select) {
+  if (!select) return;
+
+  // SELECCIONAR siempre primero
+  let defaultOpt = Array.from(select.options).find(o =>
+    o.value === "" || o.dataset.defaultBranch === "1"
+  );
+  if (!defaultOpt) {
+    defaultOpt = document.createElement("option");
+    defaultOpt.value = "";
+    defaultOpt.textContent = "SELECCIONAR";
+    defaultOpt.dataset.defaultBranch = "1";
+  }
+  select.insertBefore(defaultOpt, select.firstChild);
+
+  // TODAS LAS RAMAS siempre al FINAL
+  Array.from(select.options).forEach(o => {
+    if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") o.remove();
+  });
+  const allOpt = document.createElement("option");
+  allOpt.value = "__ALL_BRANCHES__";
+  allOpt.textContent = "— TODAS LAS RAMAS —";
+  allOpt.dataset.allBranches = "1";
+  select.appendChild(allOpt);
+}
+
+
+/* VISOR_FORCE_ALL_BRANCHES
+   El visor de documentos debe ofrecer TODAS LAS RAMAS aunque la carga de ramas
+   llegue después. No sustituir el selector por una única rama durante la carga. */
+(function () {
+  function normalizarSelectorRamasVisor() {
+  const selects = Array.from(document.querySelectorAll(
+    'select[id*="rama" i], select[id*="branch" i], select[name*="rama" i], select[name*="branch" i]'
+  ));
+
+  selects.forEach(select => {
+    // SELECCIONAR siempre primero.
+    let def = Array.from(select.options).find(o =>
+      o.value === "" || o.dataset.defaultBranch === "1" ||
+      o.textContent.trim().toUpperCase() === "SELECCIONAR"
+    );
+
+    if (!def) {
+      def = document.createElement("option");
+      def.value = "";
+      def.textContent = "SELECCIONAR";
+      def.dataset.defaultBranch = "1";
+      select.insertBefore(def, select.firstChild);
+    } else {
+      def.dataset.defaultBranch = "1";
+      if (select.firstChild !== def) select.insertBefore(def, select.firstChild);
+    }
+
+    // TODAS LAS RAMAS SIEMPRE AL FINAL.
+    Array.from(select.options).forEach(o => {
+      if (
+        o.value === "__ALL_BRANCHES__" ||
+        o.dataset.allBranches === "1" ||
+        /TODAS\s+LAS\s+RAMAS/i.test(o.textContent || "")
+      ) {
+        o.remove();
+      }
+    });
+
+    const allOpt = document.createElement("option");
+    allOpt.value = "__ALL_BRANCHES__";
+    allOpt.textContent = "— TODAS LAS RAMAS —";
+    allOpt.dataset.allBranches = "1";
+    select.appendChild(allOpt);
+
+    // Si el visor se abrió desde el botón general, TODAS queda seleccionada.
+    if (sessionStorage.getItem("visorAdminBranchMode") === "all") {
+      select.value = "__ALL_BRANCHES__";
+    }
+  });
+}
+
+  window.normalizarSelectorRamasVisor = normalizarSelectorRamasVisor;
+  document.addEventListener("DOMContentLoaded", normalizarSelectorRamasVisor);
+  const obs = new MutationObserver(normalizarSelectorRamasVisor);
+  obs.observe(document.documentElement, { childList: true, subtree: true });
+})();

@@ -72,3 +72,39 @@ iframe, embed {
 .file-item {
   position: relative;
 }
+
+/* ESTADISTICAS_NORMAL_FLOW_SEARCH */
+#stats.stats {
+  position: relative !important;
+  float: none !important;
+  clear: both !important;
+  width: 100%;
+  margin-top: 8px !important;
+  margin-bottom: 10px !important;
+  order: initial;
+}
+
+
+/* Orden visual definitivo: búsqueda -> estadísticas -> contenido */
+#searchBar + #stats,
+.search-bar + #stats,
+#search + #stats {
+  position: relative !important;
+  display: block !important;
+  float: none !important;
+  clear: both !important;
+  top: auto !important;
+  bottom: auto !important;
+  margin-top: 8px !important;
+  margin-bottom: 10px !important;
+}
+
+/* VISOR-ADMIN: búsqueda arriba, estadísticas debajo, sin solapamiento */
+.file-search-bar + #stats,
+#stats {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  float: none !important;
+  clear: both !important;
+}

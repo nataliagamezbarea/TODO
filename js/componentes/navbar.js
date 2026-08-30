@@ -88,10 +88,10 @@
         if (btnInicio) btnInicio.classList.remove("oculto");
         if (volverAtras) volverAtras.classList.remove("oculto");
 
-        // En visor-admin existe un único indicador de carga propio. Evitamos
-        // crear además el loader global, que duplicaba la franja bajo la navbar.
-        let loader = esPaginaVisorAdmin ? null : document.getElementById("global-navbar-loading");
-        if (!esPaginaVisorAdmin && !loader) {
+        // La navbar es fija y NO se oculta mientras carga el contenido.
+        // Mostramos un indicador independiente debajo de ella.
+        let loader = document.getElementById("global-navbar-loading");
+        if (!loader) {
           loader = document.createElement("div");
           loader.id = "global-navbar-loading";
           loader.classList.add("on");
@@ -271,3 +271,31 @@
 
   window.ComponenteNavbar = ComponenteNavbar;
 })();
+
+
+/* Selector de ramas: siempre conserva SELECCIONAR y permite TODAS las ramas */
+function ensureAllBranchesOption(select) {
+  if (!select) return;
+
+  // SELECCIONAR siempre primero
+  let defaultOpt = Array.from(select.options).find(o =>
+    o.value === "" || o.dataset.defaultBranch === "1"
+  );
+  if (!defaultOpt) {
+    defaultOpt = document.createElement("option");
+    defaultOpt.value = "";
+    defaultOpt.textContent = "SELECCIONAR";
+    defaultOpt.dataset.defaultBranch = "1";
+  }
+  select.insertBefore(defaultOpt, select.firstChild);
+
+  // TODAS LAS RAMAS siempre al FINAL
+  Array.from(select.options).forEach(o => {
+    if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") o.remove();
+  });
+  const allOpt = document.createElement("option");
+  allOpt.value = "__ALL_BRANCHES__";
+  allOpt.textContent = "— TODAS LAS RAMAS —";
+  allOpt.dataset.allBranches = "1";
+  select.appendChild(allOpt);
+}

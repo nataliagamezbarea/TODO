@@ -23,11 +23,12 @@
       trimestre: trimestre || "",
       tarea: nombre || "",
       archivo: archivo || "",
-      // Un archivo concreto siempre significa APERTURA DIRECTA del documento.
+      // Si viene un archivo concreto, el visor puede abrirlo directamente
+      // sin reconstruir todos los grados/ramas antes de mostrarlo.
       directo: !!String(archivo || "").trim(),
       todas: !!todas,
-      returnPath: window.location.pathname + (window.location.search || ""),
-      returnSearch: window.location.search || ""
+      returnPath: window.location.pathname,
+      returnSearch: ""
     };
     try { localStorage.setItem("visor_contexto", JSON.stringify(ctx)); } catch (_) {}
     if (window.Estado && typeof window.Estado.guardarContexto === "function") {
@@ -44,24 +45,8 @@
       ? new URL('../../visor-admin/index.html', script.src)
       : new URL('../visor-admin/index.html', window.location.href);
     guardarContextoVisor(opciones);
-    const url = new URL(base.href);
-
-    // Los datos siguen guardándose en localStorage, pero también enviamos el
-    // contexto en la URL. Así una apertura desde GitHub/archivo/trimestre no
-    // puede caer en la pantalla inicial aunque exista estado antiguo en el
-    // navegador. La página de destino consume estos parámetros y limpia la URL.
-    const rama = String(opciones.rama || "").trim();
-    const asignatura = String(opciones.asignatura || "").trim();
-    const trimestre = String(opciones.trimestre || "").trim();
-    const archivo = String(opciones.archivo || "").trim();
-    if (rama) url.searchParams.set("rama", rama);
-    if (asignatura) url.searchParams.set("asignatura", asignatura);
-    if (trimestre) url.searchParams.set("trimestre", trimestre);
-    if (archivo) url.searchParams.set("archivo", archivo);
-    if (opciones.todas === true && !rama) url.searchParams.set("todas", "1");
-    const retorno = String(window.location.pathname + (window.location.search || ""));
-    if (retorno.startsWith("/")) url.searchParams.set("return", retorno);
-    return url;
+    // Los filtros NO viajan en la URL. Se recuperan desde localStorage.
+    return new URL(base.href);
   }
 
   function esAdminActual() {
@@ -102,3 +87,31 @@
   window.crearBotonVisorContextual = crearBotonVisorContextual;
   window.construirURLVisorAdmin = construirURL;
 })();
+
+
+/* Selector de ramas: siempre conserva SELECCIONAR y permite TODAS las ramas */
+function ensureAllBranchesOption(select) {
+  if (!select) return;
+
+  // SELECCIONAR siempre primero
+  let defaultOpt = Array.from(select.options).find(o =>
+    o.value === "" || o.dataset.defaultBranch === "1"
+  );
+  if (!defaultOpt) {
+    defaultOpt = document.createElement("option");
+    defaultOpt.value = "";
+    defaultOpt.textContent = "SELECCIONAR";
+    defaultOpt.dataset.defaultBranch = "1";
+  }
+  select.insertBefore(defaultOpt, select.firstChild);
+
+  // TODAS LAS RAMAS siempre al FINAL
+  Array.from(select.options).forEach(o => {
+    if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") o.remove();
+  });
+  const allOpt = document.createElement("option");
+  allOpt.value = "__ALL_BRANCHES__";
+  allOpt.textContent = "— TODAS LAS RAMAS —";
+  allOpt.dataset.allBranches = "1";
+  select.appendChild(allOpt);
+}
