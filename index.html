@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grados Informáticos</title>
+    <script>
+      (function() {
+        var invitado = sessionStorage.getItem("esInvitado") === "true";
+        var token = localStorage.getItem("sb-lztatgnlplpduiatmlrv-auth-token");
+        if (invitado || token) {
+          window.location.replace("inicio.html");
+        } else {
+          window.location.replace("modulos/iniciar-sesion.html");
+        }
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

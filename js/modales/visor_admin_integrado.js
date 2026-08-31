@@ -46,8 +46,8 @@
       /(?:^|\/)js\/modales\/visor_admin_integrado\.js(?:$|[?])/.test(s.src)
     );
     const base = script
-      ? new URL('../../visor-admin/inicio.html', script.src)
-      : new URL('../visor-admin/inicio.html', window.location.href);
+      ? new URL('../../visor-admin/panel-administrador.html', script.src)
+      : new URL('../visor-admin/panel-administrador.html', window.location.href);
     const tieneArchivo = !!String(opciones.archivo || "").trim();
     guardarContextoVisor({ ...opciones, abrirLista: !tieneArchivo });
     // Un acceso contextual sin archivo siempre significa "abrir la lista".
