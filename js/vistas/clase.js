@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async () => {
+async function inicializarVistaClase() {
   const urlRama = new URLSearchParams(window.location.search).get("rama");
   const rama = urlRama || (window.Estado ? window.Estado.obtener("rama") : "") || (window.RamaActual ? window.RamaActual.obtener() : "");
   if (urlRama) {
@@ -8,7 +8,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (window.InformacionGrado) {
     await window.InformacionGrado.pintar(rama);
   }
-});
+}
+
+window.inicializarVistaClase = inicializarVistaClase;
+if (!window.__routerVistasActivo) {
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", inicializarVistaClase, { once: true });
+  else inicializarVistaClase();
+}
 
 
 /* Selector de ramas: siempre conserva SELECCIONAR y permite TODAS las ramas */
