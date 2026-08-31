@@ -38,6 +38,10 @@ window.Estado = (() => {
 
   const navegar = (ruta, contexto = {}) => {
     guardarContexto(contexto);
+    if (window.NavegacionApp?.irDesdeRuta) {
+      window.NavegacionApp.irDesdeRuta(ruta, contexto);
+      return;
+    }
     window.location.href = ruta;
   };
 

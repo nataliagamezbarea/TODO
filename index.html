@@ -1,21 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-  <head>
-    <base href="/" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grados Informáticos</title>
-    <script>
-      (function() {
-        var invitado = sessionStorage.getItem("esInvitado") === "true";
-        var token = localStorage.getItem("sb-lztatgnlplpduiatmlrv-auth-token");
-        if (invitado || token) {
-          window.location.replace("/paginas/inicio.html");
-        } else {
-          window.location.replace("/paginas/modulos/iniciar-sesion.html");
-        }
-      })();
-    </script>
-  </head>
-  <body></body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grados Informáticos</title>
+</head>
+<body>
+  <div id="app-loading" aria-live="polite">Cargando…</div>
+  <div id="header"></div>
+  <div id="menu"></div>
+  <main id="contenido" aria-live="polite"></main>
+  <div id="footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/aplicacion/navegacion.js"></script>
+  <script type="module" src="js/aplicacion/cargador-vistas.js"></script>
+</body>
 </html>

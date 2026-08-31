@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", iniciarSelectorRama);
-
+window.__routerVistasActivo = true;
 async function iniciarSelectorRama() {
   const selector = document.getElementById("selector-rama");
   const botonDescarga = document.getElementById("btn-descargar-rama-selector");
@@ -55,26 +54,7 @@ function cambiarRamaDesdeSelector(selector) {
       document.getElementById("btn-visor-rama-selector"));
     return;
   }
-  // Cambiar de rama solo una vez. Evita navegaciones/reloads repetidos
-  // si otro código vuelve a disparar el cambio durante la inicialización.
-  const ramaActual = window.RamaActual?.obtener?.() || "";
-  if (rama === ramaActual) {
-    actualizarBotonesSelector(selector,
-      document.getElementById("btn-descargar-rama-selector"),
-      document.getElementById("btn-visor-rama-selector"));
-    return;
-  }
-
   RamaActual.guardar(rama);
   window.Estado?.guardar?.("rama", rama);
-
-  // Guardamos el destino una sola vez y dejamos que el navegador haga una
-  // única navegación. No usamos location.reload(), ni volvemos a cambiar
-  // la rama desde el arranque.
-  const destino = new URL("modulos/clase.html", document.baseURI);
-  destino.searchParams.set("rama", rama);
-  const destinoUrl = destino.href;
-  if (window.location.href !== destinoUrl) {
-    window.location.assign(destinoUrl);
-  }
+  window.NavegacionApp?.ir("clase", { rama });
 }

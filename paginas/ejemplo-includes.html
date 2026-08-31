@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ejemplo Includes</title>
+  <link rel="stylesheet" href="/css/global/base.css">
+</head>
+<body>
+  <div id="header"></div>
+  <div id="menu"></div>
+  <main id="contenido"></main>
+  <footer id="footer"></footer>
+
+  <script src="/js/include-html.js"></script>
+  <script>
+    // Opcional: cargar manualmente por id
+    cargar('header','/paginas/partials/header.html');
+    cargar('menu','/paginas/partials/menu.html');
+    cargar('contenido','/paginas/partials/contenido.html');
+    cargar('footer','/paginas/partials/footer.html');
+  </script>
+
+  <p>También puedes usar <code>data-include</code> en cualquier elemento:
+    <div data-include="/paginas/partials/otro.html"></div>
+  </p>
+</body>
+</html>

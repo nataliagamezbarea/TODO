@@ -1,0 +1,58 @@
+/* Responsive final del editor y visor. Esta hoja se carga al final. */
+#barra-superior { position: sticky !important; top: 0 !important; z-index: 100000 !important; }
+body { padding-top: 0 !important; }
+#barra-superior .icono-navbar { display:inline-flex; width:1.2em; align-items:center; justify-content:center; font-weight:800; font-size:1.15em; line-height:1; }
+#barra-superior .boton-modo-edicion { flex:0 0 auto; }
+.editor-box { width:calc(100% - 32px); max-width:none; box-sizing:border-box; }
+.editor-tools { gap:10px !important; }
+.editor-tools > span { min-width:0; max-width:100%; overflow-wrap:anywhere; }
+.editor-tools > div { display:flex; flex-wrap:wrap; gap:6px; max-width:100%; }
+.editor-tools button { min-height:34px; max-width:100%; white-space:normal; }
+.apunte-bar { box-sizing:border-box; flex-wrap:wrap !important; }
+.apunte-bar > div { min-width:0; max-width:100%; }
+.apunte-bar input { min-width:0 !important; max-width:100% !important; box-sizing:border-box; }
+.ovcols { width:100%; box-sizing:border-box; }
+.doc-viewer { box-sizing:border-box; }
+.doc-page { max-width:100% !important; }
+.doc-page canvas { display:block; max-width:100% !important; height:auto !important; }
+.floating-add-menu,.floating-pdf-menu,.floating-col-menu,.floating-name-menu,.floating-img-menu { max-width:calc(100vw - 24px); box-sizing:border-box; }
+@media (max-width:1100px) {
+  #barra-superior { flex-wrap:wrap !important; row-gap:7px !important; }
+  #barra-superior .nav-left { flex:1 1 100% !important; min-width:0; }
+  #barra-superior .nav-right { flex:1 1 100% !important; min-width:0; justify-content:flex-end; }
+  .editor-box { margin:8px 12px; width:calc(100% - 24px); }
+  .editor-tools { align-items:flex-start !important; }
+  .editor-tools > span { flex:1 1 100%; }
+  .editor-tools > div { width:100%; }
+  .ovcols { height:auto !important; min-height:0; }
+}
+@media (max-width:760px) {
+  #barra-superior { position:sticky !important; padding:7px 9px !important; }
+  #barra-superior .nav-left,#barra-superior .nav-right { width:100%; overflow:visible; }
+  #barra-superior .nav-right { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px !important; }
+  #barra-superior .visor-navbar-action,#barra-superior .boton-modo-edicion { width:100%; min-width:0 !important; min-height:38px; }
+  #barra-superior .visor-navbar-rama { width:100%; min-width:0 !important; max-width:none !important; flex-basis:100%; }
+  .editor-box { padding:9px; margin:7px 8px; width:calc(100% - 16px); }
+  .editor-tools > div { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; }
+  .editor-tools button { width:100%; min-width:0; }
+  .apunte-bar { padding:9px !important; align-items:stretch !important; }
+  .apunte-bar > div { width:100% !important; flex:1 1 100% !important; }
+  .apunte-bar input { width:100% !important; }
+  .ov-topbar { overflow:visible !important; }
+  .ovcols { flex-direction:column !important; padding:5px !important; }
+  .ovcol { width:100% !important; flex:none !important; min-height:380px; }
+  .doc-viewer { min-height:320px; overflow:auto; }
+  .floating-add-menu,.floating-pdf-menu,.floating-col-menu,.floating-name-menu,.floating-img-menu { left:6px !important; right:6px !important; width:auto !important; }
+}
+@media (max-width:480px) {
+  #barra-superior .nav-left { justify-content:center; }
+  #barra-superior .nav-right { grid-template-columns:1fr 1fr !important; }
+  #barra-superior .visor-navbar-brand span { display:none !important; }
+  #barra-superior .visor-navbar-action span:not(.icono-navbar) { display:none; }
+  #barra-superior .boton-modo-edicion .btn-text { display:inline !important; }
+  .editor-tools > div { grid-template-columns:1fr !important; }
+  .editor-tools button { min-height:38px; }
+  .ov-actionbar { max-height:42dvh !important; }
+  .ovcol { min-height:330px; }
+  .doc-viewer { padding:4px !important; }
+}

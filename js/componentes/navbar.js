@@ -11,11 +11,11 @@
   let actualizarIconoTema = () => {};
 
   function rutaInicio() {
-    return "/paginas/inicio.html";
+    return "/";
   }
 
   function crearBarra() {
-    if (/(?:login|iniciar-sesion|signin)\.html|visor\.html/i.test(location.pathname)) return null;
+    if (window.__APP_VISTA === "login" || window.__APP_VISTA === "visor") return null;
     let barra = document.getElementById("barra-superior");
     if (barra) return barra;
     barra = document.createElement("header");
@@ -60,7 +60,7 @@
     if (inicio) inicio.href = ruta;
     if (volver && !volver.dataset.listener) {
       volver.dataset.listener = "1";
-      volver.onclick = () => history.length > 1 ? history.back() : location.href = ruta;
+      volver.onclick = () => window.NavegacionApp?.ir("inicio") || (location.href = ruta);
     }
     const oscuro = localStorage.getItem("modo_oscuro") === "true";
     tema(oscuro);
@@ -83,7 +83,7 @@
     const salir = document.getElementById("btn-cerrar-sesion");
     if (salir && !salir.dataset.listener) {
       salir.dataset.listener = "1";
-      salir.onclick = async () => { sessionStorage.clear(); try { await window.supabaseClient?.auth?.signOut(); } catch (_) {} location.replace("/paginas/modulos/iniciar-sesion.html"); };
+      salir.onclick = async () => { sessionStorage.clear(); try { await window.supabaseClient?.auth?.signOut(); } catch (_) {} window.NavegacionApp?.ir("login") || location.replace("/"); };
     }
     window.__alternarModoOscuro = () => botonTema?.click();
     window.dispatchEvent(new CustomEvent("navbar-lista"));

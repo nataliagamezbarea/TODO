@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><base href="/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visor y Gestor de Documentos</title>
+  <link rel="stylesheet" href="../css/visor/base.css" />
+  <link rel="stylesheet" href="../css/visor/acciones.css" />
+</head>
+<body>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const ctx = {}; params.forEach((v,k)=>ctx[k]=v);
+  window.NavegacionApp?.ir("visor", ctx);
+})();
+</script>
+</body>
+</html>
