@@ -79,12 +79,6 @@ window.Ajustes = (() => {
 
   const asegurarEstilos = () => {
     if (typeof document === "undefined" || document.getElementById("link-css-ajustes")) return;
-    const enModulos = window.location.pathname.includes("/modulos");
-    const link = document.createElement("link");
-    link.id = "link-css-ajustes";
-    link.rel = "stylesheet";
-    link.href = enModulos ? "../css/ajustes.css" : "css/ajustes.css";
-    document.head.appendChild(link);
   };
 
   let panelCreado = false;

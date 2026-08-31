@@ -12,13 +12,6 @@
       const enModulos = path.includes("/modulos");
       const rutaInicio = enModulos ? "../inicio.html" : "inicio.html";
 
-      if (!document.querySelector('link[href*="navbar_movil.css"]')) {
-        const linkCSS = document.createElement("link");
-        linkCSS.rel = "stylesheet";
-        linkCSS.href = enModulos ? "../css/navbar_movil.css" : "css/navbar_movil.css";
-        document.head.appendChild(linkCSS);
-      }
-
       const aplicarModoOscuro = (activar) => {
         if (activar) {
           document.body.classList.add("modo-oscuro");

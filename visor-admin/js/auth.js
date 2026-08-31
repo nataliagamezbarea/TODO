@@ -79,7 +79,7 @@
       }
 
       if (esPaginaLogin && session) {
-        const redir = new URLSearchParams(window.location.search).get("redir") || "inicio.html";
+        const redir = new URLSearchParams(window.location.search).get("redir") || "panel-administrador.html";
         redirigir(redir);
         return;
       }

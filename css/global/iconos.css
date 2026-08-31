@@ -1,3 +1,11 @@
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 0.15em;
+  vertical-align: -0.15em;
+  display: inline-block;
+}
+
 .login-emoji img.emoji {
   height: 48px;
   width: 48px;
