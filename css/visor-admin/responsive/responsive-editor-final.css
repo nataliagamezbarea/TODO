@@ -211,3 +211,70 @@ body.modo-oscuro #barra-superior {
     max-height: none !important;
   }
 }
+
+/* En pantallas estrechas las acciones permanecen juntas, en una fila
+   desplazable, en vez de convertir la cabecera en varias filas enormes. */
+@media (max-width: 760px) {
+  #barra-superior .nav-right {
+    display: flex !important;
+    flex: 1 1 100% !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain;
+    padding-bottom: 2px;
+  }
+
+  #barra-superior .nav-right > button,
+  #barra-superior .nav-right .visor-navbar-action {
+    flex: 0 0 40px !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    padding: 0 !important;
+  }
+
+  #barra-superior .nav-right .visor-navbar-action span {
+    display: none !important;
+  }
+
+  .ov-topbar {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+  }
+
+  .ov-nav-group,
+  .ov-right {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ov-nav-group,
+  .ov-right,
+  .ov-actionbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Tema claro: todos los controles reciben un fondo perceptible al pasar el ratón. */
+html:not(.modo-oscuro) #barra-superior .btn-inicio:hover,
+html:not(.modo-oscuro) #barra-superior .btn-volver:hover,
+html:not(.modo-oscuro) #barra-superior .visor-navbar-action:hover,
+html:not(.modo-oscuro) #barra-superior #btn-modo-oscuro:hover,
+html:not(.modo-oscuro) #barra-superior #boton-ajustes:hover {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+  border-color: #93c5fd !important;
+  box-shadow: 0 5px 14px rgba(37, 99, 235, .18) !important;
+  transform: translateY(-1px);
+}
+
+html:not(.modo-oscuro) #barra-superior #btn-cerrar-sesion:hover {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+  border-color: #fca5a5 !important;
+  box-shadow: 0 5px 14px rgba(220, 38, 38, .16) !important;
+  transform: translateY(-1px);
+}
