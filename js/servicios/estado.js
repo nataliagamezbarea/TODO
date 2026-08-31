@@ -17,24 +17,28 @@ window.Estado = (() => {
   };
 
   const obtener = (clave, valorPorDefecto = "") => {
+    const params = new URLSearchParams(window.location.search);
+    const enUrl = params.get(clave);
+    if (enUrl !== null && enUrl !== "") {
+      guardar(clave, enUrl);
+      return enUrl;
+    }
     const ctx = leerContexto();
     if (ctx[clave] !== undefined && ctx[clave] !== "") return ctx[clave];
-    try {
-      const guardado = localStorage.getItem(prefijo + clave);
-      return guardado !== null && guardado !== "" ? guardado : valorPorDefecto;
-    } catch (_) { return valorPorDefecto; }
+    const guardado = sessionStorage.getItem(prefijo + clave);
+    return guardado !== null && guardado !== "" ? guardado : valorPorDefecto;
   };
 
   const guardar = (clave, valor) => {
     if (valor !== undefined && valor !== null) {
-      try { localStorage.setItem(prefijo + clave, valor); } catch (_) {}
+      try { sessionStorage.setItem(prefijo + clave, valor); } catch (_) {}
       guardarContexto({ [clave]: valor });
     }
   };
 
   const navegar = (ruta, contexto = {}) => {
     guardarContexto(contexto);
-    window.AppRouter?.navegar(ruta, { contexto }) ?? (window.location.href = ruta);
+    window.location.href = ruta;
   };
 
   const limpiarUrlVisible = () => {

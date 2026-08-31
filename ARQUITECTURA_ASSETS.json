@@ -1,6 +1,0 @@
-{
-  "html": "templates/html/paginas + templates/html/componentes + templates/html/modales",
-  "css": "css/componentes + css/visor-admin + css por pantalla",
-  "js": "js/componentes para comportamiento común; resto para lógica de dominio",
-  "build": "python herramientas/compilar_componentes.py"
-}

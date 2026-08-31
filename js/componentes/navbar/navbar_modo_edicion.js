@@ -9,34 +9,25 @@ function emitirCambioModoEdicion(activo) {
 
 window.ModoEdicionLive = {
   obtener: () => localStorage.getItem("modo_edicion_live") === "true",
-  cambiar: (estado) => emitirCambioModoEdicion(estado),
+  cambiar: estado => emitirCambioModoEdicion(estado),
   alternar: () => emitirCambioModoEdicion(!window.ModoEdicionLive.obtener())
 };
 
 function asegurarModoEdicionBoton() {
   const boton = document.getElementById("boton-modo-edicion");
-  if (!boton) return;
-
+  if (!boton || boton.dataset.listener) return;
+  boton.dataset.listener = "1";
   const actualizar = () => {
-    const esAdmin = Boolean(window.Permisos && window.Permisos.esAdmin);
-    boton.hidden = !esAdmin;
-    if (!esAdmin) return;
     const activo = window.ModoEdicionLive.obtener();
     boton.classList.toggle("modo-encendido", activo);
     boton.innerHTML = `<span class="btn-icon">${activo ? "✏️" : "📖"}</span><span class="btn-text">${activo ? "EDITAR" : "LECTURA"}</span>`;
     boton.title = activo ? "Cambiar a modo lectura" : "Cambiar a modo edición";
   };
-
-  if (!boton.dataset.listener) {
-    boton.dataset.listener = "1";
-    boton.addEventListener("click", () => {
-      if (!(window.Permisos && window.Permisos.esAdmin)) return;
-      emitirCambioModoEdicion(!window.ModoEdicionLive.obtener());
-      actualizar();
-    });
-    window.addEventListener("modo-edicion-cambiado", actualizar);
-    window.addEventListener("sesion-lista", actualizar);
-  }
+  boton.addEventListener("click", () => {
+    emitirCambioModoEdicion(!window.ModoEdicionLive.obtener());
+    actualizar();
+  });
+  window.addEventListener("modo-edicion-cambiado", actualizar);
   actualizar();
 }
 window.asegurarModoEdicionBoton = asegurarModoEdicionBoton;

@@ -11,19 +11,19 @@ function closeLimpiarDatosModal() {
 }
 
 function toggleCheckTodo(master) {
-  const checked = typeof master === 'boolean' ? master : Boolean(master?.checked);
-  ['chkLimpiarEnunciados', 'chkLimpiarNombres', 'chkLimpiarColegios', 'chkLimpiarImagenes'].forEach(id => {
+  const checked = master.checked;
+  ['chkEnunciados', 'chkNombres', 'chkColegios', 'chkImagenes'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.checked = checked;
   });
 }
 
 async function ejecutarLimpiarDatos() {
-  const chkEnunciados = document.getElementById('chkLimpiarEnunciados')?.checked || false;
-  const chkNombres = document.getElementById('chkLimpiarNombres')?.checked || false;
-  const chkColegios = document.getElementById('chkLimpiarColegios')?.checked || false;
-  const chkImagenes = document.getElementById('chkLimpiarImagenes')?.checked || false;
-  const chkSyncGithub = document.getElementById('chkSubirGithubLimpieza')?.checked || false;
+  const chkEnunciados = document.getElementById('chkEnunciados')?.checked || false;
+  const chkNombres = document.getElementById('chkNombres')?.checked || false;
+  const chkColegios = document.getElementById('chkColegios')?.checked || false;
+  const chkImagenes = document.getElementById('chkImagenes')?.checked || false;
+  const chkSyncGithub = document.getElementById('chkSyncGithub')?.checked || false;
 
   if (!chkEnunciados && !chkNombres && !chkColegios && !chkImagenes) {
     alert('Por favor, selecciona al menos un tipo de dato a eliminar.');

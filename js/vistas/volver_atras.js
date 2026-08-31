@@ -18,15 +18,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (path.includes("apuntes")) {
-      window.AppRouter?.navegar("/asignatura", { contexto: { asignatura, trimestre, rama } });
+      window.location.href = `asignatura.html?asignatura=${encodeURIComponent(asignatura)}&trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
     } else if (path.includes("asignatura.")) {
-      window.AppRouter?.navegar("/asignaturas", { contexto: { trimestre, rama } });
+      window.location.href = `asignaturas.html?trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
     } else if (path.includes("asignaturas.")) {
-      window.AppRouter?.navegar("/clase", { contexto: { rama } });
+      window.location.href = `clase.html?rama=${encodeURIComponent(rama)}`;
     } else if (path.includes("clase.")) {
-      window.AppRouter?.navegar("/inicio");
+      const rutaIndex = path.includes("/modulos/") ? "../inicio.html" : "inicio.html";
+      window.location.href = rutaIndex;
     } else {
-      window.AppRouter?.navegar("/inicio");
+      const rutaIndex = path.includes("/modulos/") ? "../inicio.html" : "inicio.html";
+      window.location.href = rutaIndex;
     }
   });
 });
