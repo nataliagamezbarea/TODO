@@ -15,7 +15,7 @@
   }
 
   function crearBarra() {
-    if (/login\.html|visor\.html/.test(location.pathname)) return null;
+    if (/(?:login|iniciar-sesion|signin)\.html|visor\.html/i.test(location.pathname)) return null;
     let barra = document.getElementById("barra-superior");
     if (barra) return barra;
     barra = document.createElement("header");
@@ -39,12 +39,16 @@
   }
 
   function tema(oscuro) {
-    document.documentElement.classList.toggle("modo-oscuro", oscuro);
-    document.body.classList.toggle("modo-oscuro", oscuro);
+    const activo = Boolean(oscuro);
+    document.documentElement.classList.toggle("modo-oscuro", activo);
+    if (document.body) document.body.classList.toggle("modo-oscuro", activo);
+    document.documentElement.dataset.theme = activo ? "dark" : "light";
+    if (document.body) document.body.dataset.theme = activo ? "dark" : "light";
   }
 
   function temaActivo() {
-    return document.documentElement.classList.contains("modo-oscuro") || document.body.classList.contains("modo-oscuro");
+    return document.documentElement.classList.contains("modo-oscuro") ||
+      (document.body && document.body.classList.contains("modo-oscuro"));
   }
 
   function preparar() {
@@ -64,7 +68,16 @@
     if (botonTema && !botonTema.dataset.listener) {
       botonTema.dataset.listener = "1";
       actualizarIconoTema = () => { botonTema.innerHTML = temaActivo() ? iconos.claro : iconos.oscuro; };
-      botonTema.onclick = () => { const nuevo = !temaActivo(); tema(nuevo); localStorage.setItem("modo_oscuro", String(nuevo)); actualizarIconoTema(); };
+      botonTema.onclick = () => {
+        const nuevo = !temaActivo();
+        if (window.__guardarTemaOscuro) {
+          window.__guardarTemaOscuro(nuevo);
+        } else {
+          tema(nuevo);
+          localStorage.setItem("modo_oscuro", String(nuevo));
+        }
+        actualizarIconoTema();
+      };
       actualizarIconoTema();
     }
     const salir = document.getElementById("btn-cerrar-sesion");
