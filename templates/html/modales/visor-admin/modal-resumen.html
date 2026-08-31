@@ -1,0 +1,17 @@
+<div class="blocker modal-admin modal-admin--summary" id="summaryModal">
+  <div class="blocker-box modal-admin__box">
+    <header class="modal-admin__header">
+      <h3><i class="fa-solid fa-chart-pie"></i> Resumen General de Cambios (<span id="sumDegreeTitle"></span>)</h3>
+      <button type="button" class="modal-admin__close" onclick="closeSummaryModal()">✕ Cerrar</button>
+    </header>
+    <div id="summaryBody" class="modal-admin__scroll">
+      <div class="summary-grid">
+        <div class="summary-card"><b id="summaryTotal">0</b><span>Documentos</span></div>
+        <div class="summary-card"><b id="summaryAccepted">0</b><span>Aceptados</span></div>
+        <div class="summary-card"><b id="summaryOriginal">0</b><span>Originales</span></div>
+        <div class="summary-card"><b id="summaryPending">0</b><span>Pendientes</span></div>
+      </div>
+      <div class="summary-branch">Rama: <strong id="summaryBranch"></strong></div>
+    </div>
+  </div>
+</div>

@@ -1,62 +1,65 @@
-body.modo-oscuro .valor a.enlace-archivo {
-  color: #d8b4fe !important;
+html.modo-oscuro .contenedor-tablas,
+body.modo-oscuro .contenedor-tablas,
+html.modo-oscuro #contenedor-apuntes,
+body.modo-oscuro #contenedor-apuntes,
+html.modo-oscuro #contenedor-practicas,
+body.modo-oscuro #contenedor-practicas {
+  background: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
 }
 
-html.modo-oscuro .item-archivo .btn-descarga,
-body.modo-oscuro .item-archivo .btn-descarga {
-  color: #d8b4fe !important;
+html.modo-oscuro .detalle-seccion,
+body.modo-oscuro .detalle-seccion,
+html.modo-oscuro .detalle-apuntes,
+body.modo-oscuro .detalle-apuntes {
+  background: #111827 !important;
+  border-color: #374151 !important;
+  color: #f9fafb !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .35) !important;
 }
 
-html.modo-oscuro .btn-ver-mas-archivos,
-body.modo-oscuro .btn-ver-mas-archivos {
-  background: #1e293b !important;
-  color: #cbd5e1 !important;
-  border-color: #475569 !important;
+html.modo-oscuro .detalle-seccion summary,
+body.modo-oscuro .detalle-seccion summary {
+  background: #1f2937 !important;
+  color: #f9fafb !important;
+  border-color: #374151 !important;
 }
 
-html.modo-oscuro .btn-ver-mas-archivos:hover,
-body.modo-oscuro .btn-ver-mas-archivos:hover {
-  background: #334155 !important;
-  color: #f1f5f9 !important;
+html.modo-oscuro .contenedor-tablas table,
+body.modo-oscuro .contenedor-tablas table {
+  background: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
 }
 
-html.modo-oscuro .caja-permiso-invitado,
-body.modo-oscuro .caja-permiso-invitado {
-  background: rgba(88, 28, 135, 0.35) !important;
-  border-color: rgba(168, 85, 247, 0.4) !important;
+html.modo-oscuro .contenedor-tablas th,
+body.modo-oscuro .contenedor-tablas th {
+  background: #1f2937 !important;
+  color: #f9fafb !important;
+  border-color: #4b5563 !important;
 }
 
-html.modo-oscuro .caja-permiso-invitado .permiso-switch,
-body.modo-oscuro .caja-permiso-invitado .permiso-switch {
-  color: #d8b4fe !important;
+html.modo-oscuro .contenedor-tablas td,
+body.modo-oscuro .contenedor-tablas td {
+  background: #172033 !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
 }
 
-html.modo-oscuro .caja-permiso-invitado-oculto,
-body.modo-oscuro .caja-permiso-invitado-oculto {
-  background: rgba(153, 27, 27, 0.45) !important;
-  border-color: #991b1b !important;
+html.modo-oscuro .contenedor-tablas tr:nth-child(even) td,
+body.modo-oscuro .contenedor-tablas tr:nth-child(even) td {
+  background: #1b2638 !important;
 }
 
-html.modo-oscuro .caja-permiso-invitado-oculto .permiso-switch,
-body.modo-oscuro .caja-permiso-invitado-oculto .permiso-switch {
-  color: #fca5a5 !important;
+html.modo-oscuro .contenedor-tablas a,
+body.modo-oscuro .contenedor-tablas a {
+  color: #c4b5fd !important;
 }
 
-html.modo-oscuro .tema-oculto-invitado,
-body.modo-oscuro .tema-oculto-invitado {
-  background: rgba(127, 29, 29, 0.25) !important;
-  border-color: #7f1d1d !important;
-  border-left: 5px solid #ef4444 !important;
+html.modo-oscuro .mensaje-cargando,
+body.modo-oscuro .mensaje-cargando,
+html.modo-oscuro .cargando,
+body.modo-oscuro .cargando {
+  color: #9ca3af !important;
 }
-
-html.modo-oscuro .archivo-oculto-admin,
-body.modo-oscuro .archivo-oculto-admin {
-  background: rgba(153, 27, 27, 0.25) !important;
-  border: 1.5px dashed #f87171 !important;
-  color: #fca5a5 !important;
-
-
-
-}
-
-

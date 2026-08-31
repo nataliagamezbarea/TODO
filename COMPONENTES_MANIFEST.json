@@ -1,0 +1,24 @@
+{
+  "fuente": "templates/html",
+  "paginas": [
+    "templates/html/paginas/inicio.html",
+    "templates/html/paginas/modulos/*.html",
+    "templates/html/paginas/visor-admin/*.html"
+  ],
+  "componentes": [
+    "templates/html/componentes/navbar.html",
+    "templates/html/componentes/navbar-admin.html",
+    "templates/html/componentes/compartido/*",
+    "templates/html/componentes/visor-admin/*",
+    "templates/html/componentes/inicio/selector-rama.html"
+  ],
+  "modales": [
+    "templates/html/modales/visor-admin/modal-crear-enunciado.html",
+    "templates/html/modales/visor-admin/modal-editar-enunciado.html",
+    "templates/html/modales/visor-admin/modal-limpiar-datos.html",
+    "templates/html/modales/visor-admin/modal-personalizado.html",
+    "templates/html/modales/visor-admin/modal-resumen.html"
+  ],
+  "principio": "HTML estático compilado; estructura reutilizable en templates/html; JavaScript solo comportamiento/eventos.",
+  "responsive": "css/componentes/componentes.css + css/visor-admin/responsive-canonico.css"
+}

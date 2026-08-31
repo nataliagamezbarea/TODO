@@ -1,0 +1,213 @@
+/* V12 — Tema y hover canónicos
+   La clase de tema se decide en <html>. Todos los componentes deben heredar
+   una paleta coherente: claro cuando NO existe .modo-oscuro y oscuro cuando sí.
+*/
+
+/* ===============================
+   PALETA CLARA
+   =============================== */
+html:not(.modo-oscuro) {
+  --tema-fondo-hover: #eef4ff;
+  --tema-fondo-hover-fuerte: #e0ebff;
+  --tema-texto-hover: #1d4ed8;
+  --tema-borde-hover: #93c5fd;
+  --tema-sombra-hover: 0 6px 16px rgba(37, 99, 235, .14);
+  --tema-control-bg: #ffffff;
+  --tema-control-texto: #334155;
+  --tema-control-borde: #d5deea;
+}
+
+/* ===============================
+   PALETA OSCURA
+   =============================== */
+html.modo-oscuro {
+  --tema-fondo-hover: #243452;
+  --tema-fondo-hover-fuerte: #2d4164;
+  --tema-texto-hover: #dbeafe;
+  --tema-borde-hover: #60a5fa;
+  --tema-sombra-hover: 0 6px 18px rgba(0, 0, 0, .28);
+  --tema-control-bg: #1e293b;
+  --tema-control-texto: #e2e8f0;
+  --tema-control-borde: #334155;
+}
+
+/* El tema base de la barra nunca queda en un estado ambiguo. */
+html:not(.modo-oscuro) #barra-superior {
+  background: rgba(255,255,255,.98) !important;
+  color: #334155 !important;
+}
+
+html.modo-oscuro #barra-superior {
+  background: rgba(15,23,42,.97) !important;
+  color: #e2e8f0 !important;
+}
+
+/* ===============================
+   BOTÓN LUNA / SOL — FIX EXPLÍCITO
+   =============================== */
+html:not(.modo-oscuro) #barra-superior #btn-modo-oscuro,
+html:not(.modo-oscuro) #btn-modo-oscuro {
+  background: #ffffff !important;
+  color: #475569 !important;
+  border: 1px solid #d5deea !important;
+  box-shadow: 0 2px 6px rgba(15,23,42,.06) !important;
+}
+
+html:not(.modo-oscuro) #barra-superior #btn-modo-oscuro:hover,
+html:not(.modo-oscuro) #btn-modo-oscuro:hover {
+  background: #eef4ff !important;
+  color: #1d4ed8 !important;
+  border-color: #93c5fd !important;
+  box-shadow: var(--tema-sombra-hover) !important;
+  transform: translateY(-1px) !important;
+}
+
+html:not(.modo-oscuro) #barra-superior #btn-modo-oscuro:hover i,
+html:not(.modo-oscuro) #btn-modo-oscuro:hover i {
+  color: #1d4ed8 !important;
+}
+
+html.modo-oscuro #barra-superior #btn-modo-oscuro,
+html.modo-oscuro #btn-modo-oscuro {
+  background: #1e293b !important;
+  color: #f8fafc !important;
+  border: 1px solid #334155 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.20) !important;
+}
+
+html.modo-oscuro #barra-superior #btn-modo-oscuro:hover,
+html.modo-oscuro #btn-modo-oscuro:hover {
+  background: #243452 !important;
+  color: #dbeafe !important;
+  border-color: #60a5fa !important;
+  box-shadow: var(--tema-sombra-hover) !important;
+  transform: translateY(-1px) !important;
+}
+
+html.modo-oscuro #barra-superior #btn-modo-oscuro:hover i,
+html.modo-oscuro #btn-modo-oscuro:hover i {
+  color: #dbeafe !important;
+}
+
+/* ===============================
+   NAVBAR — TODOS LOS CONTROLES
+   =============================== */
+@media (hover: hover) and (pointer: fine) {
+  html:not(.modo-oscuro) #barra-superior button:not(:disabled):hover,
+  html:not(.modo-oscuro) #barra-superior a:hover {
+    background: var(--tema-fondo-hover) !important;
+    color: var(--tema-texto-hover) !important;
+    border-color: var(--tema-borde-hover) !important;
+    box-shadow: var(--tema-sombra-hover) !important;
+    transform: translateY(-1px);
+  }
+
+  html.modo-oscuro #barra-superior button:not(:disabled):hover,
+  html.modo-oscuro #barra-superior a:hover {
+    background: var(--tema-fondo-hover) !important;
+    color: var(--tema-texto-hover) !important;
+    border-color: var(--tema-borde-hover) !important;
+    box-shadow: var(--tema-sombra-hover) !important;
+    transform: translateY(-1px);
+  }
+
+  /* Iconos: jamás blanco sobre fondo claro. */
+  html:not(.modo-oscuro) #barra-superior button:not(:disabled):hover i,
+  html:not(.modo-oscuro) #barra-superior a:hover i {
+    color: var(--tema-texto-hover) !important;
+  }
+
+  html.modo-oscuro #barra-superior button:not(:disabled):hover i,
+  html.modo-oscuro #barra-superior a:hover i {
+    color: var(--tema-texto-hover) !important;
+  }
+
+  /* Componentes del visor */
+  html:not(.modo-oscuro) .visor-navbar-action:not(:disabled):hover,
+  html:not(.modo-oscuro) .ov-nav-group button:not(:disabled):hover,
+  html:not(.modo-oscuro) .back-btn:not(:disabled):hover,
+  html:not(.modo-oscuro) .pill-check:not(:disabled):hover {
+    background: var(--tema-fondo-hover) !important;
+    color: var(--tema-texto-hover) !important;
+    border-color: var(--tema-borde-hover) !important;
+    box-shadow: var(--tema-sombra-hover) !important;
+  }
+
+  html.modo-oscuro .visor-navbar-action:not(:disabled):hover,
+  html.modo-oscuro .ov-nav-group button:not(:disabled):hover,
+  html.modo-oscuro .back-btn:not(:disabled):hover,
+  html.modo-oscuro .pill-check:not(:disabled):hover {
+    background: var(--tema-fondo-hover) !important;
+    color: var(--tema-texto-hover) !important;
+    border-color: var(--tema-borde-hover) !important;
+    box-shadow: var(--tema-sombra-hover) !important;
+  }
+
+  /* Menú móvil */
+  html:not(.modo-oscuro) .hm-item:hover {
+    background: var(--tema-fondo-hover) !important;
+    color: var(--tema-texto-hover) !important;
+  }
+
+  html.modo-oscuro .hm-item:hover {
+    background: var(--tema-fondo-hover) !important;
+    color: var(--tema-texto-hover) !important;
+  }
+
+  /* Tarjetas y filas interactivas */
+  html:not(.modo-oscuro) .card:hover,
+  html:not(.modo-oscuro) .rama-accion-fila:hover,
+  html:not(.modo-oscuro) .item-archivo:hover {
+    background: var(--tema-fondo-hover) !important;
+    border-color: var(--tema-borde-hover) !important;
+  }
+
+  html.modo-oscuro .card:hover,
+  html.modo-oscuro .rama-accion-fila:hover,
+  html.modo-oscuro .item-archivo:hover {
+    background: var(--tema-fondo-hover) !important;
+    border-color: var(--tema-borde-hover) !important;
+  }
+
+  /* Inputs/selects interactivos */
+  html:not(.modo-oscuro) select:hover,
+  html:not(.modo-oscuro) input:not(:disabled):hover,
+  html:not(.modo-oscuro) textarea:not(:disabled):hover {
+    border-color: var(--tema-borde-hover) !important;
+    box-shadow: 0 0 0 2px rgba(147,197,253,.18) !important;
+  }
+
+  html.modo-oscuro select:hover,
+  html.modo-oscuro input:not(:disabled):hover,
+  html.modo-oscuro textarea:not(:disabled):hover {
+    border-color: var(--tema-borde-hover) !important;
+    box-shadow: 0 0 0 2px rgba(96,165,250,.16) !important;
+  }
+}
+
+/* En móvil/táctil no se conserva un hover visual pegado. */
+@media (hover: none) {
+  button:hover,
+  a:hover,
+  .card:hover,
+  .rama-accion-fila:hover,
+  .item-archivo:hover {
+    transform: none !important;
+  }
+}
+
+/* Nunca aplicar hover a controles deshabilitados. */
+button:disabled,
+select:disabled,
+input:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+}
+
+/* Alias canónico: data-tema tiene prioridad y acompaña a las clases legacy. */
+html[data-tema="dark"] {
+  color-scheme: dark;
+}
+html[data-tema="light"] {
+  color-scheme: light;
+}

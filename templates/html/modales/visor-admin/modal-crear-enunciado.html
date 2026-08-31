@@ -1,0 +1,10 @@
+<div class="blocker modal-admin modal-admin--create" id="modalCrearEnunciado">
+  <div class="blocker-box modal-admin__box">
+    <header class="modal-admin__header"><h3><i class="fa-solid fa-pen-to-square"></i> Crear Nuevo Enunciado</h3><button type="button" class="modal-admin__close" onclick="closeCrearEnunciadoModal()">✕</button></header>
+    <div class="modal-admin__fields">
+      <label>Texto o Ubicación a sustituir en el PDF:<input id="crearStart" placeholder="Arrastra un recuadro sobre el PDF o escribe la frase a buscar..." type="text"></label>
+      <label>Nuevo Texto de Enunciado a escribir:<textarea id="crearNew" placeholder="Escribe aquí el nuevo enunciado sustituto..."></textarea></label>
+    </div>
+    <div class="modal-admin__actions"><button class="btn-act accept" type="button" onclick="guardarNuevoEnunciado()"><i class="fa-solid fa-floppy-disk"></i> Guardar y Previsualizar</button><button class="btn-act skip" type="button" onclick="closeCrearEnunciadoModal()">Cancelar</button></div>
+  </div>
+</div>

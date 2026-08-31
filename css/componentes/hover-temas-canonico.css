@@ -1,0 +1,134 @@
+/* V10 · HOVER CANÓNICO
+   Una única capa final para que los estados hover sean consistentes en claro/oscuro.
+   No modifica la lógica ni el layout. */
+
+@media (hover: hover) and (pointer: fine) {
+  /* Controles principales de la navbar */
+  html:not(.modo-oscuro) #barra-superior button:not(:disabled):hover,
+  html:not(.modo-oscuro) #barra-superior a:hover,
+  body:not(.modo-oscuro) #barra-superior button:not(:disabled):hover,
+  body:not(.modo-oscuro) #barra-superior a:hover {
+    background: #eef4ff !important;
+    color: #1d4ed8 !important;
+    border-color: #93c5fd !important;
+    box-shadow: 0 5px 14px rgba(37, 99, 235, .14) !important;
+    transform: translateY(-1px);
+  }
+
+  html.modo-oscuro #barra-superior button:not(:disabled):hover,
+  html.modo-oscuro #barra-superior a:hover,
+  body.modo-oscuro #barra-superior button:not(:disabled):hover,
+  body.modo-oscuro #barra-superior a:hover {
+    background: #243452 !important;
+    color: #bfdbfe !important;
+    border-color: #60a5fa !important;
+    box-shadow: 0 5px 16px rgba(59, 130, 246, .22) !important;
+    transform: translateY(-1px);
+  }
+
+  /* Botones normales */
+  html:not(.modo-oscuro) button:not(:disabled):hover,
+  html:not(.modo-oscuro) .btn-descarga:hover,
+  html:not(.modo-oscuro) .btn-visor-archivo:hover,
+  body:not(.modo-oscuro) button:not(:disabled):hover,
+  body:not(.modo-oscuro) .btn-descarga:hover,
+  body:not(.modo-oscuro) .btn-visor-archivo:hover {
+    border-color: #93c5fd !important;
+  }
+
+  html.modo-oscuro button:not(:disabled):hover,
+  html.modo-oscuro .btn-descarga:hover,
+  html.modo-oscuro .btn-visor-archivo:hover,
+  body.modo-oscuro button:not(:disabled):hover,
+  body.modo-oscuro .btn-descarga:hover,
+  body.modo-oscuro .btn-visor-archivo:hover {
+    border-color: #60a5fa !important;
+  }
+
+  /* Tarjetas/listados */
+  html:not(.modo-oscuro) .flex:hover,
+  html:not(.modo-oscuro) .card:hover,
+  html:not(.modo-oscuro) .rama-accion-fila:hover,
+  body:not(.modo-oscuro) .flex:hover,
+  body:not(.modo-oscuro) .card:hover,
+  body:not(.modo-oscuro) .rama-accion-fila:hover {
+    background: #f8fafc !important;
+    border-color: #bfdbfe !important;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, .10) !important;
+  }
+
+  html.modo-oscuro .flex:hover,
+  html.modo-oscuro .card:hover,
+  html.modo-oscuro .rama-accion-fila:hover,
+  body.modo-oscuro .flex:hover,
+  body.modo-oscuro .card:hover,
+  body.modo-oscuro .rama-accion-fila:hover {
+    background: #263650 !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .28) !important;
+  }
+
+  /* Visor Admin */
+  html:not(.modo-oscuro) .visor-navbar-action:not(:disabled):hover,
+  body:not(.modo-oscuro) .visor-navbar-action:not(:disabled):hover,
+  html:not(.modo-oscuro) .ov-nav-group button:not(:disabled):hover,
+  body:not(.modo-oscuro) .ov-nav-group button:not(:disabled):hover,
+  html:not(.modo-oscuro) .back-btn:not(:disabled):hover,
+  body:not(.modo-oscuro) .back-btn:not(:disabled):hover,
+  html:not(.modo-oscuro) .pill-check:not(:disabled):hover,
+  body:not(.modo-oscuro) .pill-check:not(:disabled):hover {
+    background: #eff6ff !important;
+    color: #1d4ed8 !important;
+    border-color: #93c5fd !important;
+    box-shadow: 0 5px 14px rgba(37, 99, 235, .12) !important;
+  }
+
+  html.modo-oscuro .visor-navbar-action:not(:disabled):hover,
+  body.modo-oscuro .visor-navbar-action:not(:disabled):hover,
+  html.modo-oscuro .ov-nav-group button:not(:disabled):hover,
+  body.modo-oscuro .ov-nav-group button:not(:disabled):hover,
+  html.modo-oscuro .back-btn:not(:disabled):hover,
+  body.modo-oscuro .back-btn:not(:disabled):hover,
+  html.modo-oscuro .pill-check:not(:disabled):hover,
+  body.modo-oscuro .pill-check:not(:disabled):hover {
+    background: #243452 !important;
+    color: #bfdbfe !important;
+    border-color: #60a5fa !important;
+    box-shadow: 0 5px 16px rgba(59, 130, 246, .20) !important;
+  }
+
+  /* Menú hamburguesa */
+  html:not(.modo-oscuro) .hm-item:hover,
+  body:not(.modo-oscuro) .hm-item:hover {
+    background: #f1f5f9 !important;
+    color: #7e22ce !important;
+  }
+
+  html.modo-oscuro .hm-item:hover,
+  body.modo-oscuro .hm-item:hover {
+    background: #1e293b !important;
+    color: #c084fc !important;
+  }
+
+  /* Enlaces */
+  html:not(.modo-oscuro) a:hover,
+  body:not(.modo-oscuro) a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  html.modo-oscuro a:hover,
+  body.modo-oscuro a:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* En táctil no simulamos hover: conserva el comportamiento de toque. */
+@media (hover: none) {
+  button:hover,
+  a:hover,
+  .card:hover,
+  .flex:hover,
+  .rama-accion-fila:hover {
+    transform: none;
+  }
+}

@@ -1,468 +1,121 @@
-window.Permisos = (() => {
-  let usuario = null;
-  let rol = null;
+window.Permisos = (() => { let usuario = null; let rol = null; let invitadosActivos = true; try { invitadosActivos = localStorage.getItem("invitados_activos_live") !== "false"; } catch (e) {} const CLAVE_INVITADOS_ACTIVOS = "invitados_activos_live"; const CLAVES_AJUSTES = { modoOscuro: "modo_oscuro", invitados: "invitados_activos", descargarTodas: "descargar_todas_clases", descargarAsignatura: "descargar_asignatura", descargarCurso: "descargar_curso", descargarAsignaturaTodos: "descargar_asignatura_todos", visorActivo: "visor_activo", visorEnTareas: "visor_en_tareas", visorEnAsignaturas: "visor_en_asignaturas", visorEnTrimestres: "visor_en_trimestres", visorEnGrados: "visor_en_grados", visorEnSelectorRamas: "visor_en_selector_ramas", descargasEnSelectorRamas: "descargas_en_selector_ramas", }; const BUCKET_CSV = "csv-grados"; const modoEdicionActivo = () => { try { return localStorage.getItem("modo_edicion_live") === "true"; } catch (e) { return false; } }; const ramaActual = () => new URLSearchParams(window.location.search).get("rama") || (window.Estado ? window.Estado.obtener("rama") : "") || (window.RamaActual ? window.RamaActual.obtener() : "") ; const esLocal = () => { const host = window.location.hostname; return host === "localhost" || host === "127.0.0.1"; }; let promesaSesion = null; let sesionCargada = false; const asegurarSesion = async () => { if (!promesaSesion) promesaSesion = cargoSesion(); try { await promesaSesion; sesionCargada = true; } catch (e) { sesionCargada = true; } }; const cargoSesion = async () => {
+  const cliente = window.PermisosSupabase
+    ? await window.PermisosSupabase.esperarCliente()
+    : null;
+  usuario = null;
+  rol = null;
+
+  if (!cliente) {
+    rol = "invitado";
+    return;
+  }
+
   try {
-    if (sessionStorage.getItem("esAdmin") === "true") {
-      rol = "admin";
+    const { data: { session } } = await cliente.auth.getSession();
+    usuario = session?.user || null;
+
+    if (!usuario) {
+      try {
+        const { data: { user } } = await cliente.auth.getUser();
+        usuario = user || null;
+      } catch (_) {}
     }
-  } catch (e) {}
-  let invitadosActivos = true;
 
-  try { invitadosActivos = localStorage.getItem("invitados_activos_live") !== "false"; } catch (e) {}
+    // IMPORTANTE: el rol de Supabase es la única fuente de verdad.
+    // Nunca se concede admin por sessionStorage, email, GitHub commits
+    // ni por ser colaborador del repositorio.
+    let perfilData = null;
+    let errorPerfil = null;
+    if (usuario && window.PermisosSupabase) {
+      const resPerfil = await window.PermisosSupabase.consultarTablaConFallback(
+        cliente,
+        "perfiles",
+        (t) => t.select("rol").eq("id", usuario.id).maybeSingle()
+      );
+      perfilData = resPerfil.data;
+      errorPerfil = resPerfil.error;
+    }
 
-  const CLAVE_INVITADOS_ACTIVOS = "invitados_activos_live";
-  const CLAVES_AJUSTES = {
-    modoOscuro: "modo_oscuro",
-    invitados: "invitados_activos",
-    descargarTodas: "descargar_todas_clases",
-    descargarAsignatura: "descargar_asignatura",
-    descargarCurso: "descargar_curso",
-    descargarAsignaturaTodos: "descargar_asignatura_todos",
-    visorActivo: "visor_activo",
-    visorEnTareas: "visor_en_tareas",
-    visorEnAsignaturas: "visor_en_asignaturas",
-    visorEnTrimestres: "visor_en_trimestres",
-    visorEnGrados: "visor_en_grados",
-    visorEnSelectorRamas: "visor_en_selector_ramas",
-    descargasEnSelectorRamas: "descargas_en_selector_ramas",
-  };
-  const BUCKET_CSV = "csv-grados";
+    const esAdminSupabase =
+      Boolean(usuario) &&
+      !errorPerfil &&
+      perfilData &&
+      String(perfilData.rol || "").trim().toLowerCase() === "admin";
 
-  const modoEdicionActivo = () => {
-    try { return localStorage.getItem("modo_edicion_live") === "true"; } catch (e) { return false; }
-  };
+    if (!esAdminSupabase) {
+      // Un usuario autenticado sin rol admin es usuario normal.
+      // Un invitado puede seguir usando su bandera temporal independiente.
+      rol = usuario ? "invitado" : null;
+      try { sessionStorage.removeItem("esAdmin"); } catch (_) {}
+      return;
+    }
 
-  const ramaActual = () =>
-    new URLSearchParams(window.location.search).get("rama") ||
-    (window.Estado ? window.Estado.obtener("rama") : "") ||
-    (window.RamaActual ? window.RamaActual.obtener() : "") ;
+    rol = "admin";
 
-  const esLocal = () => {
-    const host = window.location.hostname;
-    return host === "localhost" || host === "127.0.0.1";
-  };
+    // Solo después de validar el rol admin en Supabase se cargan
+    // credenciales/configuración privada necesarias para GitHub.
+    let tokenEncontrado = "";
+    let repoEncontrado = "";
 
-  let promesaSesion = null;
-  let sesionCargada = false;
-
-  const asegurarSesion = async () => {
-    if (!promesaSesion) promesaSesion = cargoSesion();
     try {
-      await promesaSesion;
-      sesionCargada = true;
-    } catch (e) {
-      sesionCargada = true;
-    }
-  };
+      const resTokenPriv = await window.PermisosSupabase.consultarTablaConFallback(
+        cliente,
+        "configuracion_privada",
+        (t) => t.select("valor").eq("clave", "gh_token").maybeSingle()
+      );
+      if (!resTokenPriv.error && resTokenPriv.data?.valor) {
+        tokenEncontrado = String(resTokenPriv.data.valor).trim();
+      }
 
-  const cargoSesion = async () => {
-    const cliente = window.PermisosSupabase ? await window.PermisosSupabase.esperarCliente() : null;
-    if (!cliente) return;
+      const resRepoPriv = await window.PermisosSupabase.consultarTablaConFallback(
+        cliente,
+        "configuracion_privada",
+        (t) => t.select("valor").eq("clave", "gh_repo").maybeSingle()
+      );
+      if (!resRepoPriv.error && resRepoPriv.data?.valor) {
+        repoEncontrado = String(resRepoPriv.data.valor).trim();
+      }
+
+      const resRepoPub = await window.PermisosSupabase.consultarTablaConFallback(
+        cliente,
+        "configuracion_publica",
+        (t) => t.select("valor").eq("clave", "gh_repo").maybeSingle()
+      );
+      if (!resRepoPub.error && resRepoPub.data?.valor && window.GITHUB_CONFIG) {
+        window.GITHUB_CONFIG.repoPublico = String(resRepoPub.data.valor).trim();
+      }
+    } catch (_) {}
+
+    // No usamos provider_token ni comprobaciones de GitHub para decidir
+    // quién es administrador. Solo pueden servir para operaciones de GitHub
+    // una vez validado el rol admin en Supabase.
+    if (!tokenEncontrado) {
+      try {
+        if (window.GITHUB_CONFIG?.token) {
+          tokenEncontrado = String(window.GITHUB_CONFIG.token).trim();
+        }
+      } catch (_) {}
+    }
+
+    try { localStorage.removeItem("GH_TOKEN"); } catch (_) {}
+
+    if (window.PermisosCrypto) {
+      window.PermisosCrypto.asegurarConfigSegura(tokenEncontrado, repoEncontrado);
+    }
+
+    if (repoEncontrado && window.GITHUB_CONFIG) {
+      window.GITHUB_CONFIG.repo = repoEncontrado;
+    }
 
     await cargarAjustesServidor();
 
-    try {
-      let { data: { session } } = await cliente.auth.getSession();
-      usuario = session?.user || null;
-
-      if (!usuario) {
-        const { data: { user } } = await cliente.auth.getUser();
-        usuario = user || null;
-      }
-
-      let tokenEncontrado = "";
-      let repoEncontrado = "";
-
-      // El invitado no consulta aquí ninguna tabla de Supabase: su repo+token
-      // (repo privado en GitHub, con un token de solo lectura dedicado) los
-      // pide directamente el Service Worker a "configuracion_publica" en el
-      // momento de descargar/previsualizar un archivo. Ver obtenerConfigPublica()
-      // en service_worker.js. Esta tabla es independiente de
-      // "configuracion_privada" (solo admin), así que nunca se toca desde aquí.
-
-      const esTokenGithubValido = (t) => t && !String(t).trim().startsWith("ya29.");
-
-      if (!esTokenGithubValido(tokenEncontrado)) tokenEncontrado = "";
-
-      if (!tokenEncontrado && session?.provider_token && session?.user?.app_metadata?.provider === "github") {
-        if (esTokenGithubValido(session.provider_token)) {
-          tokenEncontrado = String(session.provider_token).trim();
-        }
-      }
-
-      if (!tokenEncontrado && window.GITHUB_CONFIG && window.GITHUB_CONFIG.token) {
-        tokenEncontrado = String(window.GITHUB_CONFIG.token).trim();
-      }
-
-      try { localStorage.removeItem("GH_TOKEN"); } catch (e) {}
-
-      if (window.PermisosCrypto) {
-        window.PermisosCrypto.asegurarConfigSegura(tokenEncontrado, repoEncontrado);
-      }
-
-      if (usuario && window.PermisosGithub) {
-        sessionStorage.removeItem("esInvitado");
-        const esAdminValido = await window.PermisosGithub.verificarAdmin(usuario, cliente, tokenEncontrado);
-        if (esAdminValido || sessionStorage.getItem("esAdmin") === "true") {
-          rol = "admin";
-          try { sessionStorage.setItem("esAdmin", "true"); } catch (e) {}
-
-          // Usar la tabla 'perfiles' en lugar de configuracion_privada
-          // para determinar el rol y obtener configuracion del admin
-          if (cliente && window.PermisosSupabase) {
-            try {
-              // Consultamos TU tabla 'perfiles' en lugar de configuracion_privada
-              const { data: perfilData, error: errorPerfil } = await window.PermisosSupabase.consultarTablaConFallback(
-                cliente,
-                "perfiles",
-                (t) => t.select("rol").eq("id", usuario.id).maybeSingle()
-              );
-
-              if (!errorPerfil && perfilData && perfilData.rol === "admin") {
-                // Es admin, obtener token y repo de configuracion privada
-                const resTokenPriv = await window.PermisosSupabase.consultarTablaConFallback(cliente, "configuracion_privada", (t) =>
-                  t.select("valor").eq("clave", "gh_token").maybeSingle()
-                );
-                if (!resTokenPriv.error && resTokenPriv.data?.valor) {
-                  tokenEncontrado = String(resTokenPriv.data.valor).trim();
-                }
-
-                const resRepoPriv = await window.PermisosSupabase.consultarTablaConFallback(cliente, "configuracion_privada", (t) =>
-                  t.select("valor").eq("clave", "gh_repo").maybeSingle()
-                );
-                if (!resRepoPriv.error && resRepoPriv.data?.valor) {
-                  repoEncontrado = String(resRepoPriv.data.valor).trim();
-                }
-
-// Usamos las mismas claves que en configuracion_privada: gh_repo y gh_token
-              // (una sola fuente de verdad para el nombre del repo público,
-              // en lugar de tenerlo duplicado en configuracion_publica con clave distinta)
-              try {
-                const resRepoPub = await window.PermisosSupabase.consultarTablaConFallback(cliente, "configuracion_publica", (t) =>
-                  t.select("valor").eq("clave", "gh_repo").maybeSingle()
-                );
-                if (!resRepoPub.error && resRepoPub.data?.valor && window.GITHUB_CONFIG) {
-                  window.GITHUB_CONFIG.repoPublico = String(resRepoPub.data.valor).trim();
-                }
-              } catch (e) {}
-
-                const esTokenGithubValidoAdmin = (t) => t && !String(t).trim().startsWith("ya29.");
-                if (!esTokenGithubValidoAdmin(tokenEncontrado)) tokenEncontrado = "";
-
-                if (window.PermisosCrypto) {
-                  window.PermisosCrypto.asegurarConfigSegura(tokenEncontrado, repoEncontrado);
-                }
-              } else {
-                // Si no es admin, forzamos el rol invitado
-                rol = "invitado";
-                try { sessionStorage.setItem("esAdmin", "false"); } catch (e) {}
-                tokenEncontrado = "";
-                repoEncontrado = "";
-              }
-            } catch (e) {}
-          }
-
-          await cargarAjustesServidor();
-          if (window.Ajustes && typeof window.Ajustes.asegurarBotonAjustes === "function") {
-            window.Ajustes.asegurarBotonAjustes();
-          }
-          return;
-        }
-      }
-
-      if (sessionStorage.getItem("esAdmin") === "true") {
-        rol = "admin";
-        await cargarAjustesServidor();
-        if (window.Ajustes && typeof window.Ajustes.asegurarBotonAjustes === "function") {
-          window.Ajustes.asegurarBotonAjustes();
-        }
-        return;
-      }
-
-      rol = "invitado";
-      try { sessionStorage.setItem("esAdmin", "false"); } catch (e) {}
-
-      // Actualizar window.GITHUB_CONFIG.repo desde configuracion_publica para invitados
-      // (el admin ya lo hizo en la sección de arriba, pero para invitado hay que hacerlo aquí)
-      if (cliente && window.PermisosSupabase) {
-        try {
-          const resPub = await window.PermisosSupabase.consultarTablaConFallback(cliente, "configuracion_publica", (t) =>
-            t.select("valor").eq("clave", "gh_repo").maybeSingle()
-          );
-          if (!resPub.error && resPub.data?.valor && window.GITHUB_CONFIG) {
-            window.GITHUB_CONFIG.repo = String(resPub.data.valor).trim();
-            window.GITHUB_CONFIG.repoPublico = String(resPub.data.valor).trim();
-          }
-        } catch (e) {}
-      }
-    } catch (e) {
-      if (sessionStorage.getItem("esAdmin") === "true") {
-        rol = "admin";
-      } else {
-        usuario = null;
-        rol = "invitado";
-      }
+    if (window.Ajustes && typeof window.Ajustes.asegurarBotonAjustes === "function") {
+      try { window.Ajustes.asegurarBotonAjustes(); } catch (_) {}
     }
-  };
-
-  const valoresAjustes = {
-    modo_oscuro: false,
-    descargar_todas_clases: false,
-    descargar_asignatura: false,
-    descargar_curso: false,
-    descargar_asignatura_todos: false,
-    visor_activo: true,
-    visor_en_tareas: true,
-    visor_en_asignaturas: true,
-    visor_en_trimestres: true,
-    visor_en_grados: true,
-    visor_en_selector_ramas: true,
-    descargas_en_selector_ramas: true,
-  };
-
-  const obtenerAjuste = (clave, def = false) => {
-    if (valoresAjustes[clave] !== undefined) return Boolean(valoresAjustes[clave]);
-    try {
-      const v = localStorage.getItem(`ajustes_${clave}`);
-      return v === null ? def : v === "true";
-    } catch (e) {
-      return def;
-    }
-  };
-
-  const guardarConfig = async (clave, valor) => {
-    const esTrue = Boolean(valor);
-    valoresAjustes[clave] = esTrue;
-    try { localStorage.setItem(`ajustes_${clave}`, esTrue ? "true" : "false"); } catch (e) {}
-
-    if (clave === "modo_oscuro") {
-      try { localStorage.setItem("modo_oscuro", esTrue ? "true" : "false"); } catch (e) {}
-    }
-
-    if (rol !== "admin") return;
-
-    const cliente = window.PermisosSupabase ? await window.PermisosSupabase.esperarCliente() : null;
-    if (!cliente) return;
-    try {
-      // Usar la tabla 'perfiles' en lugar de configuracion_privada
-      const { data: perfilData, error: errorPerfil } = await window.PermisosSupabase.consultarTablaConFallback(
-        cliente,
-        "perfiles",
-        (t) => t.select("rol").eq("id", usuario.id).maybeSingle()
-      );
-
-      if (!errorPerfil && perfilData && perfilData.rol === "admin") {
-        await window.PermisosSupabase.getTabla(cliente, "configuracion_privada")
-          .upsert({ clave, valor: String(esTrue) }, { onConflict: "clave" });
-      }
-    } catch (e) {}
-  };
-
-  const normalizarRamaNombre = (ramaStr) => {
-    if (!ramaStr) return "";
-    let r = String(ramaStr).trim();
-    return r;
-  };
-
-  const cargarAjustesServidor = async () => {
-    if (!usuario || rol !== "admin") return valoresAjustes;
-    const cliente = window.PermisosSupabase ? await window.PermisosSupabase.esperarCliente() : null;
-    if (!cliente) return valoresAjustes;
-    try {
-      // Usar la tabla 'perfiles' en lugar de configuracion_privada
-      const { data: perfilData, error: errorPerfil } = await window.PermisosSupabase.consultarTablaConFallback(
-        cliente,
-        "perfiles",
-        (t) => t.select("rol").eq("id", usuario.id).maybeSingle()
-      );
-
-      if (!errorPerfil && perfilData && perfilData.rol === "admin") {
-        const res = await window.PermisosSupabase.consultarTablaConFallback(cliente, "configuracion_privada", (t) =>
-          t.select("clave, valor").in("clave", [
-            CLAVES_AJUSTES.modoOscuro,
-            CLAVES_AJUSTES.invitados,
-            CLAVES_AJUSTES.descargarTodas,
-            CLAVES_AJUSTES.descargarAsignatura,
-            CLAVES_AJUSTES.descargarCurso,
-            CLAVES_AJUSTES.descargarAsignaturaTodos,
-            CLAVES_AJUSTES.visorActivo,
-            CLAVES_AJUSTES.visorEnTareas,
-            CLAVES_AJUSTES.visorEnAsignaturas,
-            CLAVES_AJUSTES.visorEnTrimestres,
-            CLAVES_AJUSTES.visorEnGrados,
-            CLAVES_AJUSTES.visorEnSelectorRamas,
-            CLAVES_AJUSTES.descargasEnSelectorRamas,
-          ])
-        );
-
-        if (!res.error && res.data) {
-          res.data.forEach((fila) => {
-            if (fila.clave === CLAVES_AJUSTES.invitados) {
-              invitadosActivos = fila.valor !== "false";
-              try { localStorage.setItem(CLAVE_INVITADOS_ACTIVOS, invitadosActivos ? "true" : "false"); } catch (e) {}
-            } else if (fila.clave === CLAVES_AJUSTES.modoOscuro) {
-              const esDark = fila.valor === "true";
-              valoresAjustes[fila.clave] = esDark;
-              if (rol === "admin") {
-                try { localStorage.setItem("modo_oscuro", esDark ? "true" : "false"); } catch (e) {}
-                if (esDark) document.body.classList.add("modo-oscuro");
-                else document.body.classList.remove("modo-oscuro");
-              }
-            } else {
-              const esTrue = fila.valor === "true";
-              valoresAjustes[fila.clave] = esTrue;
-              try { localStorage.setItem(`ajustes_${fila.clave}`, esTrue ? "true" : "false"); } catch (e) {}
-            }
-          });
-        }
-      }
-    } catch (e) {}
-    // Avisar a las vistas cuando los ajustes remotos ya están cargados.
-    // Así pueden actualizar sus botones de forma estable después de recargar.
-    try { window.dispatchEvent(new CustomEvent("ajustes-servidor-cargados")); } catch (e) {}
-    return valoresAjustes;
-  };
-
-  const leerCsv = async (nombreCsv, rama) => {
-    await asegurarSesion();
-    // Si el llamador ya conoce la rama, usarla directamente. Antes se
-    // ignoraba este parámetro y se terminaba enviando ?ref= cuando todavía
-    // no estaba guardada en sessionStorage.
-    const r = String(rama || ramaActual() || "").trim();
-    if (!r) return null;
-    const claveCache = `cache_file_${r}_${nombreCsv}`;
-    let contenidoFresco = null;
-
-    try {
-      const config = window.GITHUB_CONFIG || {};
-      const tokenSeguro = typeof config.obtenerTokenSeguro === "function" ? config.obtenerTokenSeguro() : (config.token || "");
-      const repoPrivado = String(config.repo || "").trim();
-      // Repositorio REAL/original: se usa únicamente para inicializar los CSV
-      // cuando todavía no existen en el repositorio privado configurado.
-      const repoReal = "nataliagamezbarea/GRADOS_INFORMATICOS";
-      const repos = [repoPrivado, repoReal]
-        .filter(Boolean)
-        .filter((repo, i, a) => a.indexOf(repo) === i);
-
-      for (const repo of repos) {
-        const resG = await fetch(
-          `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(nombreCsv)}?ref=${encodeURIComponent(r)}`,
-          {
-            headers: {
-              ...(tokenSeguro ? { Authorization: `Bearer ${tokenSeguro}` } : {}),
-              Accept: "application/vnd.github+json",
-            },
-          }
-        );
-        if (!resG.ok) continue;
-        const datos = await resG.json();
-        if (datos && datos.content && window.PermisosCrypto) {
-          contenidoFresco = window.PermisosCrypto.decodificarBase64(datos.content);
-          break;
-        }
-      }
-    } catch (e) {}
-
-    if (!contenidoFresco) {
-      try {
-        const config = window.GITHUB_CONFIG || {};
-        const repo = config.repo || "";
-        const rawUrl = `https://raw.githubusercontent.com/${repo}/${encodeURIComponent(r)}/${encodeURIComponent(nombreCsv)}`;
-        const resRaw = await fetch(rawUrl);
-        if (resRaw.ok) {
-          contenidoFresco = (await resRaw.text()).replace(/^\uFEFF/, "");
-        }
-      } catch (e) {}
-    }
-
-    if (contenidoFresco) {
-      try { localStorage.setItem(claveCache, contenidoFresco); } catch (e) {}
-      return contenidoFresco;
-    }
-
-    try {
-      const enCache = localStorage.getItem(claveCache);
-      if (enCache) return enCache;
-    } catch (e) {}
-
-    return null;
-  };
-
-  const listarRamasStorage = async () => {
-    try {
-      if (window.supabaseClient) {
-        const { data, error } = await window.supabaseClient.storage.from("csv-grados").list("", { limit: 100 });
-        if (!error && Array.isArray(data) && data.length > 0) {
-          return data
-            .map((item) => item.name)
-            .filter((n) => n && n !== ".emptyFolderPlaceholder" && String(n).toLowerCase() !== "master");
-        }
-      }
-    } catch (e) {}
-    return [];
-  };
-
-  return {
-    BUCKET_CSV,
-    get usuario() { return usuario; },
-    get rol() { return rol; },
-    get esAdmin() { return rol === "admin"; },
-    get vistaInvitado() { return rol === "admin" && modoEdicionActivo(); },
-    setVistaInvitado(vista) {
-      vistaInvitadoModo = Boolean(vista);
-      try { localStorage.setItem("vista_invitado", vistaInvitadoModo ? "true" : "false"); } catch (e) {}
-    },
-    get invitadosActivos() { return invitadosActivos; },
-    setInvitadosActivos(activo) {
-      invitadosActivos = Boolean(activo);
-      try { localStorage.setItem(CLAVE_INVITADOS_ACTIVOS, invitadosActivos ? "true" : "false"); } catch (e) {}
-      guardarConfig(CLAVES_AJUSTES.invitados, invitadosActivos);
-    },
-    get sesionCargada() { return sesionCargada; },
-    cargoSesion,
-    asegurarSesion,
-    guardarConfig,
-    cargarAjustesServidor,
-    obtenerAjuste,
-    listarRamasStorage,
-    cargarArchivos: (a, t) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.cargarArchivos(a, t) : new Map()),
-    puedeVer: (s, n) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.puedeVer(s, n, rol === "admin", modoEdicionActivo()) : false),
-    esVisibleParaInvitado: (s, n) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.esVisibleParaInvitado(s, n) : false),
-    esArchivoVisibleParaInvitado: (s, nf, na) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.esArchivoVisibleParaInvitado(s, nf, na) : true),
-    guardarVisibilidad: (a, t, s, n, v) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.guardarVisibilidad(a, t, s, n, v) : { error: null }),
-    guardarVisibilidadArchivo: (a, t, s, nf, na, v) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.guardarVisibilidadArchivo(a, t, s, nf, na, v) : { error: null }),
-    guardarVisibilidadSeccion: (a, t, s, l, v) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.guardarVisibilidadSeccion(a, t, s, l, v) : { error: null }),
-    verificarAdmin: (user, c, t) => (window.PermisosGithub ? window.PermisosGithub.verificarAdmin(user, c, t) : false),
-    leerCsv,
-    esLocal,
-    ramaActual,
-  };
-})();
-
-
-/* Selector de ramas: siempre conserva SELECCIONAR y permite TODAS las ramas */
-function ensureAllBranchesOption(select) {
-  if (!select) return;
-
-  // SELECCIONAR siempre primero
-  let defaultOpt = Array.from(select.options).find(o =>
-    o.value === "" || o.dataset.defaultBranch === "1"
-  );
-  if (!defaultOpt) {
-    defaultOpt = document.createElement("option");
-    defaultOpt.value = "";
-    defaultOpt.textContent = "SELECCIONAR";
-    defaultOpt.dataset.defaultBranch = "1";
+  } catch (_) {
+    usuario = null;
+    rol = "invitado";
+    try { sessionStorage.removeItem("esAdmin"); } catch (_) {}
   }
-  select.insertBefore(defaultOpt, select.firstChild);
-
-  // TODAS LAS RAMAS siempre al FINAL
-  Array.from(select.options).forEach(o => {
-    if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") o.remove();
-  });
-  const allOpt = document.createElement("option");
-  allOpt.value = "__ALL_BRANCHES__";
-  allOpt.textContent = "— TODAS LAS RAMAS —";
-  allOpt.dataset.allBranches = "1";
-  select.appendChild(allOpt);
-}
+};
+const valoresAjustes = { modo_oscuro: false, descargar_todas_clases: false, descargar_asignatura: false, descargar_curso: false, descargar_asignatura_todos: false, visor_activo: true, visor_en_tareas: true, visor_en_asignaturas: true, visor_en_trimestres: true, visor_en_grados: true, visor_en_selector_ramas: true, descargas_en_selector_ramas: true, }; const obtenerAjuste = (clave, def = false) => { if (valoresAjustes[clave] !== undefined) return Boolean(valoresAjustes[clave]); try { const v = localStorage.getItem(`ajustes_${clave}`); return v === null ? def : v === "true"; } catch (e) { return def; } }; const guardarConfig = async (clave, valor) => { const esTrue = Boolean(valor); valoresAjustes[clave] = esTrue; try { localStorage.setItem(`ajustes_${clave}`, esTrue ? "true" : "false"); } catch (e) {} if (clave === "modo_oscuro") { try { localStorage.setItem("modo_oscuro", esTrue ? "true" : "false"); } catch (e) {} } if (rol !== "admin") return; const cliente = window.PermisosSupabase ? await window.PermisosSupabase.esperarCliente() : null; if (!cliente) return; try { const { data: perfilData, error: errorPerfil } = await window.PermisosSupabase.consultarTablaConFallback( cliente, "perfiles", (t) => t.select("rol").eq("id", usuario.id).maybeSingle() ); if (!errorPerfil && perfilData && perfilData.rol === "admin") { await window.PermisosSupabase.getTabla(cliente, "configuracion_privada") .upsert({ clave, valor: String(esTrue) }, { onConflict: "clave" }); } } catch (e) {} }; const normalizarRamaNombre = (ramaStr) => { if (!ramaStr) return ""; let r = String(ramaStr).trim(); return r; }; const cargarAjustesServidor = async () => { if (!usuario || rol !== "admin") return valoresAjustes; const cliente = window.PermisosSupabase ? await window.PermisosSupabase.esperarCliente() : null; if (!cliente) return valoresAjustes; try { const { data: perfilData, error: errorPerfil } = await window.PermisosSupabase.consultarTablaConFallback( cliente, "perfiles", (t) => t.select("rol").eq("id", usuario.id).maybeSingle() ); if (!errorPerfil && perfilData && perfilData.rol === "admin") { const res = await window.PermisosSupabase.consultarTablaConFallback(cliente, "configuracion_privada", (t) => t.select("clave, valor").in("clave", [ CLAVES_AJUSTES.modoOscuro, CLAVES_AJUSTES.invitados, CLAVES_AJUSTES.descargarTodas, CLAVES_AJUSTES.descargarAsignatura, CLAVES_AJUSTES.descargarCurso, CLAVES_AJUSTES.descargarAsignaturaTodos, CLAVES_AJUSTES.visorActivo, CLAVES_AJUSTES.visorEnTareas, CLAVES_AJUSTES.visorEnAsignaturas, CLAVES_AJUSTES.visorEnTrimestres, CLAVES_AJUSTES.visorEnGrados, CLAVES_AJUSTES.visorEnSelectorRamas, CLAVES_AJUSTES.descargasEnSelectorRamas, ]) ); if (!res.error && res.data) { res.data.forEach((fila) => { if (fila.clave === CLAVES_AJUSTES.invitados) { invitadosActivos = fila.valor !== "false"; try { localStorage.setItem(CLAVE_INVITADOS_ACTIVOS, invitadosActivos ? "true" : "false"); } catch (e) {} } else if (fila.clave === CLAVES_AJUSTES.modoOscuro) { const esDark = fila.valor === "true"; valoresAjustes[fila.clave] = esDark; if (rol === "admin") { try { localStorage.setItem("modo_oscuro", esDark ? "true" : "false"); } catch (e) {} if (esDark) document.body.classList.add("modo-oscuro"); else document.body.classList.remove("modo-oscuro"); } } else { const esTrue = fila.valor === "true"; valoresAjustes[fila.clave] = esTrue; try { localStorage.setItem(`ajustes_${fila.clave}`, esTrue ? "true" : "false"); } catch (e) {} } }); } } } catch (e) {} try { window.dispatchEvent(new CustomEvent("ajustes-servidor-cargados")); } catch (e) {} return valoresAjustes; }; const leerCsv = async (nombreCsv, rama) => { await asegurarSesion(); const r = String(rama || ramaActual() || "").trim(); if (!r) return null; const claveCache = `cache_file_${r}_${nombreCsv}`; let contenidoFresco = null; try { const config = window.GITHUB_CONFIG || {}; const tokenSeguro = typeof config.obtenerTokenSeguro === "function" ? config.obtenerTokenSeguro() : (config.token || ""); const repoPrivado = String(config.repo || "").trim(); const repoReal = "nataliagamezbarea/GRADOS_INFORMATICOS"; const repos = [repoPrivado, repoReal] .filter(Boolean) .filter((repo, i, a) => a.indexOf(repo) === i); for (const repo of repos) { const resG = await fetch( `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(nombreCsv)}?ref=${encodeURIComponent(r)}`, { headers: { ...(tokenSeguro ? { Authorization: `Bearer ${tokenSeguro}` } : {}), Accept: "application/vnd.github+json", }, } ); if (!resG.ok) continue; const datos = await resG.json(); if (datos && datos.content && window.PermisosCrypto) { contenidoFresco = window.PermisosCrypto.decodificarBase64(datos.content); break; } } } catch (e) {} if (!contenidoFresco) { try { const config = window.GITHUB_CONFIG || {}; const repo = config.repo || ""; const rawUrl = `https://raw.githubusercontent.com/${repo}/${encodeURIComponent(r)}/${encodeURIComponent(nombreCsv)}`; const resRaw = await fetch(rawUrl); if (resRaw.ok) { contenidoFresco = (await resRaw.text()).replace(/^\uFEFF/, ""); } } catch (e) {} } if (contenidoFresco) { try { localStorage.setItem(claveCache, contenidoFresco); } catch (e) {} return contenidoFresco; } try { const enCache = localStorage.getItem(claveCache); if (enCache) return enCache; } catch (e) {} return null; }; const listarRamasStorage = async () => { try { if (window.supabaseClient) { const { data, error } = await window.supabaseClient.storage.from("csv-grados").list("", { limit: 100 }); if (!error && Array.isArray(data) && data.length > 0) { return data .map((item) => item.name) .filter((n) => n && n !== ".emptyFolderPlaceholder" && String(n).toLowerCase() !== "master"); } } } catch (e) {} return []; }; return { BUCKET_CSV, get usuario() { return usuario; }, get rol() { return rol; }, get esAdmin() { return rol === "admin"; }, get vistaInvitado() { return rol === "admin" && modoEdicionActivo(); }, setVistaInvitado(vista) { vistaInvitadoModo = Boolean(vista); try { localStorage.setItem("vista_invitado", vistaInvitadoModo ? "true" : "false"); } catch (e) {} }, get invitadosActivos() { return invitadosActivos; }, setInvitadosActivos(activo) { invitadosActivos = Boolean(activo); try { localStorage.setItem(CLAVE_INVITADOS_ACTIVOS, invitadosActivos ? "true" : "false"); } catch (e) {} guardarConfig(CLAVES_AJUSTES.invitados, invitadosActivos); }, get sesionCargada() { return sesionCargada; }, cargoSesion, asegurarSesion, guardarConfig, cargarAjustesServidor, obtenerAjuste, listarRamasStorage, cargarArchivos: (a, t) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.cargarArchivos(a, t) : new Map()), puedeVer: (s, n) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.puedeVer(s, n, rol === "admin", modoEdicionActivo()) : false), esVisibleParaInvitado: (s, n) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.esVisibleParaInvitado(s, n) : false), esArchivoVisibleParaInvitado: (s, nf, na) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.esArchivoVisibleParaInvitado(s, nf, na) : true), guardarVisibilidad: (a, t, s, n, v) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.guardarVisibilidad(a, t, s, n, v) : { error: null }), guardarVisibilidadArchivo: (a, t, s, nf, na, v) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.guardarVisibilidadArchivo(a, t, s, nf, na, v) : { error: null }), guardarVisibilidadSeccion: (a, t, s, l, v) => (window.PermisosVisibilidad ? window.PermisosVisibilidad.guardarVisibilidadSeccion(a, t, s, l, v) : { error: null }), verificarAdmin: (user, c, t) => (window.PermisosGithub ? window.PermisosGithub.verificarAdmin(user, c, t) : false), leerCsv, esLocal, ramaActual, }; })(); function ensureAllBranchesOption(select) { if (!select) return; let defaultOpt = Array.from(select.options).find(o => o.value === "" || o.dataset.defaultBranch === "1" ); if (!defaultOpt) { defaultOpt = document.createElement("option"); defaultOpt.value = ""; defaultOpt.textContent = "SELECCIONAR"; defaultOpt.dataset.defaultBranch = "1"; } select.insertBefore(defaultOpt, select.firstChild); Array.from(select.options).forEach(o => { if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") o.remove(); }); const allOpt = document.createElement("option"); allOpt.value = "__ALL_BRANCHES__"; allOpt.textContent = "— TODAS LAS RAMAS —"; allOpt.dataset.allBranches = "1"; select.appendChild(allOpt); }

@@ -1,0 +1,47 @@
+<header id="barra-superior" class="barra-superior visor-navbar" aria-label="Navegación principal">
+  <div class="nav-left">
+    <a id="btn-inicio" class="btn-inicio" href="{{INICIO_HREF}}" title="Inicio" aria-label="Inicio">
+      <i class="fa-solid fa-house"></i>
+    </a>
+    <a id="volver-atras" class="btn-volver" href="{{INICIO_HREF}}" title="Volver atrás" aria-label="Volver atrás">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+
+    <div class="visor-navbar-extra" aria-label="Visor de documentos">
+      <strong class="visor-navbar-brand">✎ <span>Visor de documentos</span></strong>
+      <label class="visor-navbar-rama" for="selectRamaGithub">
+        <span aria-hidden="true">●</span> Rama
+        <select id="selectRamaGithub" aria-label="Seleccionar rama">
+          <option value="">SELECCIONAR</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <button type="button" id="boton-modo-edicion" class="visor-navbar-action boton-modo-edicion" title="Cambiar modo de edición">
+      <span class="btn-icon" aria-hidden="true">✏️</span><span class="btn-text">EDITAR</span>
+    </button>
+    <button type="button" id="visor-btn-resumen" class="visor-navbar-action" title="Resumen">
+      <span class="btn-icon" aria-hidden="true">◔</span><span class="btn-text">Resumen</span>
+    </button>
+    <button type="button" id="visor-btn-sync" class="visor-navbar-action" title="Sincronizar con GitHub">
+      <span class="btn-icon" aria-hidden="true">☁</span><span class="btn-text">Sync GitHub</span>
+    </button>
+    <button type="button" id="visor-btn-apuntes" class="visor-navbar-action" title="Apuntes">
+      <span class="btn-icon" aria-hidden="true">▣</span><span class="btn-text">Apuntes</span>
+    </button>
+    <button type="button" id="visor-btn-terminado" class="visor-navbar-action visor-navbar-danger" title="Terminado">
+      <span class="btn-icon" aria-hidden="true">⌫</span><span class="btn-text">Terminado</span>
+    </button>
+    <button type="button" id="btn-modo-oscuro" class="btn-modo-oscuro" title="Modo oscuro" aria-label="Cambiar tema">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+    <button type="button" id="boton-ajustes" class="btn-ajustes" title="Ajustes" aria-label="Ajustes">
+      <i class="fa-solid fa-gear"></i>
+    </button>
+    <button type="button" id="btn-cerrar-sesion" class="btn-cerrar-sesion" title="Cerrar sesión" aria-label="Cerrar sesión">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
+  </div>
+</header>

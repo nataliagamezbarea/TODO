@@ -64,3 +64,29 @@ body.modo-oscuro .permiso-switch:hover {
   background: #1e293b !important;
   border-color: #475569 !important;
 }
+
+html.modo-oscuro .contenedor-tablas,
+body.modo-oscuro .contenedor-tablas {
+  background: #111827 !important;
+  border-top: 1px solid #334155 !important;
+  border-radius: 0 0 14px 14px !important;
+  color: #e5e7eb !important;
+}
+html.modo-oscuro .detalle-apuntes,
+body.modo-oscuro .detalle-apuntes {
+  background: #111827 !important;
+}
+html.modo-oscuro .detalle-apuntes .bloque-profesor,
+body.modo-oscuro .detalle-apuntes .bloque-profesor {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+}
+html.modo-oscuro .detalle-apuntes .bloque-profesor td,
+body.modo-oscuro .detalle-apuntes .bloque-profesor td {
+  background: transparent !important;
+  color: #e5e7eb !important;
+}
+html.modo-oscuro .detalle-apuntes .bloque-profesor tr:hover td,
+body.modo-oscuro .detalle-apuntes .bloque-profesor tr:hover td {
+  background: #273449 !important;
+}

@@ -1,81 +1,42 @@
 function emitirCambioModoEdicion(activo) {
   const estado = Boolean(activo);
   try {
-    sessionStorage.setItem("modo_edicion", estado ? "true" : "false");
-    sessionStorage.setItem("modo_edicion_activo", estado ? "true" : "false");
-    localStorage.setItem("modo_edicion_live", estado ? "true" : "false");
-  } catch (e) {}
-
-  if (window.Permisos && typeof window.Permisos.setVistaInvitado === "function") {
-    window.Permisos.setVistaInvitado(estado);
-  }
-
-  // CustomEvent sí se dispara en la misma pestaña (a diferencia de
-  // window.storage), por lo que todos los renderizadores se actualizan
-  // inmediatamente sin recargar.
-  try {
-    window.dispatchEvent(new CustomEvent("modo-edicion-cambiado", {
-      detail: { activo: estado }
-    }));
-  } catch (e) {}
+    localStorage.setItem("modo_edicion_live", String(estado));
+    sessionStorage.setItem("modo_edicion", String(estado));
+  } catch (_) {}
+  window.dispatchEvent(new CustomEvent("modo-edicion-cambiado", { detail: { activo: estado } }));
 }
 
 window.ModoEdicionLive = {
-  obtener() {
-    try { return localStorage.getItem("modo_edicion_live") === "true"; } catch (e) { return false; }
-  },
-  cambiar(activo) {
-    emitirCambioModoEdicion(Boolean(activo));
-  },
-  alternar() {
-    emitirCambioModoEdicion(!this.obtener());
-  }
+  obtener: () => localStorage.getItem("modo_edicion_live") === "true",
+  cambiar: (estado) => emitirCambioModoEdicion(estado),
+  alternar: () => emitirCambioModoEdicion(!window.ModoEdicionLive.obtener())
 };
 
 function asegurarModoEdicionBoton() {
-  const path = window.location.pathname;
-  const esPaginaIndex = path.endsWith("/inicio.html") || path.endsWith("/") || path.endsWith("/GRADOS_INFORMATICOS-LOGIN");
-  const esPaginaLogin = /login\.html/.test(path);
-  const esPaginaVisor = /visor\.html/.test(path);
+  const boton = document.getElementById("boton-modo-edicion");
+  if (!boton) return;
 
-  if (esPaginaIndex || esPaginaLogin || esPaginaVisor) return;
-  const esAdmin = Boolean(window.Permisos && window.Permisos.esAdmin);
-  if (!esAdmin) return;
-
-  const barra = document.getElementById("barra-superior");
-  const navRight = barra ? barra.querySelector(".nav-right") : null;
-  if (!barra) return;
-
-  let boton = document.getElementById("boton-modo-edicion");
-  let modoEdicion = localStorage.getItem("modo_edicion_live") === "true";
-
-  const actualizarTextoBoton = () => {
-    boton.innerHTML = `<span class="btn-icon">${modoEdicion ? "✏️" : "📖"}</span><span class="btn-text"> ${modoEdicion ? "EDITAR" : "LECTURA"}</span>`;
-    boton.classList.toggle("modo-encendido", modoEdicion);
-    boton.title = modoEdicion
-      ? "Modo Edición activo (Clic para cambiar a Lectura)"
-      : "Modo Lectura activo (Clic para cambiar a Edición)";
+  const actualizar = () => {
+    const esAdmin = Boolean(window.Permisos && window.Permisos.esAdmin);
+    boton.hidden = !esAdmin;
+    if (!esAdmin) return;
+    const activo = window.ModoEdicionLive.obtener();
+    boton.classList.toggle("modo-encendido", activo);
+    boton.innerHTML = `<span class="btn-icon">${activo ? "✏️" : "📖"}</span><span class="btn-text">${activo ? "EDITAR" : "LECTURA"}</span>`;
+    boton.title = activo ? "Cambiar a modo lectura" : "Cambiar a modo edición";
   };
 
-  if (!boton) {
-    boton = document.createElement("button");
-    boton.id = "boton-modo-edicion";
-    actualizarTextoBoton();
-
-    boton.addEventListener("click", async () => {
-      modoEdicion = !modoEdicion;
-      emitirCambioModoEdicion(modoEdicion);
-      actualizarTextoBoton();
+  if (!boton.dataset.listener) {
+    boton.dataset.listener = "1";
+    boton.addEventListener("click", () => {
+      if (!(window.Permisos && window.Permisos.esAdmin)) return;
+      emitirCambioModoEdicion(!window.ModoEdicionLive.obtener());
+      actualizar();
     });
-
-    if (navRight) {
-      barra.insertBefore(boton, navRight);
-    } else {
-      barra.appendChild(boton);
-    }
-  } else {
-    actualizarTextoBoton();
+    window.addEventListener("modo-edicion-cambiado", actualizar);
+    window.addEventListener("sesion-lista", actualizar);
   }
+  actualizar();
 }
-
 window.asegurarModoEdicionBoton = asegurarModoEdicionBoton;

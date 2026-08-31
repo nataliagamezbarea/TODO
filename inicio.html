@@ -1,124 +1,56 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grados Informáticos</title>
-    <link rel="stylesheet" href="css/global/base.css" />
-    <link rel="stylesheet" href="css/global/iconos.css" />
-    <link rel="stylesheet" href="css/global/barra-navegacion-base.css" />
-    <link rel="stylesheet" href="css/global/barra-navegacion-oscuro.css" />
-    <link rel="stylesheet" href="css/global/barra-navegacion-botones.css" />
-    <link rel="stylesheet" href="css/global/barra-navegacion-botones-oscuro.css" />
-    <link rel="stylesheet" href="css/global/barra-navegacion-botones-varios.css" />
-    <link rel="stylesheet" href="css/global/tabla.css" />
-    <link rel="stylesheet" href="css/global/tabla-varios.css" />
-    <link rel="stylesheet" href="css/global/panel-configuracion.css" />
-    <link rel="stylesheet" href="css/global/panel-configuracion-varios.css" />
-    <link rel="stylesheet" href="css/global/autenticacion.css" />
-    <link rel="stylesheet" href="css/botones/animaciones.css" />
-    <link rel="stylesheet" href="css/botones/claro.css" />
-    <link rel="stylesheet" href="css/botones/oscuro.css" />
-    <link rel="stylesheet" href="css/navbar/base.css" />
-    <link rel="stylesheet" href="css/navbar/elementos.css" />
-    <link rel="stylesheet" href="css/navbar/oscuro.css" />
-    <link rel="stylesheet" href="css/navbar/responsivo.css" />
-    <link rel="stylesheet" href="css/notificador/modal.css" />
-    <link rel="stylesheet" href="css/notificador/notificacion.css" />
-    <link rel="stylesheet" href="css/notificador/progreso.css" />
-    <link rel="stylesheet" href="css/notificador/insignias.css" />
-    <link rel="stylesheet" href="css/archivos/archivos.css" />
-    <link rel="stylesheet" href="css/archivos/archivos-varios.css" />
-    <link rel="stylesheet" href="css/inicio/base.css" />
-    <link rel="stylesheet" href="css/inicio/base-2.css" />
-    <link rel="stylesheet" href="css/inicio/selector.css" />
-    <link rel="stylesheet" href="css/inicio/flexion.css" />
-    <link rel="stylesheet" href="css/inicio/oscuro.css" />
-    <link rel="stylesheet" href="css/inicio/oscuro-varios.css" />
-    <link rel="stylesheet" href="css/inicio/claro.css" />
-    <link rel="stylesheet" href="css/inicio/claro-varios.css" />
-    <link rel="stylesheet" href="css/ajustes/boton.css" />
-    <link rel="stylesheet" href="css/ajustes/panel.css" />
-    <link rel="stylesheet" href="css/ajustes/panel-varios.css" />
-    <link rel="stylesheet" href="css/ajustes/panel-oscuro.css" />
-    <link rel="stylesheet" href="css/ajustes/panel-oscuro-varios.css" />
-    <link rel="stylesheet" href="css/ajustes/oscuro.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <script src="js/nucleo/auth.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/SUPABASETOKEN_vIYAdbiqIldZKuT1o1G5zqZkiG8y63UF1xSjphEHCnPnOw865G7ESgzNbC6pQNfdx4ZbaOCDI41K1SFRysHOO6bW1iiffwl9nFVWe7XLaqUS0wSdeRPcQvaRfGeFnfq9.js"></script>
-    <script src="js/componentes/navbar/navbar_movil.js"></script>
-    <script src="js/componentes/navbar/navbar_modo_edicion.js"></script>
-    <script src="js/componentes/navbar.js"></script>
-    <script src="js/componentes/emojis.js"></script>
-    <script src="js/servicios/estado.js"></script>
-    <script src="js/permisos/crypto.js"></script>
-    <script src="js/permisos/supabase.js"></script>
-    <script src="js/permisos/github.js"></script>
-    <script src="js/permisos/visibilidad.js"></script>
-    <script src="js/nucleo/anonimizador.js"></script>
-    <script src="js/nucleo/permisos.js"></script>
-    <script src="js/componentes/ajustes.js"></script>
-    <script src="js/descargas/exportador_proyecto.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-    <script src="js/servicios/trimestres.js"></script>
-    <script src="js/servicios/rama.js"></script>
-    <script src="js/servicios/informacion.js"></script>
-    <script src="js/descargas/notificador.js"></script>
-    <script src="js/descargas/recolector_urls.js"></script>
-    <script src="js/descargas/ziper.js"></script>
-    <script src="js/modales/previsualizador.js"></script>
-    <script src="js/modales/visor_admin_integrado.js"></script>
-    <script src="js/modales/gestor_archivos_modal.js"></script>
-    <script src="js/renderizadores/mostrar_archivos.js"></script>
-  </head>
 
-  <body>
-    <header id="barra-superior" class="barra-superior">
-      <div class="nav-right">
-        <button id="btn-modo-oscuro" class="btn-modo-oscuro" title="Modo Oscuro"><i class="fa-solid fa-moon"></i></button>
-        <button id="boton-ajustes" class="btn-ajustes" title="Ajustes"><i class="fa-solid fa-gear"></i></button>
-        <button id="btn-cerrar-sesion" class="btn-cerrar-sesion" title="Cerrar Sesión"><i class="fa-solid fa-right-from-bracket"></i></button>
-      </div>
-    </header>
-
-    <div class="selector-rama">
-      <label for="selector-rama">Clase:</label>
-      <select id="selector-rama">
-        <option value="" selected>SELECCIONAR</option>
-      </select>
-      <div id="acciones-selector-rama" class="acciones-selector-rama" aria-label="Acciones de la rama seleccionada">
-        <button id="btn-descargar-rama-selector" type="button" class="btn-descarga" title="Descargar rama seleccionada" aria-label="Descargar rama seleccionada">
-          <i class="fa-solid fa-download"></i>
-        </button>
-        <button id="btn-visor-rama-selector" type="button" class="btn-descarga btn-visor-contextual" title="Abrir Visor Admin de la rama seleccionada" aria-label="Abrir Visor Admin de la rama seleccionada">
-          <i class="fa-solid fa-file-pen"></i>
-        </button>
-      </div>
-    </div>
-
-    <script src="js/vistas/index_rama.js"></script>
-  
-<script id="VISOR_ADMIN_TODAS_LAS_RAMAS">
-(function(){
-  function abrirVisorAdminTodasLasRamas(ev){
-    if (ev) ev.preventDefault();
-    const base = new URL("./visor-admin/panel-administrador.html", document.baseURI).href;
-    sessionStorage.setItem("visorAdminBranchMode", "all");
-    sessionStorage.removeItem("visorAdminBranch");
-    sessionStorage.removeItem("visorAdminFile");
-    window.location.href = base;
-  }
-  window.abrirVisorAdminTodasLasRamas = abrirVisorAdminTodasLasRamas;
-  document.addEventListener("click", function(e){
-    const el = e.target.closest(
-      '[data-visor-admin], [data-action="visor-admin"], #btnVisorAdmin, .btn-visor-admin'
-    );
-    if (!el) return;
-    abrirVisorAdminTodasLasRamas(e);
-  }, true);
-})();
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Grados Informáticos</title><link href="css/global/base.css" rel="stylesheet"/><link href="css/global/iconos.css" rel="stylesheet"/><link href="css/global/barra-navegacion-base.css" rel="stylesheet"/><link href="css/global/barra-navegacion-oscuro.css" rel="stylesheet"/><link href="css/global/barra-navegacion-botones.css" rel="stylesheet"/><link href="css/global/barra-navegacion-botones-oscuro.css" rel="stylesheet"/><link href="css/global/barra-navegacion-botones-varios.css" rel="stylesheet"/><link href="css/global/tabla.css" rel="stylesheet"/><link href="css/global/tabla-varios.css" rel="stylesheet"/><link href="css/global/panel-configuracion.css" rel="stylesheet"/><link href="css/global/panel-configuracion-varios.css" rel="stylesheet"/><link href="css/global/autenticacion.css" rel="stylesheet"/><link href="css/botones/animaciones.css" rel="stylesheet"/><link href="css/botones/claro.css" rel="stylesheet"/><link href="css/botones/oscuro.css" rel="stylesheet"/><link href="css/navbar/base.css" rel="stylesheet"/><link href="css/navbar/elementos.css" rel="stylesheet"/><link href="css/navbar/oscuro.css" rel="stylesheet"/><link href="css/navbar/responsivo.css" rel="stylesheet"/><link href="css/notificador/modal.css" rel="stylesheet"/><link href="css/notificador/notificacion.css" rel="stylesheet"/><link href="css/notificador/progreso.css" rel="stylesheet"/><link href="css/notificador/insignias.css" rel="stylesheet"/><link href="css/archivos/archivos.css" rel="stylesheet"/><link href="css/archivos/archivos-varios.css" rel="stylesheet"/><link href="css/inicio/base.css" rel="stylesheet"/><link href="css/inicio/base-2.css" rel="stylesheet"/><link href="css/inicio/selector.css" rel="stylesheet"/><link href="css/inicio/flexion.css" rel="stylesheet"/><link href="css/inicio/oscuro.css" rel="stylesheet"/><link href="css/inicio/oscuro-varios.css" rel="stylesheet"/><link href="css/inicio/claro.css" rel="stylesheet"/><link href="css/inicio/claro-varios.css" rel="stylesheet"/><link href="css/ajustes/boton.css" rel="stylesheet"/><link href="css/ajustes/panel.css" rel="stylesheet"/><link href="css/ajustes/panel-varios.css" rel="stylesheet"/><link href="css/ajustes/panel-oscuro.css" rel="stylesheet"/><link href="css/ajustes/panel-oscuro-varios.css" rel="stylesheet"/><link href="css/ajustes/oscuro.css" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/> <script src="js/nucleo/auth.js"></script> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> <script src="js/SUPABASETOKEN_vIYAdbiqIldZKuT1o1G5zqZkiG8y63UF1xSjphEHCnPnOw865G7ESgzNbC6pQNfdx4ZbaOCDI41K1SFRysHOO6bW1iiffwl9nFVWe7XLaqUS0wSdeRPcQvaRfGeFnfq9.js"></script> <script src="js/componentes/navbar/navbar_movil.js"></script> <script src="js/componentes/navbar/navbar_modo_edicion.js"></script> <script src="js/componentes/navbar.js"></script> <script src="js/componentes/emojis.js"></script> <script src="js/servicios/estado.js"></script> <script src="js/permisos/crypto.js"></script> <script src="js/permisos/supabase.js"></script> <script src="js/permisos/github.js"></script> <script src="js/permisos/visibilidad.js"></script> <script src="js/nucleo/anonimizador.js"></script> <script src="js/nucleo/permisos.js"></script> <script src="js/componentes/ajustes.js"></script> <script src="js/descargas/exportador_proyecto.js"></script> <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script> <script src="js/servicios/trimestres.js"></script> <script src="js/servicios/rama.js"></script> <script src="js/servicios/informacion.js"></script> <script src="js/descargas/notificador.js"></script> <script src="js/descargas/recolector_urls.js"></script> <script src="js/descargas/ziper.js"></script> <script src="js/modales/previsualizador.js"></script> <script src="js/modales/visor_admin_integrado.js"></script> <script src="js/modales/gestor_archivos_modal.js"></script> <script src="js/renderizadores/mostrar_archivos.js"></script> <link href="css/componentes/responsive-canonico.css" rel="stylesheet"/><link href="../../../css/componentes/tema-hover-canonico.css" rel="stylesheet" data-tema-canonico="v12"><link href="css/componentes/navbar-unificada.css" rel="stylesheet"/><script>
+(function(){try{
+var t=localStorage.getItem('tema');
+if(t==='dark'||t==='light'){
+document.documentElement.dataset.tema=t;
+document.documentElement.classList.toggle('modo-oscuro',t==='dark');
+document.documentElement.classList.toggle('modo-claro',t==='light');
+}
+}catch(e){}})();
 </script>
-
-</body>
-</html>
+<script>(function(){try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light'){document.documentElement.dataset.tema=t;document.documentElement.classList.toggle('modo-oscuro',t==='dark');document.documentElement.classList.toggle('modo-claro',t==='light');}}catch(e){}})();</script>
+<link href="/css/componentes/navbar-tema-final.css" rel="stylesheet"/>
+<script src="/js/nucleo/tema-global.js" defer></script>
+<script>(function(){try{var q=new URLSearchParams(location.search),o={};q.forEach(function(v,k){if(v)o[k]=v;});if(Object.keys(o).length){var old={};try{old=JSON.parse(localStorage.getItem('app_parametros_ruta')||'{}')}catch(e){}localStorage.setItem('app_parametros_ruta',JSON.stringify(Object.assign(old,o)));}if(location.search||location.hash)history.replaceState({},document.title,location.pathname);}catch(e){}})();</script>
+</head><body><header id="barra-superior" class="barra-superior" aria-label="Navegación principal">
+  <div class="nav-left">
+    <a id="btn-inicio" class="btn-inicio" href="/inicio" title="Inicio" aria-label="Inicio">
+      <i class="fa-solid fa-house"></i>
+    </a>
+    <a id="volver-atras" class="btn-volver" href="#" title="Volver atrás" aria-label="Volver atrás">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+  </div>
+  <div class="nav-right">
+    <button type="button" id="boton-modo-edicion" class="visor-navbar-action boton-modo-edicion" title="Modo edición" hidden>
+      <span class="btn-icon" aria-hidden="true">📖</span><span class="btn-text">LECTURA</span>
+    </button>
+    <button type="button" id="btn-modo-oscuro" class="btn-modo-oscuro" title="Modo oscuro" aria-label="Cambiar tema">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+    <button type="button" id="boton-ajustes" class="btn-ajustes" title="Ajustes" aria-label="Ajustes">
+      <i class="fa-solid fa-gear"></i>
+    </button>
+    <button type="button" id="btn-cerrar-sesion" class="btn-cerrar-sesion" title="Cerrar sesión" aria-label="Cerrar sesión">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
+  </div>
+</header>
+<section class="selector-rama" aria-label="Selección de clase">
+  <label for="selector-rama">Clase:</label>
+  <select id="selector-rama">
+    <option selected value="">SELECCIONAR</option>
+  </select>
+  <div class="acciones-selector-rama" id="acciones-selector-rama" aria-label="Acciones de la rama seleccionada">
+    <button type="button" class="btn-descarga" id="btn-descargar-rama-selector" title="Descargar rama seleccionada" aria-label="Descargar rama seleccionada">
+      <i class="fa-solid fa-download"></i>
+    </button>
+    <button type="button" class="btn-descarga btn-visor-contextual" id="btn-visor-rama-selector" title="Abrir Visor Admin de la rama seleccionada" aria-label="Abrir Visor Admin de la rama seleccionada">
+      <i class="fa-solid fa-file-pen"></i>
+    </button>
+  </div>
+</section>
+ <script src="js/vistas/selector_rama_utilidades.js"></script> <script src="js/vistas/index_rama.js"></script> <script src="js/vistas/visor_admin_todas_las_ramas.js"></script> <script src="/js/nucleo/router.js" defer></script>
+</body></html>
