@@ -46,8 +46,10 @@ body.modo-oscuro #barra-superior #btn-modo-oscuro:hover {
   box-shadow: 0 6px 16px rgba(251, 191, 36, 0.28) !important;
 }
 
-#barra-superior #btn-inicio:hover,
-#btn-inicio:hover {
+html.modo-oscuro #barra-superior #btn-inicio:hover,
+body.modo-oscuro #barra-superior #btn-inicio:hover,
+html.modo-oscuro #btn-inicio:hover,
+body.modo-oscuro #btn-inicio:hover {
   background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
   color: #ffffff !important;
   border-color: #4338ca;
@@ -55,8 +57,10 @@ body.modo-oscuro #barra-superior #btn-modo-oscuro:hover {
   box-shadow: 0 6px 14px rgba(79, 70, 229, 0.35);
 }
 
-#barra-superior a#volver-atras:hover,
-a#volver-atras:hover {
+html.modo-oscuro #barra-superior a#volver-atras:hover,
+body.modo-oscuro #barra-superior a#volver-atras:hover,
+html.modo-oscuro a#volver-atras:hover,
+body.modo-oscuro a#volver-atras:hover {
   background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
   color: #ffffff !important;
   border-color: #7e22ce;
