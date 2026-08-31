@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visor y Gestor de Documentos</title>
+  <link rel="stylesheet" href="../css/visor/base.css" />
+  <link rel="stylesheet" href="../css/visor/acciones.css" />
+</head>
+<body>
+<script>
+  // Esta ruta SÍ es el acceso directo al visor. No añade ningún botón ni pantalla
+  // adicional en la plataforma: simplemente abre el visor integrado/administrativo.
+  // Los accesos desde grados, trimestres y tareas siguen siendo los botones junto
+  // a las descargas.
+  const params = new URLSearchParams(location.search);
+  const destino = new URL("../visor-admin/panel-administrador.html", location.href);
+  params.forEach((valor, clave) => destino.searchParams.set(clave, valor));
+  location.replace(destino.href);
+</script>
+</body>
+</html>

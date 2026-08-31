@@ -75,7 +75,7 @@ async function cerrarSesionUsuario() {
   if (window.supabaseClient) {
     await window.supabaseClient.auth.signOut();
   }
-  window.location.href = 'paginas/login.html';
+  window.location.href = 'paginas/iniciar-sesion.html';
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

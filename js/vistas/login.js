@@ -13,7 +13,7 @@
   };
 
   const irAlInicio = () => {
-    const redir = new URLSearchParams(window.location.search).get("redir") || "../index.html";
+    const redir = new URLSearchParams(window.location.search).get("redir") || "../inicio.html";
     window.location.href = redir;
   };
 
@@ -59,7 +59,7 @@
     if (!supabase) { mostrarError("Error al conectar con Supabase."); return; }
 
     const redir = new URLSearchParams(window.location.search).get("redir");
-    const destinoOAuth = new URL("login.html", window.location.href);
+    const destinoOAuth = new URL("iniciar-sesion.html", window.location.href);
     if (redir) destinoOAuth.searchParams.set("redir", redir);
 
     const { error } = await supabase.auth.signInWithOAuth({

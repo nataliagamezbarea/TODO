@@ -64,7 +64,7 @@ function obtenerContenedorToasts() {
 }
 
 function mostrarNotificacionDescarga(estado, porcentaje, jobIdParam) {
-  if (window.location.pathname.includes("visor.html") || (document.body && document.body.dataset.vista === "visor")) {
+  if (window.location.pathname.includes("visualizar-documentos.html") || (document.body && document.body.dataset.vista === "visor")) {
     return;
   }
   const jobId = jobIdParam || "global";

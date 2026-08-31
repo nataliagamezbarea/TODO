@@ -46,9 +46,9 @@
   const redirigir = (destino) => window.location.replace(destino);
   const rutaLogin = () => {
     const p = window.location.pathname.replace(/\\/g, "/");
-    if (p.includes("/visor-admin/")) return "../modulos/login.html";
-    if (p.includes("/modulos/")) return "login.html";
-    return "modulos/login.html";
+    if (p.includes("/visor-admin/")) return "../modulos/iniciar-sesion.html";
+    if (p.includes("/modulos/")) return "iniciar-sesion.html";
+    return "modulos/iniciar-sesion.html";
   };
 
   const iniciar = async () => {
@@ -161,7 +161,7 @@
 
       if (esPaginaLogin && tieneAcceso) {
         const enModulos = window.location.pathname.includes("/modulos");
-        redirigir(enModulos ? "../index.html" : "index.html");
+        redirigir(enModulos ? "../inicio.html" : "inicio.html");
         return;
       }
 

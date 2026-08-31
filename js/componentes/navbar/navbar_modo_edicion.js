@@ -34,7 +34,7 @@ window.ModoEdicionLive = {
 
 function asegurarModoEdicionBoton() {
   const path = window.location.pathname;
-  const esPaginaIndex = path.endsWith("/index.html") || path.endsWith("/") || path.endsWith("/GRADOS_INFORMATICOS-LOGIN");
+  const esPaginaIndex = path.endsWith("/inicio.html") || path.endsWith("/") || path.endsWith("/GRADOS_INFORMATICOS-LOGIN");
   const esPaginaLogin = /login\.html/.test(path);
   const esPaginaVisor = /visor\.html/.test(path);
 

@@ -3,14 +3,14 @@
     inicializar: function () {
       const path = window.location.pathname;
       const esPaginaVisorAdmin = /\/visor-admin\/index\.html$/.test(path);
-      const esPaginaIndex = !esPaginaVisorAdmin && (path.endsWith("/index.html") || path.endsWith("/") || path.endsWith("/GRADOS_INFORMATICOS-LOGIN"));
+      const esPaginaIndex = !esPaginaVisorAdmin && (path.endsWith("/inicio.html") || path.endsWith("/") || path.endsWith("/GRADOS_INFORMATICOS-LOGIN"));
       const esPaginaLogin = /login\.html/.test(path);
       const esPaginaVisor = /visor\.html/.test(path);
 
       if (esPaginaLogin || esPaginaVisor) return;
 
       const enModulos = path.includes("/modulos");
-      const rutaInicio = enModulos ? "../index.html" : "index.html";
+      const rutaInicio = enModulos ? "../inicio.html" : "inicio.html";
 
       if (!document.querySelector('link[href*="navbar_movil.css"]')) {
         const linkCSS = document.createElement("link");
@@ -129,7 +129,7 @@
           return;
         }
 
-        if (path.includes("apuntes_practicas_ejercicios_tareas")) {
+        if (path.includes("apuntes")) {
           window.location.href = `asignatura.html?asignatura=${encodeURIComponent(asignatura)}&trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
         } else if (path.includes("asignatura.")) {
           window.location.href = `asignaturas.html?trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
@@ -212,7 +212,7 @@
         if (window.supabaseClient) {
           try { await window.supabaseClient.auth.signOut(); } catch (err) {}
         }
-        const destino = enModulos ? "login.html" : "modulos/login.html";
+        const destino = enModulos ? "iniciar-sesion.html" : "modulos/iniciar-sesion.html";
         window.location.replace(destino);
       };
 
@@ -260,7 +260,7 @@
       try { await window.supabaseClient.auth.signOut(); } catch (err) {}
     }
     const enModulos = window.location.pathname.includes("/modulos");
-    window.location.replace(enModulos ? "login.html" : "modulos/login.html");
+    window.location.replace(enModulos ? "iniciar-sesion.html" : "modulos/iniciar-sesion.html");
   });
 
   if (document.readyState === "loading") {

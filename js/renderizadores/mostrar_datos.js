@@ -432,7 +432,7 @@ if (asig && tri) {
                   </label>`;
                 }
                 const nomEscaped = String(valor).replace(/'/g, "\\'");
-                valor = `<a href="apuntes_practicas_ejercicios_tareas.html?nombre=${encodeURIComponent(valor)}&asignatura=${encodeURIComponent(asig)}&trimestre=${encodeURIComponent(tri)}&rama=${encodeURIComponent(rama)}&seccion=${encodeURIComponent(seccion)}" onclick="window.prepararDetalleClick('${seccion}', '${nomEscaped}');">${valor}</a>${solo}`;
+                valor = `<a href="apuntes.html?nombre=${encodeURIComponent(valor)}&asignatura=${encodeURIComponent(asig)}&trimestre=${encodeURIComponent(tri)}&rama=${encodeURIComponent(rama)}&seccion=${encodeURIComponent(seccion)}" onclick="window.prepararDetalleClick('${seccion}', '${nomEscaped}');">${valor}</a>${solo}`;
               }
               html += `<td>${valor}</td>`;
             });

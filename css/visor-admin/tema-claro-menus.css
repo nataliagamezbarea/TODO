@@ -14,7 +14,6 @@
   .sec h2 {
     font-size: 12px;
   }
-}
 
 /* Pantallas tactiles: objetivos suficientemente grandes sin alterar escritorio. */
 @media (pointer: coarse) and (max-width: 760px) {

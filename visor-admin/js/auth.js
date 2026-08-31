@@ -73,19 +73,19 @@
         window.__ES_ADMIN = !!tieneAcceso;
         if (!tieneAcceso) {
           await supabase.auth.signOut();
-          redirigir("paginas/login.html?error=no_access");
+          redirigir("paginas/iniciar-sesion.html?error=no_access");
           return;
         }
       }
 
       if (esPaginaLogin && session) {
-        const redir = new URLSearchParams(window.location.search).get("redir") || "index.html";
+        const redir = new URLSearchParams(window.location.search).get("redir") || "inicio.html";
         redirigir(redir);
         return;
       }
 
       if (!esPaginaLogin && !session) {
-        redirigir("paginas/login.html?redir=" + encodeURIComponent(window.location.href));
+        redirigir("paginas/iniciar-sesion.html?redir=" + encodeURIComponent(window.location.href));
         return;
       }
 
@@ -96,10 +96,10 @@
 
       window.cerrarSesionUsuario = async () => {
         if (supabase) await supabase.auth.signOut();
-        redirigir("paginas/login.html");
+        redirigir("paginas/iniciar-sesion.html");
       };
     } catch (e) {
-      if (!esPaginaLogin) redirigir("paginas/login.html");
+      if (!esPaginaLogin) redirigir("paginas/iniciar-sesion.html");
       else {
         document.documentElement.style.visibility = "";
         document.documentElement.style.background = "";

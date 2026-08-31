@@ -31,9 +31,9 @@ function inicializarNavbarMovil(opciones) {
 
   const sincronizarMenuHamburguesa = () => {
     const path = window.location.pathname;
-    const esPaginaIndex = path.endsWith("/index.html") || path.endsWith("/") || path.endsWith("/GRADOS_INFORMATICOS-LOGIN");
+    const esPaginaIndex = path.endsWith("/inicio.html") || path.endsWith("/") || path.endsWith("/GRADOS_INFORMATICOS-LOGIN");
     const enModulos = path.includes("/modulos");
-    const rutaInicio = enModulos ? "../index.html" : "index.html";
+    const rutaInicio = enModulos ? "../inicio.html" : "inicio.html";
 
     const esAdmin = Boolean(window.Permisos && window.Permisos.esAdmin);
     const modoEdicion = localStorage.getItem("modo_edicion_live") === "true";

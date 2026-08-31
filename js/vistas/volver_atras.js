@@ -24,10 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (path.includes("asignaturas.")) {
       window.location.href = `clase.html?rama=${encodeURIComponent(rama)}`;
     } else if (path.includes("clase.")) {
-      const rutaIndex = path.includes("/modulos/") ? "../index.html" : "index.html";
+      const rutaIndex = path.includes("/modulos/") ? "../inicio.html" : "inicio.html";
       window.location.href = rutaIndex;
     } else {
-      const rutaIndex = path.includes("/modulos/") ? "../index.html" : "index.html";
+      const rutaIndex = path.includes("/modulos/") ? "../inicio.html" : "inicio.html";
       window.location.href = rutaIndex;
     }
   });

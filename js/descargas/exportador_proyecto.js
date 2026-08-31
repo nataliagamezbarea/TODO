@@ -14,20 +14,6 @@ window.ExportadorProyecto = (() => {
   // sin nada de configuración sensible (.env, workflows, sql...).
   const ARCHIVOS_ESTATICOS = [
     "classroom_icon.png",
-    "css/ajustes.css",
-    "css/apuntes_practicas_ejercicios_tareas.css",
-    "css/archivos.css",
-    "css/asignatura.css",
-    "css/botones.css",
-    "css/global.css",
-    "css/index.css",
-    "css/login.css",
-    "css/navbar_movil.css",
-    "css/notificador.css",
-    "css/popover.css",
-    "css/portada_emoji.css",
-    "css/trimestre.css",
-    "css/visor.css",
     "img/captura_representativa.jpg",
     "img/portada.jpg",
     "js/componentes/ajustes.js",
@@ -64,12 +50,12 @@ window.ExportadorProyecto = (() => {
 
   // HTML a los que hay que inyectarles el arranque de "modo local".
   const HTML_A_INYECTAR = [
-    "index.html",
-    "modulos/apuntes_practicas_ejercicios_tareas.html",
+    "inicio.html",
+    "modulos/apuntes.html",
     "modulos/asignatura.html",
     "modulos/asignaturas.html",
     "modulos/clase.html",
-    "modulos/login.html",
+    "modulos/iniciar-sesion.html",
   ];
 
   const CSV_Y_JSON = ["APUNTES.csv", "EJERCICIOS_PRACTICAS_PROYECTOS.csv", "informacion.json"];

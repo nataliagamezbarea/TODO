@@ -117,7 +117,7 @@ async function sincronizarGitHub() {
 
 async function cerrarSesionUsuario() {
   if (window.supabaseClient) await window.supabaseClient.auth.signOut();
-  window.location.href = '../modulos/login.html';
+  window.location.href = '../modulos/iniciar-sesion.html';
 }
 
 function openSummaryModal() {

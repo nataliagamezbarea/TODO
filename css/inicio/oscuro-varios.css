@@ -1,0 +1,8 @@
+/* Acciones de rama en la pantalla inicial: una sola fila por rama. */
+.lista-ramas-acciones { display:flex; flex-direction:column; gap:10px; width:min(100%, 900px); margin:18px auto 28px; }
+.rama-accion-fila { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; border:1px solid #e2e8f0; border-radius:14px; background:#fff; }
+.rama-accion-nombre { font-weight:700; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rama-accion-botones { display:flex; gap:8px; flex-shrink:0; }
+.rama-accion-botones .btn-descarga { margin:0; }
+html.modo-oscuro .rama-accion-fila, body.modo-oscuro .rama-accion-fila { background:#1e293b; border-color:#334155; }
+@media (max-width:600px){ .rama-accion-fila{align-items:flex-start;flex-direction:column}.rama-accion-botones{width:100%}.rama-accion-botones .btn-descarga{flex:1} }
