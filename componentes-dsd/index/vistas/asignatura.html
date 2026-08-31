@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"></head><body>
+<app-view-asignatura data-app-component="asignatura"><template shadowrootmode="open"><slot></slot></template><section class="app-vista" data-app-view="asignatura" hidden="">
+<template shadowrootmode="open"><link data-dsd-shell-css="1" href="css/componentes/declarative-shadow-shell.css" rel="stylesheet"/>
+<slot></slot>
+</template>
+<vista-asignatura data-component="vista-asignatura"><template shadowrootmode="open"><slot></slot></template><div class="container"><div class="portada_emoji_contenedor"><img alt="Portada" id="portada" src="img/portada.jpg"/><span id="emoji-trimestre">1️⃣</span><h1 id="titulo">Cargando...</h1></div><main class="contenido"><div id="popover" popover=""><button class="cerrar-popover" popovertarget="popover" popovertargetaction="close">✖</button><div id="contenido-popover"></div></div><h2>APUNTES 📝</h2><details class="detalle-seccion detalle-apuntes" open=""><summary>¡TOMA APUNTES DE FORMA PRODUCTIVA!</summary><div class="contenedor-tablas" id="contenedor-apuntes"><p class="cargando css-inline-5e16860b15">Cargando contenido...</p></div></details><h2>PRÁCTICAS/EJERCICIOS/TAREAS TERMINADAS</h2><details class="detalle-seccion detalle-practicas" open=""><summary>🤔</summary><div class="contenedor-tablas" id="contenedor-practicas"><p class="cargando css-inline-5e16860b15">Cargando contenido...</p></div></details></main></div></vista-asignatura>
+</section></app-view-asignatura>
+</body></html>

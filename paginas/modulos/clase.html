@@ -74,6 +74,14 @@
   </head>
 
   <body>
+    <template shadowrootmode="open">
+      <style>
+        :host { display: block; }
+        slot { display: contents; }
+      </style>
+      <slot></slot>
+    </template>
+
     
 
     <div class="column cabecera">

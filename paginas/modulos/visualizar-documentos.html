@@ -8,6 +8,14 @@
   <link rel="stylesheet" href="../css/visor/acciones.css" />
 </head>
 <body>
+    <template shadowrootmode="open">
+      <style>
+        :host { display: block; }
+        slot { display: contents; }
+      </style>
+      <slot></slot>
+    </template>
+
 <script>
   // Esta ruta SÍ es el acceso directo al visor. No añade ningún botón ni pantalla
   // adicional en la plataforma: simplemente abre el visor integrado/administrativo.

@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/SUPABASETOKEN_vIYAdbiqIldZKuT1o1G5zqZkiG8y63UF1xSjphEHCnPnOw865G7ESgzNbC6pQNfdx4ZbaOCDI41K1SFRysHOO6bW1iiffwl9nFVWe7XLaqUS0wSdeRPcQvaRfGeFnfq9.js"></script>
+    <script>window.__APP_VISTA = "login";</script>
     <script src="../js/nucleo/auth.js"></script>
     <script src="../js/componentes/navbar.js"></script>
     <script src="../js/componentes/emojis.js"></script>
@@ -38,6 +39,14 @@
     <script src="../js/descargas/exportador_proyecto.js"></script>
   </head>
   <body>
+    <template shadowrootmode="open">
+      <style>
+        :host { display: block; }
+        slot { display: contents; }
+      </style>
+      <slot></slot>
+    </template>
+
     <main class="login-contenedor">
       <div class="login-tarjeta">
         <div class="login-emoji">💻</div>

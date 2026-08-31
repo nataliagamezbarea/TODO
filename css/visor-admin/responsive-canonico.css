@@ -1,0 +1,249 @@
+/* ==========================================================================
+   RESPONSIVE CANÓNICO · VISOR ADMIN
+   Se carga el último para neutralizar reglas antiguas contradictorias.
+   No cambia la lógica JS; solo el layout.
+   ========================================================================== */
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#barra-superior {
+  width: 100% !important;
+  max-width: 100vw !important;
+  box-sizing: border-box !important;
+}
+
+#barra-superior .nav-left,
+#barra-superior .nav-right {
+  min-width: 0 !important;
+}
+
+#barra-superior .visor-navbar-brand,
+#barra-superior .visor-navbar-rama,
+#barra-superior .visor-navbar-action {
+  min-width: 0 !important;
+}
+
+#barra-superior .visor-navbar-brand span:last-child,
+#barra-superior .visor-navbar-action span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-search-bar,
+.file-search-inner,
+.stats,
+.wrap,
+.ov,
+.ov-topbar,
+.ov-actionbar,
+.ovcols,
+.apunte-bar,
+.editor-box {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.file-search-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-search-inner input {
+  min-width: 0 !important;
+  flex: 1 1 220px;
+}
+
+.ov-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ov-topbar > *,
+.ov-actionbar > * {
+  min-width: 0;
+}
+
+.ov-files {
+  min-width: 0;
+  flex: 1 1 260px;
+  overflow: hidden;
+}
+
+.ov-files span,
+.ov-files b {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 900px) {
+  #barra-superior {
+    flex-wrap: wrap !important;
+    padding: 8px 12px !important;
+    gap: 7px !important;
+  }
+
+  #barra-superior .nav-left,
+  #barra-superior .nav-right {
+    flex: 1 1 100% !important;
+    width: 100%;
+  }
+
+  #barra-superior .nav-right {
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+  }
+
+  #barra-superior .visor-navbar-rama {
+    flex: 1 1 240px;
+  }
+
+  #barra-superior .visor-navbar-rama select {
+    min-width: 0 !important;
+    width: 100%;
+    max-width: none;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #barra-superior {
+    position: sticky !important;
+    min-height: 52px !important;
+    padding: 7px 9px !important;
+  }
+
+  #barra-superior .nav-left {
+    gap: 7px !important;
+  }
+
+  #barra-superior #btn-inicio,
+  #barra-superior #volver-atras {
+    width: 38px !important;
+    min-width: 38px !important;
+    padding: 0 !important;
+  }
+
+  #barra-superior .visor-navbar-brand {
+    flex: 0 1 auto;
+  }
+
+  #barra-superior .visor-navbar-rama {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  #barra-superior .nav-right {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px !important;
+  }
+
+  #barra-superior .visor-navbar-action {
+    width: 100% !important;
+    min-height: 38px !important;
+    padding: 0 8px !important;
+  }
+
+  #barra-superior #btn-modo-oscuro,
+  #barra-superior #boton-ajustes,
+  #barra-superior #btn-cerrar-sesion {
+    min-width: 38px !important;
+    width: 38px !important;
+    justify-self: start;
+  }
+
+  .file-search-inner {
+    padding: 8px !important;
+  }
+
+  .stats,
+  .wrap {
+    width: calc(100% - 16px) !important;
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+  }
+
+  .ov-topbar,
+  .ov-actionbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .ov-topbar > *,
+  .ov-actionbar > * {
+    width: 100% !important;
+  }
+
+  .ovcols {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+
+  .ovcol {
+    width: 100% !important;
+    min-height: 320px;
+  }
+
+  .doc-viewer {
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: auto !important;
+  }
+
+  .doc-page,
+  .doc-page canvas,
+  .doc-page iframe,
+  .doc-page embed {
+    max-width: 100% !important;
+  }
+
+  .apunte-bar > div {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .apunte-bar input {
+    width: 100% !important;
+  }
+
+  .floating-add-menu,
+  .floating-pdf-menu,
+  .floating-col-menu,
+  .floating-name-menu,
+  .floating-img-menu {
+    left: 8px !important;
+    right: 8px !important;
+    max-width: none !important;
+    width: auto !important;
+  }
+}
+
+@media (max-width: 420px) {
+  #barra-superior .visor-navbar-brand span:last-child {
+    display: none !important;
+  }
+
+  #barra-superior .visor-navbar-action span:last-child {
+    display: none !important;
+  }
+
+  #barra-superior .boton-modo-edicion .btn-text {
+    display: inline !important;
+  }
+
+  .stats {
+    grid-template-columns: 1fr !important;
+  }
+}

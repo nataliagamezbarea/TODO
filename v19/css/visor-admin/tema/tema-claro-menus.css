@@ -1,0 +1,76 @@
+  .ovcols {
+    padding: 6px;
+  }
+
+  .ovcol {
+    min-height: 50vh;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .sec h3,
+  .sec h2 {
+    font-size: 12px;
+  }
+
+/* Pantallas tactiles: objetivos suficientemente grandes sin alterar escritorio. */
+@media (pointer: coarse) and (max-width: 760px) {
+  button,
+  select,
+  input[type="checkbox"] + *,
+  .pill-check {
+    touch-action: manipulation;
+  }
+
+  .ov-nav-group button,
+  .ov-right .btn-act,
+  .ov-actionbar button,
+  .ov-actionbar label {
+    min-height: 38px;
+  }
+}
+
+/* ============================================================================
+   VISOR ADMIN — TEMA CLARO REFINADO
+   El modo claro debe ser una version visual coherente del tema oscuro,
+   no una mezcla de paneles oscuros y navbar blanca.
+   ============================================================================ */
+html:not(.modo-oscuro) body,
+body:not(.modo-oscuro) {
+  background: #f4f7fb !important;
+  color: #1e293b !important;
+}
+
+html:not(.modo-oscuro) #barra-superior {
+  background: rgba(255,255,255,.97) !important;
+  border-bottom: 1px solid #dbe3ef !important;
+  box-shadow: 0 3px 14px rgba(30,41,59,.08) !important;
+}
+html:not(.modo-oscuro) #barra-superior .visor-navbar-brand { color:#1e293b !important; }
+html:not(.modo-oscuro) #barra-superior .visor-navbar-brand i { color:#2563eb !important; }
+html:not(.modo-oscuro) #barra-superior .visor-navbar-rama {
+  background:#f8fafc !important;
+  border:1px solid #d5deea !important;
+  color:#334155 !important;
+}
+html:not(.modo-oscuro) #barra-superior .visor-navbar-rama label { color:#64748b !important; }
+html:not(.modo-oscuro) #barra-superior .visor-navbar-rama label i { color:#6366f1 !important; }
+html:not(.modo-oscuro) #barra-superior .visor-navbar-rama select {
+  background:#fff !important;
+  color:#1e293b !important;
+  border:1px solid #cbd5e1 !important;
+}
+html:not(.modo-oscuro) #barra-superior .visor-navbar-rama select option { background:#fff !important; color:#1e293b !important; }
+html:not(.modo-oscuro) #barra-superior .visor-navbar-action {
+  background:#fff !important;
+  color:#334155 !important;
+  border:1px solid #d5deea !important;
+  box-shadow:0 1px 4px rgba(15,23,42,.06) !important;
+}
+html:not(.modo-oscuro) #barra-superior .visor-navbar-action:hover {
+  background:#f8fafc !important;
+  color:#1d4ed8 !important;
+  border-color:#93c5fd !important;
+}

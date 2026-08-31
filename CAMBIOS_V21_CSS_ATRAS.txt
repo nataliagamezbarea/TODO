@@ -1,0 +1,7 @@
+V21 - Corrección de desbordamiento CSS al volver atrás
+
+- Las transiciones de vistas se serializan en app-shell.js.
+- Evita que dos montajes/desmontajes simultáneos de vistas manipulen los <link> CSS a la vez.
+- Evita carreras al pulsar Atrás rápidamente que podían dejar CSS de la vista anterior activo o cargarlo después de la vista nueva.
+- No cambia las rutas: la URL sigue siendo /.
+- No cambia la estructura DSD ni los HTML de componentes.

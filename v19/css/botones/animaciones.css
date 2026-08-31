@@ -1,0 +1,97 @@
+/* Animaciones de aparición y desaparición de botones */
+@keyframes animAparecerDescarga {
+  0% {
+    opacity: 0;
+    transform: scale(0.65) translateY(4px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.08) translateY(-1px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes animDesaparecerDescarga {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-width: 0 !important;
+  }
+}
+
+.anim-desaparecer-descarga {
+  animation: animDesaparecerDescarga 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+.btn-descarga,
+.btn-descarga-trimestre,
+.btn-descarga-curso-h1,
+.btn-descarga-masiva,
+.btn-seccion-todos,
+.btn-descarga-asignatura-trimestre,
+.btn-descarga-asignatura-todos,
+#btn-descargar-curso-h1 {
+  animation: animAparecerDescarga 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 6px 12px !important;
+  font-family: "Poppins", -apple-system, sans-serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #475569 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 100% !important;
+}
+
+.btn-descarga span,
+.btn-descarga-trimestre span,
+.btn-descarga-masiva span {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Span-botón de descarga: se alinea al lado de la última palabra del título sin romper a nueva línea */
+#btn-descargar-curso-h1,
+.btn-descarga-curso-h1 {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: clamp(26px, 3.5vw, 30px) !important;
+  height: clamp(26px, 3.5vw, 30px) !important;
+  min-width: 26px !important;
+  min-height: 26px !important;
+  padding: 0 !important;
+  margin: 0 0 0 8px !important;
+  font-size: clamp(11px, 1.6vw, 13px) !important;
+  flex-shrink: 0 !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  line-height: 1 !important;
+  border-radius: 8px !important;
+  vertical-align: middle !important;
+  position: relative !important;
+  top: -2px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+}

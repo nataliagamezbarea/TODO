@@ -1,0 +1,32 @@
+* { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: hidden; }
+
+@media (max-width: 900px) {
+  .barra-superior { flex-wrap: wrap !important; height: auto !important; min-height: 58px; }
+  .nav-left, .nav-right { flex-wrap: wrap !important; min-width: 0 !important; }
+  .nav-right { justify-content: flex-end; }
+  .visor-navbar-rama { max-width: 45vw; }
+  .visor-navbar-action span { display: none !important; }
+  .file-search-inner { flex-wrap: wrap !important; }
+  .wrap { width: 100% !important; padding: 8px !important; }
+  .stats { width: 100% !important; overflow-x: auto; }
+  .ov-topbar, .ov-actionbar { flex-wrap: wrap !important; }
+  .ov-left, .ov-right { min-width: 0 !important; max-width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .barra-superior { padding: 6px !important; gap: 6px !important; }
+  .nav-left, .nav-right { width: 100%; justify-content: center; }
+  .visor-navbar-brand span, .visor-navbar-rama label { display: none !important; }
+  .visor-navbar-rama { max-width: 75vw; flex: 1 1 180px; }
+  .visor-navbar-rama select { width: 100%; min-width: 0; }
+  .file-search-bar { padding: 6px !important; }
+  .file-search-inner { width: 100%; }
+  .file-search-inner input { min-width: 0 !important; width: 100%; }
+  .ov { inset: 0 !important; }
+  .ov-topbar { gap: 4px !important; padding: 5px !important; }
+  .ov-topbar button { min-height: 36px; }
+  .pdf-viewer, .visor-pdf { width: 100% !important; max-width: 100% !important; }
+  .editor-box { width: calc(100% - 12px) !important; margin: 6px !important; }
+  .editor-row { flex-direction: column !important; }
+}

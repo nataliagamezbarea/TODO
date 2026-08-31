@@ -1,0 +1,60 @@
+.btn-descarga-trimestre,
+.btn-descarga-asignatura-trimestre,
+.btn-descarga-asignatura-todos {
+  margin-left: 10px !important;
+}
+
+/* Iconos FontAwesome dentro de los botones */
+.btn-descarga i,
+.btn-descarga-trimestre i,
+.btn-descarga-curso-h1 i,
+.btn-descarga-masiva i,
+.btn-seccion-todos i,
+.btn-descarga-asignatura-trimestre i,
+.btn-descarga-asignatura-todos i,
+#btn-descargar-curso-h1 i {
+  font-size: 0.95em !important;
+  color: #475569 !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Hover & Active States (Light Mode - Coherentes con Navbar) */
+.btn-descarga:hover,
+.btn-descarga-trimestre:hover,
+.btn-descarga-curso-h1:hover,
+.btn-descarga-masiva:hover,
+.btn-seccion-todos:hover,
+.btn-descarga-asignatura-trimestre:hover,
+.btn-descarga-asignatura-todos:hover,
+#btn-descargar-curso-h1:hover {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  text-decoration: none !important;
+}
+
+.btn-descarga:hover i,
+.btn-descarga-trimestre:hover i,
+.btn-descarga-curso-h1:hover i,
+.btn-descarga-masiva:hover i,
+.btn-seccion-todos:hover i,
+.btn-descarga-asignatura-trimestre:hover i,
+.btn-descarga-asignatura-todos:hover i,
+#btn-descargar-curso-h1:hover i {
+  color: #0f172a !important;
+  transform: scale(1.12) !important;
+}
+
+.btn-descarga:active,
+.btn-descarga-trimestre:active,
+.btn-descarga-curso-h1:active,
+.btn-descarga-masiva:active,
+.btn-seccion-todos:active,
+.btn-descarga-asignatura-trimestre:active,
+.btn-descarga-asignatura-todos:active,
+#btn-descargar-curso-h1:active {
+  transform: translateY(0) scale(0.96) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}

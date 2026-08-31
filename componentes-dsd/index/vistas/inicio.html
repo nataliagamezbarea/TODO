@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"></head><body>
+<app-view-inicio data-app-component="inicio"><template shadowrootmode="open"><slot></slot></template><section class="app-vista" data-app-view="inicio" hidden="">
+<template shadowrootmode="open"><link data-dsd-shell-css="1" href="css/componentes/declarative-shadow-shell.css" rel="stylesheet"/>
+<slot></slot>
+</template>
+<selector-clase data-component="selector-clase"><template shadowrootmode="open"><slot></slot></template><div class="selector-rama"><label for="selector-rama">Clase:</label><select id="selector-rama"><option selected="" value="">SELECCIONAR</option></select><div aria-label="Acciones de la rama seleccionada" class="acciones-selector-rama" id="acciones-selector-rama"><boton-descarga-rama data-component="descargar-rama"><template shadowrootmode="open"><slot></slot></template><button aria-label="Descargar rama seleccionada" class="btn-descarga" id="btn-descargar-rama-selector" title="Descargar rama seleccionada" type="button"><i class="fa-solid fa-download"></i></button></boton-descarga-rama><boton-visor-rama data-component="visor-rama"><template shadowrootmode="open"><slot></slot></template><button aria-label="Abrir Visor Admin de la rama seleccionada" class="btn-descarga btn-visor-contextual" id="btn-visor-rama-selector" title="Abrir Visor Admin de la rama seleccionada" type="button"><i class="fa-solid fa-file-pen"></i></button></boton-visor-rama></div></div></selector-clase>
+</section></app-view-inicio>
+</body></html>

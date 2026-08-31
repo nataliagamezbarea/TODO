@@ -1,0 +1,1 @@
+Los HTML de `componentes-dsd/` son las fuentes separadas de cada componente. Las páginas desplegadas contienen la composición DSD ya materializada, de modo que el navegador no necesita JavaScript para cargar componentes HTML.

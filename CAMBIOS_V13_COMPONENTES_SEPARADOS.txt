@@ -1,0 +1,11 @@
+V13 — COMPONENTES HTML SEPARADOS / INDEX MINIMO
+
+- index.html ya no contiene ni renderiza las vistas de la aplicación.
+- La URL de la aplicación permanece en /.
+- app-shell.js carga únicamente el HTML del componente/vista activa.
+- Cada módulo HTML permanece en componentes-dsd/ y usa Declarative Shadow DOM.
+- La navbar general se carga únicamente fuera del login y como componente separado.
+- Al cambiar de vista se desmonta la vista anterior; no se acumulan componentes debajo.
+- CSS y JS de cada vista se cargan de forma diferida según la vista activa.
+- Se mantienen los IDs existentes que necesita el código; no se crean IDs para encapsular componentes.
+- Se eliminó el último estilo inline del login y se pasó a CSS.

@@ -67,6 +67,14 @@
     <script src="../js/modales/visor_admin_integrado.js"></script>
   </head>
   <body>
+    <template shadowrootmode="open">
+      <style>
+        :host { display: block; }
+        slot { display: contents; }
+      </style>
+      <slot></slot>
+    </template>
+
     
 
     <div class="container">

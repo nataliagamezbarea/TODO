@@ -1,0 +1,66 @@
+.visor-acceso-denegado {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:55vh;
+  padding:40px 20px;
+  text-align:center;
+  color:#94a3b8;
+}
+.visor-acceso-denegado i { font-size:46px; color:#f87171; margin-bottom:16px; }
+.visor-acceso-denegado h2 { color:#f8fafc; font-size:20px; margin-bottom:8px; }
+
+/* Una sola zona de herramientas cuando el documento está abierto. */
+/* El visor de documentos ocupa una ventana propia: nunca debe crear un
+   segundo scroll en html/body. Solo los paneles PDF tienen scroll interno. */
+html.visor-document-open,
+body.visor-document-open {
+  overflow: hidden !important;
+  height: 100% !important;
+  overscroll-behavior: none !important;
+}
+
+.ov {
+  inset: 64px 0 0 0 !important;
+  z-index: 90000 !important;
+  overflow: hidden !important;
+  max-height: calc(100dvh - 64px) !important;
+  overscroll-behavior: none !important;
+}
+.ov-topbar { border-bottom: 1px solid #263653 !important; }
+.ov-actionbar { border-top:0 !important; }
+.ovcols {
+  min-height: 0 !important;
+  overflow: hidden !important;
+  flex: 1 1 auto !important;
+}
+.ovcol { min-height: 0 !important; }
+.doc-viewer {
+  min-height: 0 !important;
+  overscroll-behavior: contain !important;
+}
+
+@media (max-width: 1100px) {
+  #barra-superior { padding:7px 9px !important; }
+  .visor-navbar-brand span { display:none; }
+  .visor-navbar-rama { min-width:145px; max-width:200px; }
+  .visor-navbar-action span { display:none; }
+  #barra-superior .visor-navbar-action { width:38px !important; padding:0 !important; }
+}
+@media (max-width: 760px) {
+  body { padding-top:68px !important; }
+  #barra-superior { min-height:58px !important; height:58px !important; }
+  .visor-navbar-rama { min-width:120px; max-width:160px; height:36px; }
+  .visor-navbar-rama label { display:none; }
+  #barra-superior #btn-inicio,
+  #barra-superior #volver-atras,
+  #barra-superior #btn-modo-oscuro,
+  #barra-superior #boton-ajustes,
+  #barra-superior #btn-cerrar-sesion,
+  #barra-superior .visor-navbar-action { width:34px !important; min-width:34px !important; height:34px !important; min-height:34px !important; padding:0 !important; }
+  .file-search-bar { top:58px !important; width:calc(100% - 20px) !important; }
+  #visor-navbar-loading { top:58px; height:32px; }
+  .ov { inset:58px 0 0 0 !important; }
+  .visor-cache-inline { display:none; }
+}

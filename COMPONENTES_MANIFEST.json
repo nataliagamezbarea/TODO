@@ -1,0 +1,20 @@
+{
+  "componentes/shared": [
+    "page-header.html",
+    "section-header.html",
+    "action-bar.html",
+    "search-box.html",
+    "card.html",
+    "empty-state.html",
+    "loading-state.html",
+    "modal-shell.html",
+    "site-footer.html"
+  ],
+  "componentes": [
+    "navbar.html",
+    "navbar-admin.html",
+    "visor-admin/ui/*"
+  ],
+  "principio": "HTML estático compilado; JavaScript solo comportamiento/eventos.",
+  "responsive": "css/componentes/componentes.css + css/visor-admin/responsive-canonico.css"
+}

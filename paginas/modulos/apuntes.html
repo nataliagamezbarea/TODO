@@ -10,4 +10,12 @@
 .download-actions > *, .file-buttons > *, .archivo-botones > * {
   margin:0 !important;
 }
-</style> <link rel="stylesheet" href="../css/apuntes/responsivo.css" /></head><body><div class="flex center"><div id="popover" popover><button class="cerrar-popover" popovertarget="popover" popovertargetaction="close">✖</button><div id="contenido-popover"></div></div><div id="contenido">Cargando...</div></div> <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <script src="../js/renderizadores/mostrar_archivos.js"></script> <script src="../js/renderizadores/apuntes_practicas_ejercicios_tareas.js"></script> </body></html>
+</style> <link rel="stylesheet" href="../css/apuntes/responsivo.css" /></head><body>
+    <template shadowrootmode="open">
+      <style>
+        :host { display: block; }
+        slot { display: contents; }
+      </style>
+      <slot></slot>
+    </template>
+<div class="flex center"><div id="popover" popover><button class="cerrar-popover" popovertarget="popover" popovertargetaction="close">✖</button><div id="contenido-popover"></div></div><div id="contenido">Cargando...</div></div> <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <script src="../js/renderizadores/mostrar_archivos.js"></script> <script src="../js/renderizadores/apuntes_practicas_ejercicios_tareas.js"></script> </body></html>

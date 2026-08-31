@@ -1,0 +1,6 @@
+V25 - CORRECCION ATRAS Y RENDER DE ASIGNATURA
+
+- asignatura ya no carga apuntes_practicas_ejercicios_tareas.js: ese renderizador espera #contenido de apuntes.html y provocaba Cannot set properties of null.
+- El renderizador de asignatura queda a cargo de mostrar_datos.js/mostrar_archivos.js.
+- Atrás conserva el historial real y, si no existe, usa jerarquía: apuntes -> asignatura -> asignaturas/trimestre -> clase -> inicio.
+- La URL permanece siempre /.

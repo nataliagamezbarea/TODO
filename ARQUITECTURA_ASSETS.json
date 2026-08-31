@@ -1,0 +1,7 @@
+{
+  "html": "componentes/ + plantillas/",
+  "css": "css/componentes/ + css/visor-admin/ + css por página solo cuando sea específico",
+  "js": "js/componentes/ para comportamiento común; resto para lógica de dominio",
+  "regla": "No generar estructura base de UI desde JS.",
+  "compilacion": "python herramientas/compilar_componentes.py"
+}

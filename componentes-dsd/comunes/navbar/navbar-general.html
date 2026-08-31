@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"></head><body>
+<navbar-general data-component="navbar-general">
+<template shadowrootmode="open"><slot></slot></template>
+<header aria-label="Navegación principal" class="barra-superior" id="barra-superior">
+  <div class="nav-left">
+    <navbar-boton-inicio data-component="navbar-boton:inicio"><template shadowrootmode="open"><slot></slot></template><a id="btn-inicio" class="btn-inicio" href="/" title="Inicio" aria-label="Inicio"><i class="fa-solid fa-house" aria-hidden="true"></i></a></navbar-boton-inicio>
+    <navbar-boton-volver data-component="navbar-boton:volver"><template shadowrootmode="open"><slot></slot></template><a id="volver-atras" class="btn-volver" href="/" title="Volver atrás" aria-label="Volver atrás"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a></navbar-boton-volver>
+  </div>
+  <button id="boton-modo-edicion" class="boton-modo-edicion" type="button" title="Modo edición"><span class="btn-icon">✏️</span><span class="btn-text">EDITAR</span></button>
+  <div class="nav-right">
+    <navbar-boton-modo-oscuro data-component="navbar-boton:modo-oscuro"><template shadowrootmode="open"><slot></slot></template><button id="btn-modo-oscuro" class="btn-modo-oscuro" type="button" title="Modo oscuro" aria-label="Cambiar tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button></navbar-boton-modo-oscuro>
+    <navbar-boton-ajustes data-component="navbar-boton:ajustes"><template shadowrootmode="open"><slot></slot></template><button id="boton-ajustes" class="btn-ajustes" type="button" title="Ajustes" aria-label="Ajustes"><i class="fa-solid fa-gear" aria-hidden="true"></i></button></navbar-boton-ajustes>
+    <navbar-boton-cerrar-sesion data-component="navbar-boton:cerrar-sesion"><template shadowrootmode="open"><slot></slot></template><button id="btn-cerrar-sesion" class="btn-cerrar-sesion" type="button" title="Cerrar sesión" aria-label="Cerrar sesión"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i></button></navbar-boton-cerrar-sesion>
+  </div>
+</header>
+</navbar-general>
+</body></html>

@@ -1,0 +1,6 @@
+V8 aplicado SOBRE EL SEGUNDO ZIP.
+
+Se conserva la estructura y la lógica del segundo proyecto salvo el transplante de los módulos de comportamiento de V7 para ramas, selección de rama, datos, permisos GitHub/Supabase y módulos del visor.
+No se sustituyeron las páginas por las del V7.
+
+Correcciones mínimas adicionales: reconocimiento de iniciar-sesion.html y doble carga de mostrar_datos.js.
