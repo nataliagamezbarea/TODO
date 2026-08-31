@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (path.includes("apuntes_practicas_ejercicios_tareas")) {
+    if (path.includes("apuntes")) {
       window.location.href = `asignatura.html?asignatura=${encodeURIComponent(asignatura)}&trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
     } else if (path.includes("asignatura.")) {
       window.location.href = `asignaturas.html?trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;

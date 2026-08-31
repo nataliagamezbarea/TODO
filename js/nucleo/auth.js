@@ -1,4 +1,10 @@
 (() => {
+  // Si el navegador restaura la página desde bfcache (botón Atrás),
+  // forzar recarga para que cargue los CSS actualizados.
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) window.location.reload();
+  });
+
   // La interfaz y la navbar deben ser utilizables desde el primer frame.
   // La autenticación/Supabase se resuelve en segundo plano.
   document.documentElement.style.visibility = "visible";
