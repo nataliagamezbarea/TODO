@@ -1,5 +1,7 @@
 window.__routerVistasActivo = true;
 async function iniciarSelectorRama() {
+  if (window.__selectorRamaInicializado) return;
+  window.__selectorRamaInicializado = true;
   const selector = document.getElementById("selector-rama");
   const botonDescarga = document.getElementById("btn-descargar-rama-selector");
   const botonVisor = document.getElementById("btn-visor-rama-selector");

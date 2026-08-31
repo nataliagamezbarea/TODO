@@ -38,13 +38,13 @@
   function ir(vista, contexto={}) {
     if (!VISTAS[vista]) throw new Error('Vista no registrada: '+vista);
     guardar(vista, contexto);
-    // A full reload is deliberate: it preserves the original scripts' execution model
-    // and prevents global const/function collisions when moving between original pages.
-    if (location.pathname !== '/' || location.search || location.hash) {
-      location.replace('/');
-    } else {
-      location.reload();
+    // En la raíz, cambiaremos el contenido sin recargar toda la página.
+    // Esto evita que el selector de ramas entre en un ciclo de recargas.
+    if (location.pathname === '/' && !location.search && !location.hash && window.CargadorVistas?.cargarVista) {
+      window.CargadorVistas.cargarVista(vista, contexto).catch(error => console.error('Error cargando vista:', error));
+      return;
     }
+    location.replace('/');
   }
   function irDesdeRuta(ruta, contexto={}) {
     const v = vistaDesdeRuta(ruta) || 'inicio';

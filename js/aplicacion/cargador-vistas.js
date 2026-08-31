@@ -53,6 +53,8 @@
     document.body.dataset.vista=vista;
     window.dispatchEvent(new CustomEvent('vista-cargada',{detail:{vista,contexto}}));
   }
+  window.CargadorVistas = { cargarVista };
+
   document.addEventListener('DOMContentLoaded', async () => {
     const v=vistaInicial(); const ctx=window.NavegacionApp.contextoActual();
     try { await cargarVista(v,ctx); } catch(e) { console.error(e); if(carga){ carga.textContent='No se pudo cargar la aplicación.'; carga.hidden=false; } }
