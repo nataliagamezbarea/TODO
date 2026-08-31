@@ -4,6 +4,14 @@ async function iniciarVistaInicio() {
   const botonVisor = document.getElementById("btn-visor-rama-selector");
   if (!selector) return;
 
+  // Si hemos llegado al selector desde Atrás sin rama, no reutilizar la
+  // selección persistida de una visita anterior.
+  const contexto = window.AppViews?.contexto?.() || {};
+  if (!contexto.rama) {
+    try { window.RamaActual?.guardar?.(""); } catch (_) {}
+    selector.value = "";
+  }
+
   // Los eventos se registran una sola vez. La carga de ramas sí se
   // puede repetir después de obtener la configuración de GitHub.
   if (selector.dataset.inicializado !== "1") {

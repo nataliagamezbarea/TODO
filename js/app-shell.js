@@ -39,13 +39,13 @@
   const PAPAPARSE_URL = "js/vendor-papaparse.js";
   const SCRIPTS = {
     login: ["js/vistas/login.js"],
-    inicio: ["js/componentes/navbar.js","js/componentes/navbar/navbar_movil.js","js/componentes/navbar/navbar_modo_edicion.js","js/componentes/emojis.js","js/vistas/selector_rama_utilidades.js","js/vistas/index_rama.js","js/servicios/rama.js","js/servicios/informacion.js","js/descargas/notificador.js","js/descargas/recolector_urls.js","js/descargas/ziper.js","js/descargas/exportador_proyecto.js","js/modales/previsualizador.js","js/modales/visor_admin_integrado.js","js/modales/gestor_archivos_modal.js","js/renderizadores/mostrar_archivos.js","js/renderizadores/mostrar_datos.js"],
+    inicio: ["js/servicios/rama-api.js","js/componentes/navbar.js","js/componentes/navbar/navbar_movil.js","js/componentes/navbar/navbar_modo_edicion.js","js/componentes/emojis.js","js/vistas/selector_rama_utilidades.js","js/vistas/index_rama.js","js/servicios/rama.js","js/servicios/informacion.js","js/descargas/notificador.js","js/descargas/recolector_urls.js","js/descargas/ziper.js","js/descargas/exportador_proyecto.js","js/modales/previsualizador.js","js/modales/visor_admin_integrado.js","js/modales/gestor_archivos_modal.js","js/renderizadores/mostrar_archivos.js","js/renderizadores/mostrar_datos.js"],
     clase: ["js/vistas/clase.js","js/servicios/trimestres.js","js/vistas/volver_atras.js"],
     asignaturas: ["js/vistas/trimestre.js","js/servicios/trimestres.js","js/vistas/volver_atras.js"],
     asignatura: ["js/renderizadores/mostrar_archivos.js","js/renderizadores/mostrar_datos.js","js/vistas/volver_atras.js"],
     apuntes: ["js/renderizadores/mostrar_archivos.js","js/renderizadores/apuntes_practicas_ejercicios_tareas.js","js/vistas/volver_atras.js"]
   };
-  let actual = null, historial = [], contexto = {}, cargadosJS = new Set(), cargadosCSS = new Set(), promesasJS = new Map(), promesasCSS = new Map();
+  let actual = null, contexto = {}, cargadosJS = new Set(), cargadosCSS = new Set(), promesasJS = new Map(), promesasCSS = new Map();
   // Las transiciones se serializan para que al pulsar Atrás no queden cargas CSS
   // antiguas terminando después de la nueva vista y sobrescribiendo su diseño.
   let colaTransiciones = Promise.resolve();
@@ -193,9 +193,6 @@
       contexto = contextoSiguiente;
       return;
     }
-    if(!opciones.reemplazar && actual) {
-      historial.push({vista:actual,contexto:{...contexto}});
-    }
     contexto = contextoSiguiente;
     if(window.Estado && Object.keys(datosNuevos).length) try {
       window.Estado.guardarContexto?.(datosNuevos);
@@ -234,20 +231,33 @@
     return mostrar(n,ctx);
   }
   const volverAtras = () => {
-    // Primero usamos el historial real. Si por una navegación antigua el
-    // historial no contiene el paso correcto, aplicamos la jerarquía natural
-    // del flujo: apuntes -> asignatura -> trimestre -> clase -> inicio.
-    if (historial.length > 0) {
-      const x = historial.pop();
-      contexto = {...x.contexto};
-      return mostrar(x.vista, {...x.contexto}, {reemplazar:true, forzar:true});
-    }
+    // El flujo es jerárquico, no depende del historial del navegador.
+    // Así Atrás siempre retrocede exactamente un paso y nunca salta a Inicio.
     const ctx = {...contexto};
-    if (actual === "apuntes" && ctx.asignatura) return mostrar("asignatura", ctx, {reemplazar:true, forzar:true});
-    if (actual === "asignatura" && ctx.trimestre) return mostrar("asignaturas", ctx, {reemplazar:true, forzar:true});
-    if (actual === "asignaturas" && ctx.rama) return mostrar("clase", ctx, {reemplazar:true, forzar:true});
-    if (actual === "clase") return mostrar("inicio", {}, {reemplazar:true, forzar:true});
-    return Promise.resolve();
+    if (actual === "apuntes") {
+      delete ctx.seccion;
+      return mostrar("asignatura", ctx, {reemplazar:true, forzar:true});
+    }
+    if (actual === "asignatura") {
+      delete ctx.asignatura;
+      return mostrar("asignaturas", ctx, {reemplazar:true, forzar:true});
+    }
+    if (actual === "asignaturas") {
+      delete ctx.trimestre;
+      delete ctx.asignatura;
+      return mostrar("clase", ctx, {reemplazar:true, forzar:true});
+    }
+    if (actual === "clase") {
+      // Al volver al selector de ramas se debe mostrar siempre
+      // "SELECCIONAR", no conservar visualmente la rama anterior.
+      delete ctx.rama;
+      delete ctx.trimestre;
+      delete ctx.asignatura;
+      try { window.RamaActual?.guardar?.(""); } catch (_) {}
+      try { window.Estado?.guardar?.("rama", ""); } catch (_) {}
+      return mostrar("inicio", ctx, {reemplazar:true, forzar:true});
+    }
+    return mostrar("inicio", {}, {reemplazar:true, forzar:true});
   };
   window.AppViews={mostrar,navegar,irInicio:()=>mostrar("inicio"),atras:volverAtras,obtener:()=>actual,contexto:()=>({...contexto})};
   // La aplicación es siempre /; cualquier query usada para recuperar contexto

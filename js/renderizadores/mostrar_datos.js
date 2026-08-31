@@ -22,10 +22,7 @@ const visible = accion === "mostrar"; const switches = document.querySelectorAll
 ? window.Trimestres.normalizar(v)
 : (v || "") .replace(/[ºª]/g, "") .replace(/\btrimestres?\b/gi, "") .trim() .toLowerCase(); btn.dataset.visible = nuevoEstado ? "1" : "0"; btn.innerHTML = nuevoEstado ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>'; const icono = btn.querySelector("i"); if (icono) { icono.style.animation = "none"; void icono.offsetWidth; icono.style.animation = "girarOjo 0.3s ease"; } btn.title = nuevoEstado
 ? "Visible para invitados (clic para ocultar este archivo)"
-: "Oculto para invitados (clic para mostrar este archivo)"; btn.classList.toggle("visible-invitado", nuevoEstado); btn.classList.toggle("oculto-invitado", !nuevoEstado); const itemSpan = btn.closest(".item-archivo"); if (itemSpan) itemSpan.classList.toggle("archivo-oculto-admin", !nuevoEstado); await Permisos.guardarVisibilidadArchivo(asig, normalizar(tri), seccion, fila, archivo, nuevoEstado); }); function ensureAllBranchesOption(select) { if (!select) return; let defaultOpt = Array.from(select.options).find(o => o.value === "" || o.dataset.defaultBranch === "1" ); if (!defaultOpt) { defaultOpt = document.createElement("option"); defaultOpt.value = ""; defaultOpt.textContent = "SELECCIONAR"; defaultOpt.dataset.defaultBranch = "1"; } select.insertBefore(defaultOpt, select.firstChild); Array.from(select.options).forEach(o => { if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") o.remove(); }); const allOpt = document.createElement("option"); allOpt.value = "__ALL_BRANCHES__"; allOpt.textContent = "— TODAS LAS RAMAS —"; allOpt.dataset.allBranches = "1"; select.appendChild(allOpt); }
-
-
-};
+: "Oculto para invitados (clic para mostrar este archivo)"; btn.classList.toggle("visible-invitado", nuevoEstado); btn.classList.toggle("oculto-invitado", !nuevoEstado); const itemSpan = btn.closest(".item-archivo"); if (itemSpan) itemSpan.classList.toggle("archivo-oculto-admin", !nuevoEstado); await Permisos.guardarVisibilidadArchivo(asig, normalizar(tri), seccion, fila, archivo, nuevoEstado); }); };
 
 window.__mostrarDatosV7Cargado = true;
 // Primera inicialización (si la vista de asignatura ya está montada).

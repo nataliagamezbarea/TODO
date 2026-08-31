@@ -98,7 +98,3 @@ html.modo-oscuro body {
   background: #0f172a !important;
   color: #f8fafc !important;
 }
-
-/* La navbar general solo se muestra fuera del login. */
-body[data-vista="login"] > navbar-general { display: none !important; }
-body[data-vista="login"] navbar-general { display: none !important; }

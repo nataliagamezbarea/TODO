@@ -47,6 +47,3 @@ body {
   gap: 6px;
   text-align: left;
 }
-
-/* Aviso añadido dinámicamente por el login; mantiene el estilo original sin inline styles. */
-.login-aviso{margin-top:20px;padding:12px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;font-size:12px;line-height:1.5;color:#0369a1;text-align:center;}

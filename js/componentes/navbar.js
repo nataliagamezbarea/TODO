@@ -154,11 +154,3 @@
   window.ComponenteNavbar = { inicializar: preparar };
 })();
 
-function ensureAllBranchesOption(select) {
-  if (!select) return;
-  const opcion = document.createElement("option");
-  opcion.value = "__ALL_BRANCHES__";
-  opcion.textContent = "— TODAS LAS RAMAS —";
-  opcion.dataset.allBranches = "1";
-  if (!Array.from(select.options).some(o => o.dataset.allBranches === "1")) select.appendChild(opcion);
-}

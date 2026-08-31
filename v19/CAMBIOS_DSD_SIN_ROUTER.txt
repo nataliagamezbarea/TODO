@@ -1,9 +1,0 @@
-CAMBIO: Declarative Shadow DOM + navegación directa
-
-- Todos los HTML restantes incorporan un Shadow Root declarativo con <template shadowrootmode="open"> y <slot>.
-- Se elimina la SPA basada en componentes/vistas + fetch.
-- Se eliminan js/aplicacion/navegacion.js y js/aplicacion/cargador-vistas.js.
-- La navegación entre páginas usa URLs reales y parámetros de consulta.
-- index.html pasa a ser la página de inicio de sesión, sin enrutador.
-- Se conserva el JavaScript funcional de Supabase, permisos, ramas, visor, descargas, etc.
-- El contenido se mantiene en light DOM mediante <slot> para no romper los scripts existentes que consultan document.getElementById().
