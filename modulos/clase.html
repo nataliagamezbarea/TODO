@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grado / Clase</title>
+    <link rel="stylesheet" href="../css/global/base.css" />
+    <link rel="stylesheet" href="../css/global/iconos.css" />
+    <link rel="stylesheet" href="../css/global/barra-navegacion-base.css" />
+    <link rel="stylesheet" href="../css/global/barra-navegacion-oscuro.css" />
+    <link rel="stylesheet" href="../css/global/barra-navegacion-botones.css" />
+    <link rel="stylesheet" href="../css/global/barra-navegacion-botones-oscuro.css" />
+    <link rel="stylesheet" href="../css/global/barra-navegacion-botones-varios.css" />
+    <link rel="stylesheet" href="../css/global/tabla.css" />
+    <link rel="stylesheet" href="../css/global/tabla-varios.css" />
+    <link rel="stylesheet" href="../css/global/panel-configuracion.css" />
+    <link rel="stylesheet" href="../css/global/panel-configuracion-varios.css" />
+    <link rel="stylesheet" href="../css/global/autenticacion.css" />
+    <link rel="stylesheet" href="../css/botones/animaciones.css" />
+    <link rel="stylesheet" href="../css/botones/claro.css" />
+    <link rel="stylesheet" href="../css/botones/oscuro.css" />
+    <link rel="stylesheet" href="../css/navbar/base.css" />
+    <link rel="stylesheet" href="../css/navbar/elementos.css" />
+    <link rel="stylesheet" href="../css/navbar/oscuro.css" />
+    <link rel="stylesheet" href="../css/navbar/responsivo.css" />
+    <link rel="stylesheet" href="../css/notificador/modal.css" />
+    <link rel="stylesheet" href="../css/notificador/notificacion.css" />
+    <link rel="stylesheet" href="../css/notificador/progreso.css" />
+    <link rel="stylesheet" href="../css/notificador/insignias.css" />
+    <link rel="stylesheet" href="../css/archivos/archivos.css" />
+    <link rel="stylesheet" href="../css/archivos/archivos-varios.css" />
+    <link rel="stylesheet" href="../css/inicio/base.css" />
+    <link rel="stylesheet" href="../css/inicio/base-2.css" />
+    <link rel="stylesheet" href="../css/inicio/selector.css" />
+    <link rel="stylesheet" href="../css/inicio/flexion.css" />
+    <link rel="stylesheet" href="../css/inicio/oscuro.css" />
+    <link rel="stylesheet" href="../css/inicio/oscuro-varios.css" />
+    <link rel="stylesheet" href="../css/inicio/claro.css" />
+    <link rel="stylesheet" href="../css/inicio/claro-varios.css" />
+    <link rel="stylesheet" href="../css/ajustes/boton.css" />
+    <link rel="stylesheet" href="../css/ajustes/panel.css" />
+    <link rel="stylesheet" href="../css/ajustes/panel-varios.css" />
+    <link rel="stylesheet" href="../css/ajustes/panel-oscuro.css" />
+    <link rel="stylesheet" href="../css/ajustes/panel-oscuro-varios.css" />
+    <link rel="stylesheet" href="../css/ajustes/oscuro.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/SUPABASETOKEN_vIYAdbiqIldZKuT1o1G5zqZkiG8y63UF1xSjphEHCnPnOw865G7ESgzNbC6pQNfdx4ZbaOCDI41K1SFRysHOO6bW1iiffwl9nFVWe7XLaqUS0wSdeRPcQvaRfGeFnfq9.js"></script>
+    <script src="../js/nucleo/auth.js"></script>
+    <script src="../js/componentes/navbar/navbar_movil.js"></script>
+    
+    <script src="../js/componentes/navbar/navbar_modo_edicion.js"></script>
+    <script src="../js/componentes/navbar.js"></script>
+    <script id="emojis-script" src="../js/componentes/emojis.js"></script>
+    <script src="../js/servicios/estado.js"></script>
+    <script src="../js/permisos/crypto.js"></script>
+    <script src="../js/permisos/supabase.js"></script>
+    <script src="../js/permisos/github.js"></script>
+    <script src="../js/permisos/visibilidad.js"></script>
+    <script src="../js/nucleo/permisos.js"></script>
+    <script src="../js/componentes/ajustes.js"></script>
+    <script src="../js/descargas/exportador_proyecto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="../js/servicios/trimestres.js"></script>
+    <script src="../js/servicios/rama.js"></script>
+    <script src="../js/servicios/informacion.js"></script>
+    <script src="../js/descargas/notificador.js"></script>
+    <script src="../js/descargas/recolector_urls.js"></script>
+    <script src="../js/descargas/ziper.js"></script>
+    <script src="../js/modales/previsualizador.js"></script>
+    <script src="../js/modales/gestor_archivos_modal.js"></script>
+    <script src="../js/renderizadores/mostrar_archivos.js"></script>
+    <script src="../js/modales/visor_admin_integrado.js"></script>
+  </head>
+
+  <body>
+    
+
+    <div class="column cabecera">
+      <span id="emoji-grado"></span>
+      <div class="titulo-con-boton">
+        <h1 id="titulo-grado"></h1>
+      </div>
+    </div>
+
+    <div id="lista-asignaturas" class="column">
+      <p id="sin-rama">Cargando trimestres...</p>
+    </div>
+
+    <script src="../js/vistas/clase.js"></script>
+  </body>
+</html>

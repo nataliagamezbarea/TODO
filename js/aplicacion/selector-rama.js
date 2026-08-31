@@ -1,47 +1,124 @@
 window.__routerVistasActivo = true;
+
 async function iniciarSelectorRama() {
-  if (window.__selectorRamaInicializado) return;
-  window.__selectorRamaInicializado = true;
   const selector = document.getElementById("selector-rama");
-  const botonDescarga = document.getElementById("btn-descargar-rama-selector");
-  const botonVisor = document.getElementById("btn-visor-rama-selector");
-  if (!selector) return;
+
+  if (!selector) {
+    console.warn("[Ramas] No se encontró #selector-rama.");
+    return;
+  }
+
+  if (selector.dataset.inicializado === "1") {
+    return;
+  }
+
+  selector.dataset.inicializado = "1";
+
+  const botonDescarga = document.getElementById(
+    "btn-descargar-rama-selector"
+  );
+
+  const botonVisor = document.getElementById(
+    "btn-visor-rama-selector"
+  );
 
   configurarBotonVisor(selector, botonVisor);
   configurarBotonDescarga(selector, botonDescarga);
-  selector.addEventListener("change", () => cambiarRamaDesdeSelector(selector));
-  actualizarBotonesSelector(selector, botonDescarga, botonVisor);
+
+  selector.addEventListener("change", () => {
+    cambiarRamaDesdeSelector(selector);
+  });
+
+  actualizarBotonesSelector(
+    selector,
+    botonDescarga,
+    botonVisor
+  );
 
   try {
-    if (window.Permisos?.asegurarSesion) await window.Permisos.asegurarSesion();
+    if (window.Permisos?.asegurarSesion) {
+      await window.Permisos.asegurarSesion();
+    }
+
     await cargarRamasSelector(selector);
   } catch (error) {
-    console.error("Error inicializando el selector:", error);
+    console.error(
+      "[Ramas] Error inicializando el selector:",
+      error
+    );
   }
-  actualizarBotonesSelector(selector, botonDescarga, botonVisor);
+
+  actualizarBotonesSelector(
+    selector,
+    botonDescarga,
+    botonVisor
+  );
 }
 
 function configurarBotonDescarga(selector, boton) {
-  if (!boton) return;
-  boton.addEventListener("click", async evento => {
+  if (!boton) {
+    return;
+  }
+
+  boton.addEventListener("click", async (evento) => {
     evento.preventDefault();
+
     const rama = obtenerRamaSeleccionada(selector);
-    const ramas = rama ? [rama] : Array.from(selector.options)
-      .map(opcion => opcion.value)
-      .filter(valor => valor && valor !== "__ALL_BRANCHES__");
-    if (!window.recogerUrlsMaterial || !window.descargarTodosArchivos || !ramas.length) return;
+
+    const ramas = rama
+      ? [rama]
+      : Array.from(selector.options)
+          .map((opcion) => opcion.value)
+          .filter(
+            (valor) =>
+              valor &&
+              valor !== "__ALL_BRANCHES__"
+          );
+
+    if (
+      !window.recogerUrlsMaterial ||
+      !window.descargarTodosArchivos ||
+      !ramas.length
+    ) {
+      return;
+    }
+
     boton.disabled = true;
+
     try {
       const archivos = [];
+
       for (const ramaActual of ramas) {
-        const urls = await window.recogerUrlsMaterial({ rama: ramaActual });
-        urls.forEach(archivo => archivos.push({ ...archivo, carpeta: ramaActual }));
+        const urls =
+          await window.recogerUrlsMaterial({
+            rama: ramaActual
+          });
+
+        urls.forEach((archivo) => {
+          archivos.push({
+            ...archivo,
+            carpeta: ramaActual
+          });
+        });
       }
-      await window.descargarTodosArchivos(archivos, null, {
-        nombreZip: rama ? `${rama.replace(/[^a-z0-9_-]+/gi, "_")}.zip` : "todas_las_ramas.zip"
-      });
+
+      await window.descargarTodosArchivos(
+        archivos,
+        null,
+        {
+          nombreZip: rama
+            ? `${rama.replace(
+                /[^a-z0-9_-]+/gi,
+                "_"
+              )}.zip`
+            : "todas_las_ramas.zip"
+        }
+      );
     } catch (error) {
-      console.error("No se pudo descargar:", error);
+      console.error(
+        "[Ramas] No se pudo descargar:",
+        error
+      );
     } finally {
       boton.disabled = false;
     }
@@ -50,13 +127,45 @@ function configurarBotonDescarga(selector, boton) {
 
 function cambiarRamaDesdeSelector(selector) {
   const rama = obtenerRamaSeleccionada(selector);
+
   if (!rama) {
-    actualizarBotonesSelector(selector,
-      document.getElementById("btn-descargar-rama-selector"),
-      document.getElementById("btn-visor-rama-selector"));
+    actualizarBotonesSelector(
+      selector,
+      document.getElementById(
+        "btn-descargar-rama-selector"
+      ),
+      document.getElementById(
+        "btn-visor-rama-selector"
+      )
+    );
+
     return;
   }
-  RamaActual.guardar(rama);
+
+  window.RamaActual?.guardar(rama);
   window.Estado?.guardar?.("rama", rama);
-  window.NavegacionApp?.ir("clase", { rama });
+  window.NavegacionApp?.ir("clase", {
+    rama
+  });
 }
+
+/*
+ * IMPORTANTE:
+ * El archivo se carga desde vista-inicio.html.
+ * Se inicializa aquí después de que el DOM exista.
+ */
+function arrancarSelectorRamaCuandoEsteListo() {
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      iniciarSelectorRama,
+      { once: true }
+    );
+
+    return;
+  }
+
+  iniciarSelectorRama();
+}
+
+arrancarSelectorRamaCuandoEsteListo();

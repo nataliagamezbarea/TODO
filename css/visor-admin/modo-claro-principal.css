@@ -1,0 +1,74 @@
+/* ===== MODO CLARO DEL VISOR ADMIN =====
+   El visor tiene muchos estilos historicos con colores oscuros fijos. Estos
+   overrides hacen que el boton global de Light/Dark tambien afecte al visor,
+   sin modificar el modo oscuro existente. */
+html:not(.modo-oscuro) body,
+body:not(.modo-oscuro) {
+  --bg-main: #f5f7fb;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-bar: #ffffff;
+  --border-color: #d7deea;
+  --text-main: #172033;
+  --text-muted: #64748b;
+  background: #f5f7fb !important;
+  color: #172033 !important;
+}
+html:not(.modo-oscuro) #barra-superior,
+body:not(.modo-oscuro) #barra-superior {
+  background: #ffffff !important;
+  border-bottom-color: #d7deea !important;
+  box-shadow: 0 4px 16px rgba(15,23,42,.10) !important;
+}
+html:not(.modo-oscuro) .visor-navbar-brand { color:#172033 !important; }
+html:not(.modo-oscuro) .visor-navbar-rama { background:#f8fafc !important; border-color:#cbd5e1 !important; }
+html:not(.modo-oscuro) .visor-navbar-rama label { color:#475569 !important; }
+html:not(.modo-oscuro) .visor-navbar-rama select { background:#fff !important; color:#1e293b !important; border-color:#94a3b8 !important; }
+html:not(.modo-oscuro) .file-search-bar { background:linear-gradient(#f5f7fb 72%, transparent) !important; }
+html:not(.modo-oscuro) .file-search-inner { background:#fff !important; border-color:#cbd5e1 !important; color:#334155 !important; }
+html:not(.modo-oscuro) .card { background:#fff !important; border-color:#d7deea !important; color:#172033 !important; box-shadow:0 3px 12px rgba(15,23,42,.07) !important; }
+html:not(.modo-oscuro) .card:hover { background:#f8fafc !important; }
+html:not(.modo-oscuro) .card .name,
+html:not(.modo-oscuro) .card .row { color:#334155 !important; }
+html:not(.modo-oscuro) .stats .stat { background:#fff !important; border-color:#d7deea !important; color:#334155 !important; }
+html:not(.modo-oscuro) .ov { background:#f8fafc !important; }
+html:not(.modo-oscuro) .ov-topbar,
+html:not(.modo-oscuro) .ov-actionbar { background:#fff !important; color:#172033 !important; border-color:#d7deea !important; }
+html:not(.modo-oscuro) .ov-nav-group button,
+html:not(.modo-oscuro) .back-btn { background:#f1f5f9 !important; border-color:#cbd5e1 !important; color:#334155 !important; }
+html:not(.modo-oscuro) .ov-files { color:#334155 !important; }
+html:not(.modo-oscuro) .ov-counter,
+html:not(.modo-oscuro) .ov-changes-counter { color:#475569 !important; }
+html:not(.modo-oscuro) .ovcols,
+html:not(.modo-oscuro) .ovcol { background:#fff !important; color:#334155 !important; border-color:#d7deea !important; }
+html:not(.modo-oscuro) .visor-navbar-action { box-shadow:none !important; }
+html:not(.modo-oscuro) #visor-navbar-loading { background:#fff !important; color:#334155 !important; border-color:#d7deea !important; }
+
+/* ============================================================================
+   RESPONSIVE 100% — VISOR ADMIN
+   No cambia el diseno de escritorio. A partir de tablet/mobile reorganiza
+   barras, controles, tarjetas, modales y el visor para evitar desbordamientos.
+   ============================================================================ */
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img, canvas, video, iframe {
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  max-width: 100%;
+}
+
+/* Nunca permitir que un hijo fuerce el ancho de su contenedor. */
+header, header > *, .header-left, .header-right,
+.file-search-inner, .wrap, .stats, .sec,
+.ov, .ov-topbar, .ov-nav-group, .ov-files, .ov-right,
+.ov-actionbar, .editor-box, .editor-tools, .apunte-bar,
+.ovcols, .ovcol, .modal-actions {
+  min-width: 0;
+}

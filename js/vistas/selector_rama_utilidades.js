@@ -51,14 +51,11 @@ function configurarBotonVisor(selector, boton) {
 }
 
 async function cargarRamasSelector(selector) {
-  selector.innerHTML = '<option value="">SELECCIONAR</option>';
+  if (!selector || !window.RamaActual) return [];
   try {
-    return await Promise.race([
-      RamaActual.poblarSelector(selector),
-      new Promise((_, rechazar) => setTimeout(() => rechazar(new Error("Tiempo agotado")), 8000))
-    ]);
+    return await window.RamaActual.poblarSelector(selector);
   } catch (error) {
-    console.warn("No se pudieron cargar las ramas:", error.message);
+    console.warn("No se pudieron cargar las ramas:", error);
     return [];
   }
 }

@@ -1,56 +1,77 @@
-// Las ramas del ADMIN se descubren SIEMPRE de forma dinamica desde GitHub.
-// El token de GitHub nunca sale del backend. La sesion Supabase del ADMIN
-// se envia como Bearer para que el backend pueda consultar configuracion_privada con RLS.
+// Las ramas se consultan directamente desde GitHub.
+// No depende de /api/ramas ni de ningún backend.
 window.RamaAPI = (() => {
   const RAMAS_RESPALDO = [];
 
   const listarRamas = async () => {
     try {
-      const headers = { "Accept": "application/json" };
-      if (window.supabaseClient) {
-        const { data } = await window.supabaseClient.auth.getSession();
-        if (data?.session?.access_token) {
-          headers["Authorization"] = `Bearer ${data.session.access_token}`;
+      const config = window.GITHUB_CONFIG || {};
+      const repo = String(
+        config.repo || config.repoPublico ||
+        "nataliagamezbarea/grados_informaticos_public"
+      ).trim();
+      if (!repo) return RAMAS_RESPALDO;
+
+      let token = "";
+      try {
+        if (typeof config.obtenerTokenSeguro === "function") {
+          token = String(config.obtenerTokenSeguro() || "").trim();
+        } else {
+          token = String(config.token || "").trim();
         }
-      }
-      const res = await fetch("/api/ramas", {
-        headers,
-        cache: "no-store"
-      });
-      if (res.ok) {
-        const ramas = await res.json();
-        if (Array.isArray(ramas)) return ramas;
-      }
+      } catch (_) {}
+
+      const headers = {
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+      };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
+      const res = await fetch(
+        `https://api.github.com/repos/${repo}/branches?per_page=100`,
+        { headers, cache: "no-store" }
+      );
+
+      if (!res.ok) return RAMAS_RESPALDO;
+
+      const datos = await res.json();
+      if (!Array.isArray(datos)) return RAMAS_RESPALDO;
+
+      return datos
+        .map(r => String(r?.name || "").trim())
+        .filter(r => r && r.toLowerCase() !== "master");
     } catch (e) {
-      console.error("[RAMAS] Error obteniendo ramas:", e);
+      console.warn("[RAMAS] No se pudieron obtener las ramas desde GitHub:", e);
+      return RAMAS_RESPALDO;
     }
-    return RAMAS_RESPALDO;
   };
 
   return { listarRamas, RAMAS_RESPALDO };
 })();
 
-
 /* Selector de ramas: siempre conserva SELECCIONAR y permite TODAS las ramas */
 function ensureAllBranchesOption(select) {
   if (!select) return;
 
-  // SELECCIONAR siempre primero
   let defaultOpt = Array.from(select.options).find(o =>
     o.value === "" || o.dataset.defaultBranch === "1"
   );
+
   if (!defaultOpt) {
     defaultOpt = document.createElement("option");
     defaultOpt.value = "";
     defaultOpt.textContent = "SELECCIONAR";
     defaultOpt.dataset.defaultBranch = "1";
   }
+
   select.insertBefore(defaultOpt, select.firstChild);
 
-  // TODAS LAS RAMAS siempre al FINAL
   Array.from(select.options).forEach(o => {
-    if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") o.remove();
+    if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") {
+      o.remove();
+    }
   });
+
   const allOpt = document.createElement("option");
   allOpt.value = "__ALL_BRANCHES__";
   allOpt.textContent = "— TODAS LAS RAMAS —";

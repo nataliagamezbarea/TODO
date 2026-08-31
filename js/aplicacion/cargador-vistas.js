@@ -18,17 +18,57 @@
       const nuevo = document.createElement('link'); nuevo.rel='stylesheet'; nuevo.href=href; nuevo.dataset.vistaCss=href; document.head.appendChild(nuevo);
     }
   };
-  const cargarScript = (src, code, key) => new Promise((resolve,reject) => {
+  const scriptsCargados = new Map();
+
+  const cargarScript = (src, code, key) => {
+    const identificador = src ? src : `inline:${code || ''}`;
+    const existente = scriptsCargados.get(identificador);
+    if (existente) return existente;
+
     if (src) {
-      const s=document.createElement('script'); s.src=src; s.dataset.vistaScript=key||src;
-      s.onload=()=>resolve(); s.onerror=()=>reject(new Error('No se pudo cargar '+src));
-      document.head.appendChild(s); return;
+      const scriptExistente = Array.from(document.scripts).find(s =>
+        s.dataset.vistaScript === src || s.src === src
+      );
+      if (scriptExistente) {
+        // Si el script ya está cargado o cargándose por otra vista, no lo
+        // volvemos a insertar. Esto evita redeclaraciones globales.
+        const estado = scriptExistente.dataset.vistaEstado;
+        if (estado === 'cargado') return Promise.resolve();
+        if (estado === 'cargando') return Promise.resolve();
+      }
     }
-    try {
-      const s=document.createElement('script'); s.textContent=code||''; s.dataset.vistaInline='1';
-      document.head.appendChild(s); resolve();
-    } catch(e){ reject(e); }
-  });
+
+    const promesa = new Promise((resolve, reject) => {
+      if (src) {
+        const s = document.createElement('script');
+        s.src = src;
+        s.dataset.vistaScript = src;
+        s.dataset.vistaEstado = 'cargando';
+        s.onload = () => {
+          s.dataset.vistaEstado = 'cargado';
+          resolve();
+        };
+        s.onerror = () => {
+          s.dataset.vistaEstado = 'error';
+          reject(new Error('No se pudo cargar ' + src));
+        };
+        document.head.appendChild(s);
+        return;
+      }
+      try {
+        if (!code || !code.trim()) { resolve(); return; }
+        const s = document.createElement('script');
+        s.textContent = code;
+        s.dataset.vistaInline = key || '1';
+        document.head.appendChild(s);
+        resolve();
+      } catch (e) { reject(e); }
+    });
+
+    scriptsCargados.set(identificador, promesa);
+    return promesa;
+  };
+
   async function cargarVista(vista, contexto={}) {
     window.__APP_VISTA=vista;
     window.NavegacionApp.guardar(vista,contexto);

@@ -1,45 +1,60 @@
 async function inicializarVistaClase() {
-  const urlRama = new URLSearchParams(window.location.search).get("rama");
-  const rama = urlRama || (window.Estado ? window.Estado.obtener("rama") : "") || (window.RamaActual ? window.RamaActual.obtener() : "");
+  const urlRama = new URLSearchParams(
+    window.location.search
+  ).get("rama");
+
+  const rama =
+    urlRama ||
+    (window.Estado
+      ? window.Estado.obtener("rama")
+      : "") ||
+    (window.RamaActual
+      ? window.RamaActual.obtener()
+      : "");
+
+  if (!rama) {
+    const lista =
+      document.getElementById("lista-asignaturas");
+
+    if (lista) {
+      lista.innerHTML =
+        '<p id="sin-rama">Selecciona una rama.</p>';
+    }
+
+    return;
+  }
+
   if (urlRama) {
-    if (window.RamaActual) window.RamaActual.guardar(urlRama);
-    if (window.Estado) window.Estado.guardar("rama", urlRama);
+    window.RamaActual?.guardar(urlRama);
+    window.Estado?.guardar("rama", urlRama);
   }
+
   if (window.InformacionGrado) {
-    await window.InformacionGrado.pintar(rama);
+    await window.InformacionGrado.pintar(
+      rama,
+      "lista-asignaturas"
+    );
+  } else {
+    console.error(
+      "[Clase] InformacionGrado todavía no está cargado."
+    );
   }
 }
 
-window.inicializarVistaClase = inicializarVistaClase;
-if (!window.__routerVistasActivo) {
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", inicializarVistaClase, { once: true });
-  else inicializarVistaClase();
-}
+window.inicializarVistaClase =
+  inicializarVistaClase;
 
-
-/* Selector de ramas: siempre conserva SELECCIONAR y permite TODAS las ramas */
-function ensureAllBranchesOption(select) {
-  if (!select) return;
-
-  // SELECCIONAR siempre primero
-  let defaultOpt = Array.from(select.options).find(o =>
-    o.value === "" || o.dataset.defaultBranch === "1"
+/*
+ * Esta vista también se carga dinámicamente mediante
+ * cargador-vistas.js. En ese caso DOMContentLoaded ya
+ * ocurrió, por lo que hay que inicializarla inmediatamente.
+ */
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    inicializarVistaClase,
+    { once: true }
   );
-  if (!defaultOpt) {
-    defaultOpt = document.createElement("option");
-    defaultOpt.value = "";
-    defaultOpt.textContent = "SELECCIONAR";
-    defaultOpt.dataset.defaultBranch = "1";
-  }
-  select.insertBefore(defaultOpt, select.firstChild);
-
-  // TODAS LAS RAMAS siempre al FINAL
-  Array.from(select.options).forEach(o => {
-    if (o.dataset.allBranches === "1" || o.value === "__ALL_BRANCHES__") o.remove();
-  });
-  const allOpt = document.createElement("option");
-  allOpt.value = "__ALL_BRANCHES__";
-  allOpt.textContent = "— TODAS LAS RAMAS —";
-  allOpt.dataset.allBranches = "1";
-  select.appendChild(allOpt);
+} else {
+  inicializarVistaClase();
 }
