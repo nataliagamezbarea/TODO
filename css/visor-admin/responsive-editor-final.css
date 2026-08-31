@@ -105,3 +105,46 @@ body.modo-oscuro #barra-superior #btn-modo-oscuro:hover {
   .ovcol { min-height:330px; }
   .doc-viewer { padding:4px !important; }
 }
+
+/* Base compartida: el visor parte de la misma navbar que Inicio. */
+#barra-superior {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  min-height: 64px !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+body { padding-top: 84px !important; }
+
+html.modo-oscuro #barra-superior,
+body.modo-oscuro #barra-superior {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-bottom-color: #1e293b !important;
+}
+
+/* El HTML antiguo del visor usaba caracteres; se muestran como los iconos
+   Font Awesome de la navbar común sin cambiar las acciones del visor. */
+#barra-superior #btn-inicio .icono-navbar,
+#barra-superior #volver-atras .icono-navbar,
+#barra-superior #boton-ajustes .icono-navbar,
+#barra-superior #btn-cerrar-sesion .icono-navbar {
+  font-size: 0 !important;
+}
+
+#barra-superior #btn-inicio .icono-navbar::after,
+#barra-superior #volver-atras .icono-navbar::after,
+#barra-superior #boton-ajustes .icono-navbar::after,
+#barra-superior #btn-cerrar-sesion .icono-navbar::after {
+  font-family: "Font Awesome 6 Free";
+  font-size: 16px;
+  font-weight: 900;
+}
+
+#barra-superior #btn-inicio .icono-navbar::after { content: "\f015"; }
+#barra-superior #volver-atras .icono-navbar::after { content: "\f060"; }
+#barra-superior #boton-ajustes .icono-navbar::after { content: "\f013"; }
+#barra-superior #btn-cerrar-sesion .icono-navbar::after { content: "\f2f5"; }
