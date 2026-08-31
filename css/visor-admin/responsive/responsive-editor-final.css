@@ -148,3 +148,36 @@ body.modo-oscuro #barra-superior {
 #barra-superior #volver-atras .icono-navbar::after { content: "\f060"; }
 #barra-superior #boton-ajustes .icono-navbar::after { content: "\f013"; }
 #barra-superior #btn-cerrar-sesion .icono-navbar::after { content: "\f2f5"; }
+
+/* El visor es siempre una herramienta de gestión: no muestra el conmutador
+   Lectura/Edición de las vistas de alumnado, tampoco en el menú móvil. */
+#barra-superior #boton-modo-edicion,
+#menu-hamburguesa-desplegable #hm-btn-modo-edicion {
+  display: none !important;
+}
+
+/* Los controles propios del visor usan los mismos iconos del resto de la app. */
+#barra-superior .visor-navbar-brand > .icono-navbar,
+#barra-superior .visor-navbar-rama label .icono-navbar,
+#barra-superior .visor-navbar-action .icono-navbar {
+  font-size: 0 !important;
+}
+
+#barra-superior .visor-navbar-brand > .icono-navbar::after,
+#barra-superior .visor-navbar-rama label .icono-navbar::after,
+#barra-superior .visor-navbar-action .icono-navbar::after {
+  font-family: "Font Awesome 6 Free";
+  font-size: 15px;
+  font-weight: 900;
+}
+
+#visor-navbar-brand > .icono-navbar::after { content: "\f31c"; }
+#visor-navbar-rama-box label .icono-navbar::after {
+  content: "\f09b";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+#visor-btn-resumen .icono-navbar::after { content: "\f200"; }
+#visor-btn-sync .icono-navbar::after { content: "\f0ed"; }
+#visor-btn-apuntes .icono-navbar::after { content: "\f0c5"; }
+#visor-btn-terminado .icono-navbar::after { content: "\f51a"; }
