@@ -62,11 +62,17 @@ function configurarBotonDescarga(selector, boton) {
 function cambiarRamaDesdeSelector(selector) {
   const rama = obtenerRamaSeleccionada(selector);
   if (!rama) {
+    // El usuario ha decidido volver a elegir rama. No debe recuperarse
+    // automáticamente al recargar esta pantalla.
+    try { sessionStorage.setItem("forzar_selector_rama", "1"); } catch (_) {}
+    try { RamaActual?.guardar?.(""); } catch (_) {}
+    try { window.Estado?.guardar?.("rama", ""); } catch (_) {}
     actualizarBotonesSelector(selector,
       document.getElementById("btn-descargar-rama-selector"),
       document.getElementById("btn-visor-rama-selector"));
     return;
   }
+  try { sessionStorage.removeItem("forzar_selector_rama"); } catch (_) {}
   RamaActual.guardar(rama);
   window.Estado?.guardar?.("rama", rama);
   if (window.AppViews?.mostrar) {

@@ -26,4 +26,4 @@ const visible = accion === "mostrar"; const switches = document.querySelectorAll
 
 window.__mostrarDatosV7Cargado = true;
 // Primera inicialización (si la vista de asignatura ya está montada).
-try { window.inicializarMostrarDatos(); } catch (e) { console.error("[mostrar_datos] Error inicializando:", e); }
+try { window.inicializarMostrarDatos(); } catch (e) { void 0; }

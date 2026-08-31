@@ -50,7 +50,17 @@
     const ruta = rutaInicio();
     const inicio = document.getElementById("btn-inicio");
     const volver = document.getElementById("volver-atras");
-    if (inicio) inicio.href = ruta;
+    if (inicio) {
+      inicio.href = "#";
+      if (!inicio.dataset.homeListener) {
+        inicio.dataset.homeListener = "1";
+        inicio.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (window.AppViews?.irInicio) window.AppViews.irInicio();
+        });
+      }
+    }
     if (volver && !volver.dataset.listener) {
       volver.dataset.listener = "1";
       volver.onclick = (e) => { e?.preventDefault(); if (window.AppViews?.atras) window.AppViews.atras(); else window.location.href = "/"; };
@@ -85,7 +95,6 @@
      */
     const clavesApp = [
       "esAdmin",
-      "modo_oscuro",
       "modo_edicion_live",
       "modo_edicion",
       "rama_actual",

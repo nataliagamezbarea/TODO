@@ -92,3 +92,9 @@ h1,
   box-shadow: none !important;
   padding: 0 !important;
 }
+
+
+/* Portada fluida en móviles y tablets. */
+.portada_emoji_contenedor { width:min(100%,1200px) !important; max-width:100% !important; min-width:0 !important; }
+#portada { max-width:100% !important; }
+@media (max-width:600px) { .portada_emoji_contenedor { height:clamp(150px,42vw,210px) !important; min-height:clamp(150px,42vw,210px) !important; max-height:none !important; padding:14px 16px !important; gap:8px !important; } .portada_emoji_contenedor #titulo { max-width:100% !important; font-size:clamp(1rem,5vw,1.45rem) !important; white-space:normal !important; overflow-wrap:anywhere !important; text-align:left !important; } }

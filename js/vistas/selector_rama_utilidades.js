@@ -33,12 +33,11 @@ function abrirVisorDesdeSelector(selector) {
     }));
     sessionStorage.setItem("visorAdminBranchMode", rama ? "branch" : "all");
     sessionStorage.setItem("visorAdminBranch", rama);
-    const url = new URL("/paginas/visor-admin/panel-administrador.html", document.baseURI);
+    const url = new URL("/paginas/visor-administrador/panel-administrador.html", document.baseURI);
     if (rama) url.searchParams.set("rama", rama);
     else url.searchParams.set("todas", "1");
     window.location.href = url.href;
   } catch (error) {
-    console.error("No se pudo abrir el Visor Admin:", error);
   }
 }
 
@@ -52,14 +51,30 @@ function configurarBotonVisor(selector, boton) {
 }
 
 async function cargarRamasSelector(selector) {
-  selector.innerHTML = '<option value="">SELECCIONAR</option>';
+  selector.innerHTML = '';
   try {
-    return await Promise.race([
-      RamaActual.poblarSelector(selector),
+    const ramas = await Promise.race([
+      window.RamaAPI.poblarSelector(selector, { incluirMarcador: false }),
       new Promise((_, rechazar) => setTimeout(() => rechazar(new Error("Tiempo agotado")), 8000))
     ]);
+    const lista = Array.isArray(ramas) ? ramas : [];
+    // La primera opción debe ser siempre la primera rama real de GitHub.
+    // No mostramos "SELECCIONAR RAMA" como opción ficticia.
+    if (lista.length) {
+      selector.value = lista[0];
+      window.RamaActual?.guardar?.(lista[0]);
+      window.Estado?.guardar?.("rama", lista[0]);
+    }
+    // La opción especial se añade al final; no se crea ningún marcador vacío.
+    Array.from(selector.options).forEach(opcion => {
+      if (opcion.value === '__ALL_BRANCHES__') opcion.remove();
+    });
+    const todas = document.createElement('option');
+    todas.value = '__ALL_BRANCHES__';
+    todas.textContent = 'TODAS LAS RAMAS';
+    selector.appendChild(todas);
+    return lista;
   } catch (error) {
-    console.warn("No se pudieron cargar las ramas:", error.message);
     return [];
   }
 }

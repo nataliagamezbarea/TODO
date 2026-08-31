@@ -1,0 +1,97 @@
+.hm-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  padding: 10px 12px !important;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
+  user-select: none;
+  white-space: nowrap !important;
+}
+.hm-item:hover,
+.hm-item:focus {
+  background: #f1f5f9;
+  color: #7e22ce;
+}
+.hm-item:active {
+  transform: scale(0.98);
+}
+.hm-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  color: #64748b;
+  flex-shrink: 0;
+}
+.hm-item:hover .hm-icon {
+  background: #ede9fe;
+  border-color: #ddd6fe;
+  color: #7e22ce;
+}
+.hm-text {
+  display: block !important;
+  flex: 1 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hm-badge {
+  display: inline-block !important;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  color: #475569;
+  text-transform: uppercase;
+}
+/* Modo edicion */
+.hm-item-modo {
+  background: #fdf2f8;
+  color: #be185d;
+}
+.hm-item-modo .hm-icon {
+  background: #fbcfe8;
+  border-color: #f472b6;
+  color: #be185d;
+}
+.hm-item-modo.modo-encendido {
+  background: #f1f5f9;
+  color: #0284c7;
+}
+.hm-item-modo.modo-encendido .hm-icon {
+  background: #e0f2fe;
+  border-color: #38bdf8;
+  color: #0284c7;
+}
+/* Cerrar sesion */
+.hm-item-peligro {
+  color: #dc2626;
+}
+.hm-item-peligro .hm-icon {
+  background: #fef2f2;
+  border-color: #fee2e2;
+  color: #dc2626;
+}
+.hm-item-peligro:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+}

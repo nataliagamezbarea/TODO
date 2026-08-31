@@ -35,9 +35,6 @@ async function inicializarVistaClase() {
       "lista-asignaturas"
     );
   } else {
-    console.error(
-      "[Clase] InformacionGrado todavía no está cargado."
-    );
   }
 }
 

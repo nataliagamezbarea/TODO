@@ -1,0 +1,82 @@
+async function iniciarVistaInicio() {
+  const selector = document.getElementById("selector-rama");
+  const botonDescarga = document.getElementById("btn-descargar-rama-selector");
+  const botonVisor = document.getElementById("btn-visor-rama-selector");
+  if (!selector) return;
+
+  // Si hemos llegado al selector desde Atrás sin rama, no reutilizar la
+  // selección persistida de una visita anterior.
+  const contexto = window.AppViews?.contexto?.() || {};
+  if (!contexto.rama) {
+    try { window.RamaActual?.guardar?.(""); } catch (_) {}
+    selector.value = "";
+  }
+
+  // Los eventos se registran una sola vez. La carga de ramas sí se
+  // puede repetir después de obtener la configuración de GitHub.
+  if (selector.dataset.inicializado !== "1") {
+    selector.dataset.inicializado = "1";
+    configurarBotonVisor(selector, botonVisor);
+    configurarBotonDescarga(selector, botonDescarga);
+    selector.addEventListener("change", () => cambiarRamaDesdeSelector(selector));
+  }
+
+  actualizarBotonesSelector(selector, botonDescarga, botonVisor);
+
+  try {
+    if (window.Permisos?.asegurarSesion) await window.Permisos.asegurarSesion();
+    await cargarRamasSelector(selector);
+  } catch (error) {
+  }
+
+  actualizarBotonesSelector(selector, botonDescarga, botonVisor);
+}
+function configurarBotonDescarga(selector, boton) {
+  if (!boton) return;
+  boton.addEventListener("click", async evento => {
+    evento.preventDefault();
+    const rama = obtenerRamaSeleccionada(selector);
+    const ramas = rama ? [rama] : Array.from(selector.options)
+      .map(opcion => opcion.value)
+      .filter(valor => valor && valor !== "__ALL_BRANCHES__");
+    if (!window.recogerUrlsMaterial || !window.descargarTodosArchivos || !ramas.length) return;
+    boton.disabled = true;
+    try {
+      const archivos = [];
+      for (const ramaActual of ramas) {
+        const urls = await window.recogerUrlsMaterial({ rama: ramaActual });
+        urls.forEach(archivo => archivos.push({ ...archivo, carpeta: ramaActual }));
+      }
+      await window.descargarTodosArchivos(archivos, null, {
+        nombreZip: rama ? `${rama.replace(/[^a-z0-9_-]+/gi, "_")}.zip` : "todas_las_ramas.zip"
+      });
+    } catch (error) {
+    } finally {
+      boton.disabled = false;
+    }
+  });
+}
+
+function cambiarRamaDesdeSelector(selector) {
+  const rama = obtenerRamaSeleccionada(selector);
+  if (!rama) {
+    // El usuario ha decidido volver a elegir rama. No debe recuperarse
+    // automáticamente al recargar esta pantalla.
+    try { sessionStorage.setItem("forzar_selector_rama", "1"); } catch (_) {}
+    try { RamaActual?.guardar?.(""); } catch (_) {}
+    try { window.Estado?.guardar?.("rama", ""); } catch (_) {}
+    actualizarBotonesSelector(selector,
+      document.getElementById("btn-descargar-rama-selector"),
+      document.getElementById("btn-visor-rama-selector"));
+    return;
+  }
+  try { sessionStorage.removeItem("forzar_selector_rama"); } catch (_) {}
+  RamaActual.guardar(rama);
+  window.Estado?.guardar?.("rama", rama);
+  if (window.AppViews?.mostrar) {
+    window.AppViews.mostrar("clase", { rama });
+    return;
+  }
+}
+
+window.inicializarVistaInicio = iniciarVistaInicio;

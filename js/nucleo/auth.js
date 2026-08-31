@@ -22,27 +22,23 @@
         }
       }
       if (session?.user) {
-        let esAdminValido = false;
-        try { esAdminValido = window.Permisos ? await window.Permisos.verificarAdmin(session.user) : false; } catch (_) {}
-        if (!esAdminValido) {
-          sessionStorage.removeItem("esInvitado");
-          await supabase.auth.signOut();
-          session = null;
-          await mostrar("login");
-          const errorBox = document.getElementById("mensaje-error");
-          if (errorBox) { errorBox.textContent = "Acceso restringido: Esta cuenta no pertenece a un administrador ni colaborador del repositorio. Debes pulsar 'Entrar como Invitado'."; errorBox.hidden = false; }
-        } else {
-          sessionStorage.removeItem("esInvitado");
-          // La pantalla se muestra inmediatamente. La carga de perfil/configuración
-          // continúa en segundo plano y el selector de ramas espera solo cuando
-          // necesita esos datos.
-          try {
-            const pSesion = window.Permisos?.cargoSesion?.();
-            if (pSesion && typeof pSesion.catch === "function") pSesion.catch((e) => console.warn("[Supabase] Carga de sesión en segundo plano:", e));
-            const pCsv = window.PermisosVisibilidad?.asegurarCsvIniciales?.();
-            if (pCsv && typeof pCsv.catch === "function") pCsv.catch(() => {});
-          } catch (_) {}
+        /*
+         * IMPORTANTE: no verificarAdmin antes de hidratar Permisos.
+         * Esa comprobación consultaba public.perfiles demasiado pronto y,
+         * ante un fallo/transición de Supabase, devolvía false y cerraba una
+         * sesión que sí era válida. Primero esperamos al rol real y después
+         * dejamos que la aplicación decida la vista.
+         */
+        try {
+          if (window.Permisos?.asegurarSesion) await window.Permisos.asegurarSesion();
+        } catch (e) {
+          console.warn("[Supabase] No se pudo hidratar Permisos al iniciar:", e);
         }
+        sessionStorage.removeItem("esInvitado");
+        try {
+          const pCsv = window.PermisosVisibilidad?.asegurarCsvIniciales?.();
+          if (pCsv && typeof pCsv.catch === "function") pCsv.catch(() => {});
+        } catch (_) {}
       }
       const esInvitado = sessionStorage.getItem("esInvitado") === "true";
       const tieneAcceso = Boolean(session || esInvitado);
@@ -55,22 +51,40 @@
         if (errorBox) { errorBox.textContent = MSG_BLOQUEO; errorBox.hidden = false; }
         return;
       }
+      let rutaInicial = "login";
+      let contextoInicial = {};
       if (!tieneAcceso) {
         await mostrar("login");
       } else {
         window.sesionActual = session;
-        await mostrar("inicio");
-        // No esperamos otra consulta de Supabase aquí: la vista y el selector
-        // ya están montados. La inicialización específica puede continuar sin
-        // bloquear la navegación.
-        try { if (typeof window.inicializarVistaInicio === "function") window.inicializarVistaInicio(); } catch (_) {}
+        // Si ya había una rama seleccionada, no mostramos el selector: entramos
+        // directamente en el grado. Solo se borra cuando el usuario vuelve
+        // explícitamente al selector mediante Atrás y el selector queda vacío.
+        let ramaPersistida = "";
+        let forzarSelector = false;
+        try { forzarSelector = window.RamaActual?.estaForzadoSelector?.() === true || sessionStorage.getItem("forzar_selector_rama") === "1"; } catch (_) {}
+        if (!forzarSelector) {
+          try { ramaPersistida = String(window.RamaActual?.obtener?.() || window.Estado?.obtener?.("rama") || "").trim(); } catch (_) {}
+        }
+        if (ramaPersistida) {
+          rutaInicial = "clase";
+          contextoInicial = { rama: ramaPersistida };
+        } else {
+          rutaInicial = "inicio";
+          contextoInicial = {};
+        }
+        await mostrar(rutaInicial, contextoInicial);
         if (window.ComponenteNavbar?.inicializar) window.ComponenteNavbar.inicializar();
       }
+      window.__AUTH_ROUTING_DONE = true;
+      try { window.dispatchEvent(new CustomEvent("auth-ruta-lista", { detail: { ruta: rutaInicial, contexto: contextoInicial } })); } catch (_) {}
       document.documentElement.style.visibility = "visible";
       document.documentElement.classList.remove("auth-cargando");
     } catch (error) {
       console.error("Error inicializando autenticación:", error);
       await mostrar("login");
+      window.__AUTH_ROUTING_DONE = true;
+      try { window.dispatchEvent(new CustomEvent("auth-ruta-lista", { detail: { ruta: "login", contexto: {} } })); } catch (_) {}
       document.documentElement.style.visibility = "visible";
       document.documentElement.classList.remove("auth-cargando");
     }

@@ -4,7 +4,6 @@ async function iniciarSelectorRama() {
   const selector = document.getElementById("selector-rama");
 
   if (!selector) {
-    console.warn("[Ramas] No se encontró #selector-rama.");
     return;
   }
 
@@ -46,7 +45,6 @@ async function iniciarSelectorRama() {
       }
       await cargarRamasSelector(selector);
     } catch (error) {
-      console.error("[Ramas] Error inicializando el selector:", error);
       selector.innerHTML = '<option value="">SELECCIONAR</option>';
     }
     actualizarBotonesSelector(selector, botonDescarga, botonVisor);
@@ -119,10 +117,6 @@ function configurarBotonDescarga(selector, boton) {
         }
       );
     } catch (error) {
-      console.error(
-        "[Ramas] No se pudo descargar:",
-        error
-      );
     } finally {
       boton.disabled = false;
     }
@@ -133,6 +127,9 @@ function cambiarRamaDesdeSelector(selector) {
   const rama = obtenerRamaSeleccionada(selector);
 
   if (!rama) {
+    try { sessionStorage.setItem("forzar_selector_rama", "1"); } catch (_) {}
+    try { window.RamaActual?.limpiar?.(); } catch (_) { try { window.RamaActual?.guardar?.(""); } catch (_) {} }
+    try { window.Estado?.guardar?.("rama", ""); } catch (_) {}
     actualizarBotonesSelector(
       selector,
       document.getElementById(
@@ -146,6 +143,7 @@ function cambiarRamaDesdeSelector(selector) {
     return;
   }
 
+  try { sessionStorage.removeItem("forzar_selector_rama"); } catch (_) {}
   window.RamaActual?.guardar(rama);
   window.Estado?.guardar?.("rama", rama);
   if (window.AppViews?.mostrar) {

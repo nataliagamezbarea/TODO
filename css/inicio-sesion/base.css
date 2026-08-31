@@ -1,0 +1,49 @@
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.login-contenedor {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.login-tarjeta {
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.login-emoji {
+  font-size: 56px;
+  animation: bounce 1.5s infinite;
+}
+
+.login-tarjeta h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2b2b2b;
+  margin: 12px 0 6px;
+}
+
+.login-sub {
+  color: #888;
+  font-size: 0.85rem;
+  margin: 0 0 24px;
+}
+
+#form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}

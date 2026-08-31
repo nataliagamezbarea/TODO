@@ -6,6 +6,9 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <base href="/"/>
+<style id="visor-preboot-style">html.visor-preboot body{visibility:hidden!important;overflow:hidden!important}html.visor-preboot{background:#fff}</style>
+<script>document.documentElement.classList.add("visor-preboot");</script>
+
 <title>Visor y Gestor de Documentos · Grados</title>
 <!-- Navbar y componentes globales de la plataforma: el visor usa la MISMA navbar. --><link href="css/global/base.css" rel="stylesheet"/>
 <link href="css/global/iconos.css" rel="stylesheet"/>
@@ -25,21 +28,22 @@
 <link href="css/navbar/base.css" rel="stylesheet"/>
 <link href="css/navbar/elementos.css" rel="stylesheet"/>
 <link href="css/navbar/oscuro.css" rel="stylesheet"/>
-<link href="css/navbar/responsivo.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script src="js/permisos/crypto.js"></script> <script src="js/permisos/supabase.js"></script> <script src="js/permisos/github.js"></script> <script src="js/permisos/visibilidad.js"></script> <script src="js/nucleo/permisos.js"></script>
-<script src="js/nucleo/auth.js"></script> <script src="js/componentes/navbar/navbar_movil.js"></script> <script src="js/componentes/navbar/navbar_modo_edicion.js"></script> <script src="js/componentes/navbar.js"></script> <script src="js/componentes/ajustes.js"></script> <script src="js/visor-admin/static-api.js"></script>
-<link href="css/visor-admin/base/variables.css" rel="stylesheet"/><link href="css/visor-admin/base/cabecera.css" rel="stylesheet"/><link href="css/visor-admin/acciones/botones-acciones.css" rel="stylesheet"/><link href="css/visor-admin/acciones/botones-principales.css" rel="stylesheet"/><link href="css/visor-admin/modales/bloqueo-modal.css" rel="stylesheet"/><link href="css/visor-admin/base/cabecera-responsivo.css" rel="stylesheet"/><link href="css/visor-admin/estadisticas/panel-estadisticas.css" rel="stylesheet"/><link href="css/visor-admin/tarjetas/tarjetas.css" rel="stylesheet"/><link href="css/visor-admin/tarjetas/tarjetas-varios.css" rel="stylesheet"/><link href="css/visor-admin/tarjetas/tarjetas-responsivo.css" rel="stylesheet"/><link href="css/visor-admin/modales/superposicion-comparacion.css" rel="stylesheet"/><link href="css/visor-admin/modales/superposicion-comparacion-varios.css" rel="stylesheet"/><link href="css/visor-admin/acciones/botones-actuacion.css" rel="stylesheet"/><link href="css/visor-admin/modales/paneles-comparacion.css" rel="stylesheet"/><link href="css/visor-admin/visor/visor-pdf.css" rel="stylesheet"/><link href="css/visor-admin/visor/seleccion-texto.css" rel="stylesheet"/><link href="css/visor-admin/visor/visor-puntos-calientes-enunciados.css" rel="stylesheet"/><link href="css/visor-admin/visor/puntos-calientes-nombre-colegio.css" rel="stylesheet"/><link href="css/visor-admin/modales/menus-flotantes.css" rel="stylesheet"/><link href="css/visor-admin/visor/texto-seleccion.css" rel="stylesheet"/><link href="css/visor-admin/modales/modales.css" rel="stylesheet"/><link href="css/visor-admin/modales/modales-formularios.css" rel="stylesheet"/><link href="css/visor-admin/base/desarrollo.css" rel="stylesheet"/><link href="css/visor-admin/acciones/navegacion-cambios.css" rel="stylesheet"/><link href="css/visor-admin/busqueda/busqueda-archivos.css" rel="stylesheet"/><link href="css/visor-admin/base/variables-tema.css" rel="stylesheet"/><link href="css/visor-admin/base/disposicion-cabecera.css" rel="stylesheet"/><link href="css/visor-admin/navbar/integracion-barra-navegacion.css" rel="stylesheet"/><link href="css/visor-admin/busqueda/barra-busqueda.css" rel="stylesheet"/><link href="css/visor-admin/estadisticas/estados-acceso.css" rel="stylesheet"/><link href="css/visor-admin/estadisticas/listado-estadisticas.css" rel="stylesheet"/><link href="css/visor-admin/navbar/barra-navegacion-integrada.css" rel="stylesheet"/><link href="css/visor-admin/navbar/barra-navegacion-responsivo.css" rel="stylesheet"/><link href="css/visor-admin/tema/modo-claro-principal.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsivo-escritorio.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsivo-escritorio-2.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsivo-tablet.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsivo-movil.css" rel="stylesheet"/><link href="css/visor-admin/tema/tema-claro-completo.css" rel="stylesheet"/><link href="css/visor-admin/tema/tema-claro-menus.css" rel="stylesheet"/><link href="css/visor-admin/navbar/correcciones-barra-navegacion.css" rel="stylesheet"/><link href="css/visor-admin/tema/ajustes-finales.css" rel="stylesheet"/><link href="css/visor-admin/estadisticas/carga-estadisticas.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsivo-general.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsivo-final.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsive-editor-final.css" rel="stylesheet"/><script src="js/visor-admin/bootstrap.js"></script><script src="js/visor-admin/bindings.js"></script><link href="css/componentes/dsd-componentes.css" rel="stylesheet"/><link href="css/visor-admin/inline/panel-administrador-inline.css" rel="stylesheet"/></head>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>    
+   
+<link href="css/visor-admin/base/variables.css" rel="stylesheet"/><link href="css/visor-admin/base/cabecera.css" rel="stylesheet"/><link href="css/visor-admin/acciones/botones-acciones.css" rel="stylesheet"/><link href="css/visor-admin/acciones/botones-principales.css" rel="stylesheet"/><link href="css/visor-admin/modales/bloqueo-modal.css" rel="stylesheet"/><link href="css/visor-admin/estadisticas/panel-estadisticas.css" rel="stylesheet"/><link href="css/visor-admin/tarjetas/tarjetas.css" rel="stylesheet"/><link href="css/visor-admin/tarjetas/tarjetas-varios.css" rel="stylesheet"/><link href="css/visor-admin/modales/superposicion-comparacion.css" rel="stylesheet"/><link href="css/visor-admin/modales/superposicion-comparacion-varios.css" rel="stylesheet"/><link href="css/visor-admin/acciones/botones-actuacion.css" rel="stylesheet"/><link href="css/visor-admin/modales/paneles-comparacion.css" rel="stylesheet"/><link href="css/visor-admin/visor/visor-pdf.css" rel="stylesheet"/><link href="css/visor-admin/visor/seleccion-texto.css" rel="stylesheet"/><link href="css/visor-admin/visor/visor-puntos-calientes-enunciados.css" rel="stylesheet"/><link href="css/visor-admin/visor/puntos-calientes-nombre-colegio.css" rel="stylesheet"/><link href="css/visor-admin/modales/menus-flotantes.css" rel="stylesheet"/><link href="css/visor-admin/visor/texto-seleccion.css" rel="stylesheet"/><link href="css/visor-admin/modales/modales.css" rel="stylesheet"/><link href="css/visor-admin/modales/modales-formularios.css" rel="stylesheet"/><link href="css/visor-admin/base/desarrollo.css" rel="stylesheet"/><link href="css/visor-admin/acciones/navegacion-cambios.css" rel="stylesheet"/><link href="css/visor-admin/busqueda/busqueda-archivos.css" rel="stylesheet"/><link href="css/visor-admin/base/variables-tema.css" rel="stylesheet"/><link href="css/visor-admin/base/disposicion-cabecera.css" rel="stylesheet"/><link href="css/visor-admin/navbar/integracion-barra-navegacion.css" rel="stylesheet"/><link href="css/visor-admin/busqueda/barra-busqueda.css" rel="stylesheet"/><link href="css/visor-admin/estadisticas/estados-acceso.css" rel="stylesheet"/><link href="css/visor-admin/estadisticas/listado-estadisticas.css" rel="stylesheet"/><link href="css/visor-admin/navbar/barra-navegacion-integrada.css" rel="stylesheet"/><link href="css/visor-admin/tema/modo-claro-principal.css" rel="stylesheet"/><link href="css/visor-admin/tema/tema-claro-completo.css" rel="stylesheet"/><link href="css/visor-admin/tema/tema-claro-menus.css" rel="stylesheet"/><link href="css/visor-admin/navbar/correcciones-barra-navegacion.css" rel="stylesheet"/><link href="css/visor-admin/tema/ajustes-finales.css" rel="stylesheet"/><link href="css/visor-admin/estadisticas/carga-estadisticas.css" rel="stylesheet"/><link href="css/componentes/dsd-componentes.css" rel="stylesheet"/><link href="css/visor-admin/inline/panel-administrador-inline.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsivo-unificado-v40.css" rel="stylesheet"/><link href="css/visor-admin/responsive/responsivo-definitivo-v42.css" rel="stylesheet"/>
+</head>
 <body>
 <template shadowrootmode="open"><link data-dsd-shell-css="1" href="css/componentes/declarative-shadow-shell.css" rel="stylesheet"/>
 <slot></slot>
 </template>
-<visor-navbar data-component="visor-navbar"><template shadowrootmode="open"><slot></slot></template><navbar-general data-component="navbar-general"><template shadowrootmode="open"><slot></slot></template><header aria-label="Navegación principal" class="barra-superior" id="barra-superior"><visor-navbar-izquierda data-component="navbar-izquierda"><template shadowrootmode="open"><slot></slot></template><div class="nav-left">
+<visor-navbar data-component="visor-navbar"><template shadowrootmode="open"><slot></slot></template><navbar-general data-component="navbar-general"><template shadowrootmode="open"><slot></slot></template><header aria-label="Barra de navegación principal" class="barra-superior" id="barra-superior"><visor-navbar-izquierda data-component="navbar-izquierda"><template shadowrootmode="open"><slot></slot></template><div class="nav-left">
 <navbar-boton-btn-inicio data-component="navbar-boton:btn-inicio"><template shadowrootmode="open"><slot></slot></template><a aria-label="Inicio" class="btn-inicio" href="/" id="btn-inicio" title="Inicio"><i aria-hidden="true" class="fa-solid fa-house"></i></a></navbar-boton-btn-inicio><navbar-boton-volver-atras data-component="navbar-boton:volver-atras"><template shadowrootmode="open"><slot></slot></template><a aria-label="Volver atrás" class="btn-volver" href="/" id="volver-atras" title="Volver atrás"><i aria-hidden="true" class="fa-solid fa-arrow-left"></i></a></navbar-boton-volver-atras><span class="visor-navbar-brand" id="visor-navbar-brand"><i aria-hidden="true" class="fa-solid fa-file-pen"></i><span>Visor de documentos</span></span><navbar-rama data-component="navbar-rama"><template shadowrootmode="open"><slot></slot></template><div class="visor-navbar-rama" id="visor-navbar-rama-box">
-<label for="selectRamaGithub"><i aria-hidden="true" class="fa-brands fa-github"></i> Rama</label><select data-event-change="cambiarRamaGithub(this.value)" id="selectRamaGithub"><option value="">SELECCIONAR</option></select>
+<label for="selectRamaGithub"><i aria-hidden="true" class="fa-brands fa-github"></i> Rama</label><select aria-label="Seleccionar rama" data-event-change="cambiarRamaGithub(this.value)" id="selectRamaGithub"><option value="">Cargando ramas…</option></select>
 </div></navbar-rama>
 </div></visor-navbar-izquierda>
 <visor-navbar-derecha data-component="navbar-derecha"><template shadowrootmode="open"><slot></slot></template><div class="nav-right">
-<navbar-boton-visor-btn-resumen data-component="navbar-boton:visor-btn-resumen"><template shadowrootmode="open"><slot></slot></template><button class="visor-navbar-action" data-event-click="openSummaryModal()" id="visor-btn-resumen" type="button"><i aria-hidden="true" class="fa-solid fa-chart-pie"></i><span>Resumen</span></button></navbar-boton-visor-btn-resumen><navbar-boton-visor-btn-sync data-component="navbar-boton:visor-btn-sync"><template shadowrootmode="open"><slot></slot></template><button class="visor-navbar-action" data-event-click="sincronizarGitHub()" id="visor-btn-sync" type="button"><i aria-hidden="true" class="fa-solid fa-cloud-arrow-down"></i><span>Sync GitHub</span></button></navbar-boton-visor-btn-sync><navbar-boton-visor-btn-apuntes data-component="navbar-boton:visor-btn-apuntes"><template shadowrootmode="open"><slot></slot></template><button class="visor-navbar-action" data-event-click="compileAllApuntes()" id="visor-btn-apuntes" type="button"><i aria-hidden="true" class="fa-solid fa-copy"></i><span>Apuntes</span></button></navbar-boton-visor-btn-apuntes><navbar-boton-visor-btn-terminado data-component="navbar-boton:visor-btn-terminado"><template shadowrootmode="open"><slot></slot></template><button class="visor-navbar-action visor-navbar-danger" data-event-click="openLimpiarDatosModal()" id="visor-btn-terminado" type="button"><i aria-hidden="true" class="fa-solid fa-broom"></i><span>Terminado</span></button></navbar-boton-visor-btn-terminado><navbar-boton-btn-modo-oscuro data-component="navbar-boton:btn-modo-oscuro"><template shadowrootmode="open"><slot></slot></template><button aria-label="Cambiar tema" class="btn-modo-oscuro" id="btn-modo-oscuro" title="Modo Oscuro" type="button"><i aria-hidden="true" class="fa-solid fa-moon"></i></button></navbar-boton-btn-modo-oscuro><navbar-boton-boton-ajustes data-component="navbar-boton:boton-ajustes"><template shadowrootmode="open"><slot></slot></template><button aria-label="Ajustes" id="boton-ajustes" title="Ajustes" type="button"><i aria-hidden="true" class="fa-solid fa-gear"></i></button></navbar-boton-boton-ajustes><navbar-boton-btn-cerrar-sesion data-component="navbar-boton:btn-cerrar-sesion"><template shadowrootmode="open"><slot></slot></template><button aria-label="Cerrar sesión" class="btn-cerrar-sesion" id="btn-cerrar-sesion" title="Cerrar sesión" type="button"><i aria-hidden="true" class="fa-solid fa-right-from-bracket"></i></button></navbar-boton-btn-cerrar-sesion>
+<navbar-boton-visor-btn-resumen data-component="navbar-boton:visor-btn-resumen"><template shadowrootmode="open"><slot></slot></template><button class="visor-navbar-action" data-event-click="openSummaryModal()" id="visor-btn-resumen" type="button"><i aria-hidden="true" class="fa-solid fa-chart-pie"></i><span>Resumen</span></button></navbar-boton-visor-btn-resumen><navbar-boton-visor-btn-sync data-component="navbar-boton:visor-btn-sync"><template shadowrootmode="open"><slot></slot></template><button class="visor-navbar-action" data-event-click="sincronizarGitHub()" id="visor-btn-sync" type="button"><i aria-hidden="true" class="fa-solid fa-cloud-arrow-down"></i><span>Sincronizar GitHub</span></button></navbar-boton-visor-btn-sync><navbar-boton-visor-btn-apuntes data-component="navbar-boton:visor-btn-apuntes"><template shadowrootmode="open"><slot></slot></template><button class="visor-navbar-action" data-event-click="compileAllApuntes()" id="visor-btn-apuntes" type="button"><i aria-hidden="true" class="fa-solid fa-copy"></i><span>Apuntes</span></button></navbar-boton-visor-btn-apuntes><navbar-boton-visor-btn-terminado data-component="navbar-boton:visor-btn-terminado"><template shadowrootmode="open"><slot></slot></template><button class="visor-navbar-action visor-navbar-danger" data-event-click="openLimpiarDatosModal()" id="visor-btn-terminado" type="button"><i aria-hidden="true" class="fa-solid fa-broom"></i><span>Terminado</span></button></navbar-boton-visor-btn-terminado><navbar-boton-btn-modo-oscuro data-component="navbar-boton:btn-modo-oscuro"><template shadowrootmode="open"><slot></slot></template><button aria-label="Cambiar tema" class="btn-modo-oscuro" id="btn-modo-oscuro" title="Modo Oscuro" type="button"><i aria-hidden="true" class="fa-solid fa-moon"></i></button></navbar-boton-btn-modo-oscuro><navbar-boton-boton-ajustes data-component="navbar-boton:boton-ajustes"><template shadowrootmode="open"><slot></slot></template><button aria-label="Ajustes" id="boton-ajustes" title="Ajustes" type="button"><i aria-hidden="true" class="fa-solid fa-gear"></i></button></navbar-boton-boton-ajustes><navbar-boton-btn-cerrar-sesion data-component="navbar-boton:btn-cerrar-sesion"><template shadowrootmode="open"><slot></slot></template><button aria-label="Cerrar sesión" class="btn-cerrar-sesion" id="btn-cerrar-sesion" title="Cerrar sesión" type="button"><i aria-hidden="true" class="fa-solid fa-right-from-bracket"></i></button></navbar-boton-btn-cerrar-sesion>
 </div></visor-navbar-derecha></header></navbar-general></visor-navbar><!-- Indicador independiente: siempre queda DEBAJO de la navbar. --><visor-cargando data-component="visor-cargando"><template shadowrootmode="open"><slot></slot></template><div aria-hidden="false" class="visor-navbar-loading on" id="visor-navbar-loading">
 <i class="fa-solid fa-circle-notch fa-spin"></i><span>CARGANDO...</span>
 </div></visor-cargando>
@@ -80,7 +84,7 @@
 <button class="css-inline-8dfaf8b3d3" data-event-click="elegirTipoAnadir('enunciado')"><i class="fa-solid fa-pen-fancy"></i> Enunciado</button><button class="css-inline-f4e119ccb0" data-event-click="elegirTipoAnadir('nombre')"><i class="fa-solid fa-user-slash"></i> Nombre</button><button class="css-inline-e9fc4d0243" data-event-click="elegirTipoAnadir('colegio')"><i class="fa-solid fa-school"></i> Colegio</button><button class="css-inline-89b06e028c" data-event-click="elegirTipoAnadir('reflujo')"><i class="fa-solid fa-arrows-up-to-line"></i> Subir si hay Imágenes</button><button class="css-inline-63ffcf769e" data-event-click="toggleEditor(false)">✕ Cancelar</button>
 </div>
 </div></div></visor-editor>
-<!-- 4. CONTENEDOR PRINCIPAL: VISOR IZQUIERDO Y DERECHO --><visor-visores data-component="visores"><template shadowrootmode="open"><slot></slot></template><div class="ovcols">
+<!-- 4. CONTENEDOR PRINCIPAL: VISOR IZQUIERDO Y DERECHO --><visor-visores data-component="visores"><template shadowrootmode="open"><slot></slot></template><div class="visor-responsive-switch" id="visorResponsiveSwitch" role="tablist" aria-label="Vista del documento"><button type="button" class="active" data-view="old">1. ORIGINAL</button><button type="button" data-view="new">2. CÓMO QUEDARÍA</button></div><div class="ovcols">
 <!-- VISOR IZQUIERDO (DOCUMENTO ORIGINAL) --><visor-columna data-component="columna-visor"><template shadowrootmode="open"><slot></slot></template><div class="ovcol">
 <div class="col-header orig" id="headerViewerOld">
 <i class="fa-solid fa-file-lines"></i> 1. ORIGINAL (Haz clic sobre enunciado, nombres o colegio para modificar)</div>
@@ -203,42 +207,69 @@
 <div class="css-inline-5fd3120e31">
 <button class="css-inline-f24f90f9ee" data-event-click="ejecutarLimpiarDatos()"><i class="fa-solid fa-check"></i> Confirmar y Limpiar</button><button class="css-inline-af9b0a4d92" data-event-click="closeLimpiarDatosModal()">Cancelar</button>
 </div>
-</div></div></visor-modal-limpiar-datos> <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</div></div></visor-modal-limpiar-datos> 
 <!-- M&Oacute;DULOS MODULARES POR CARPETAS (< 90 L&Iacute;NEAS POR ARCHIVO) -->
+
+<script src="/visor-admin/lib/pdf.min.js"></script>
+<script>window.__configurarPdfWorker?.();</script>
 <script src="js/visor-admin/estado/global.js"></script>
 <script src="js/visor-admin/estado/cambios.js"></script>
 <script src="js/visor-admin/estado/navegacion.js"></script>
 <script src="js/visor-admin/estado/teclado.js"></script>
 <script src="/js/servicios/rama-api.js"></script>
 <script src="js/visor-admin/estado/apertura.js"></script>
-<script src="js/visor-admin/rama/selector.js"></script> <script src="js/visor-admin/vistas/cards.js"></script>
-<script src="js/visor-admin/vistas/stats.js"></script>
-<script src="js/visor-admin/vistas/grid.js"></script>
-<script src="js/visor-admin/vistas/render.js"></script> <script src="js/visor-admin/modales/alertas.js"></script>
+<script src="js/visor-admin/rama/selector-rama.js"></script>
+<script src="js/visor-admin/vistas/tarjetas.js"></script>
+<script src="js/visor-admin/vistas/estadisticas.js"></script>
+<script src="js/visor-admin/vistas/cuadricula.js"></script>
+<script src="js/visor-admin/vistas/render.js"></script>
+<script src="js/visor-admin/modales/alertas.js"></script>
 <script src="js/visor-admin/modales/limpiar_datos.js"></script>
-<script src="js/visor-admin/modales/sistema.js"></script> <script src="js/visor-admin/enunciados/crear.js"></script>
+<script src="js/visor-admin/modales/sistema.js"></script>
+<script src="js/visor-admin/enunciados/crear.js"></script>
 <script src="js/visor-admin/enunciados/editar.js"></script>
-<script src="js/visor-admin/enunciados/popup.js"></script> <script src="js/visor-admin/imagenes/popup.js"></script>
+<script src="js/visor-admin/enunciados/emergente.js"></script>
+<script src="js/visor-admin/imagenes/emergente.js"></script>
 <script src="js/visor-admin/imagenes/acciones.js"></script>
-<script src="js/visor-admin/imagenes/internet.js"></script> <script src="js/visor-admin/dibujo/selector.js"></script>
+<script src="js/visor-admin/imagenes/internet.js"></script>
+<script src="js/visor-admin/dibujo/selector.js"></script>
 <script src="js/visor-admin/dibujo/guardar.js"></script>
 <script src="js/visor-admin/dibujo/eventos.js"></script>
-<script src="js/visor-admin/dibujo/canvas.js"></script> <script src="js/visor-admin/hotspots/utils.js"></script>
+<script src="js/visor-admin/dibujo/canvas.js"></script>
+<script src="js/visor-admin/hotspots/utilidades.js"></script>
 <script src="js/visor-admin/hotspots/enunciados.js"></script>
 <script src="js/visor-admin/hotspots/nombres.js"></script>
 <script src="js/visor-admin/hotspots/colegios.js"></script>
 <script src="js/visor-admin/hotspots/reflujo.js"></script>
-<script src="js/visor-admin/hotspots/overlays.js"></script> <script src="js/visor-admin/render/precarga.js"></script>
-<script src="js/visor-admin/render/scroll_sync.js"></script>
+<script src="js/visor-admin/hotspots/overlays.js"></script>
+<script src="js/visor-admin/render/precarga.js"></script>
+<script src="js/visor-admin/render/sincronizacion-desplazamiento.js"></script>
 <script src="js/visor-admin/render/pagina.js"></script>
 <script src="js/visor-admin/render/placeholders.js"></script>
 <script src="js/visor-admin/render/refresco.js"></script>
-<script src="js/visor-admin/render/visor.js"></script> <script src="js/visor-admin/acciones/checks.js"></script>
+<script src="js/visor-admin/render/visor.js"></script>
+<script src="js/visor-admin/acciones/checks.js"></script>
 <script src="js/visor-admin/acciones/decisiones.js"></script>
 <script src="js/visor-admin/acciones/confirmar.js"></script>
 <script src="js/visor-admin/acciones/apuntes.js"></script>
 <script src="js/visor-admin/acciones/apuntes_alias.js"></script>
 <script src="js/visor-admin/acciones/descarga.js"></script>
-<script src="js/visor-admin/acciones/github.js"></script> <script src="js/visor-admin/app.js"></script>
-<script src="js/visor-admin/navbar/navegacion-global.js"></script> </body>
+<script src="js/visor-admin/acciones/github.js"></script>
+<script src="js/visor-admin/aplicacion.js"></script>
+<script src="js/visor-admin/navbar/navegacion-global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/permisos/crypto.js"></script>
+<script src="js/permisos/supabase.js"></script>
+<script src="js/permisos/github.js"></script>
+<script src="js/permisos/visibilidad.js"></script>
+<script src="js/nucleo/permisos.js"></script>
+<script src="js/nucleo/auth.js"></script>
+<script src="js/componentes/navbar/navbar_movil.js"></script>
+<script src="js/componentes/navbar/navbar_modo_edicion.js"></script>
+<script src="js/componentes/navbar.js"></script>
+<script src="js/componentes/ajustes.js"></script>
+<script src="js/visor-admin/api-estatica.js"></script>
+<script src="js/visor-admin/arranque.js"></script>
+<script src="js/visor-admin/enlaces.js"></script>
+</body>
 </html>

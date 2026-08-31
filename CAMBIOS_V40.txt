@@ -1,0 +1,29 @@
+V40 — CORRECCIONES VISOR-ADMIN
+
+1. RESPONSIVE UNIFICADO
+- Se eliminan del HTML del panel las hojas responsive históricas que se pisaban entre sí.
+- Se crea css/visor-administrador/responsivo/responsivo-unificado-v40.css como única capa responsive del VISOR-ADMIN.
+- Navbar superior, selector de rama, botones de acciones, barra del documento, editor/apuntes y visores PDF quedan contenidos dentro de la pantalla.
+- Subir GitHub / Descargar / Dejar Original se adaptan a tablet y móvil sin overflow horizontal.
+- Añadir / Enunciados / Nombres / Colegio / Nombre PDF / Apunte / Internet y botones de restauración se reordenan por rejilla cuando no caben.
+- En móvil se conserva el selector Original / Cómo quedaría para no hacer ilegibles los dos PDFs en paralelo.
+
+2. PREBOOT Y SESIÓN
+- El panel VISOR-ADMIN permanece oculto durante la hidratación inicial para evitar flashes de estado incorrecto.
+- La ruta protegida espera a Permisos antes de decidir si el usuario tiene acceso.
+- autenticacion.js deja de ejecutar verificarAdmin antes de que Permisos haya terminado de hidratar el rol.
+- Permisos.asegurarSesion incorpora reintentos cortos cuando existe una sesión pero el rol todavía no está disponible.
+- Una comprobación transitoria ya no provoca signOut de una sesión válida.
+
+3. RAMA DESPUÉS DEL LOGIN
+- Tras iniciar sesión, si existe una rama persistida y no se ha pedido explícitamente el selector, se entra directamente en esa rama.
+- Si el usuario había pedido volver al selector, se respeta forzar_selector_rama y no se recupera automáticamente la rama anterior.
+
+4. VISOR-ADMIN: HOME / ATRÁS = SELECTOR
+- El Home del VISOR-ADMIN vuelve siempre al selector de ramas.
+- Cuando se vuelve atrás desde el panel sin una ruta de retorno explícita, se limpia la rama persistida y se abre el selector.
+- También se limpian last_grado, last_archivo, last_open y visor_todas para evitar reabrir accidentalmente el documento/rama anterior.
+- La URL del panel conserva su propia ruta al limpiar los parámetros, de modo que el historial del navegador no se transforma artificialmente en '/'.
+
+5. RAMAS
+- Se mantiene el filtrado existente de la rama principal/master: el selector lista las ramas de trabajo, no master.

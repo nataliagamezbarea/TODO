@@ -3,7 +3,7 @@ window.RamaAPI = window.RamaAPI || (() => {
   const CACHE = "cache_ramas_lista";
   const sort = (lista) => (Array.isArray(lista) ? [...lista] : [])
     .map(x => String(x || '').trim()).filter(Boolean)
-    .filter(x => x.toLowerCase() !== 'master')
+    .filter(x => !['master','main','principal'].includes(x.toLowerCase()))
     .filter((x,i,a) => a.indexOf(x) === i)
     .sort((a,b) => a.localeCompare(b, 'es', {sensitivity:'base'}));
   const cacheGet = () => {
@@ -51,9 +51,12 @@ window.RamaAPI = window.RamaAPI || (() => {
   }
   async function poblarSelector(select, opciones={}){
     if(!select) return [];
-    const placeholder=opciones.placeholder||'SELECCIONAR';
+    const incluirMarcador = opciones.incluirMarcador !== false;
+    const marcador = opciones.placeholder || 'SELECCIONAR RAMA';
     select.innerHTML='';
-    const p=document.createElement('option'); p.value=''; p.textContent=placeholder; p.disabled=opciones.disablePlaceholder!==false; select.appendChild(p);
+    if (incluirMarcador) {
+      const p=document.createElement('option'); p.value=''; p.textContent=marcador; p.disabled=opciones.disablePlaceholder!==false; select.appendChild(p);
+    }
     const cached=cacheGet();
     cached.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;select.appendChild(o);});
     const ramas=await listarRamas();
@@ -69,9 +72,7 @@ window.RamaAPI = window.RamaAPI || (() => {
 window.RamaUI = window.RamaUI || {
   ensureAllBranchesOption(select, texto='— TODAS LAS RAMAS —') {
     if(!select) return;
-    let def=Array.from(select.options).find(o=>o.value===''||o.dataset.defaultBranch==='1');
-    if(!def){def=document.createElement('option');def.value='';def.textContent='SELECCIONAR';def.dataset.defaultBranch='1';}
-    if(def.parentElement===select) select.insertBefore(def,select.firstChild); else select.prepend(def);
+    // No se crea un marcador vacío: la primera opción debe ser una rama real.
     Array.from(select.options).forEach(o=>{if(o.dataset.allBranches==='1'||o.value==='__ALL_BRANCHES__')o.remove();});
     const all=document.createElement('option');all.value='__ALL_BRANCHES__';all.textContent=texto;all.dataset.allBranches='1';select.appendChild(all);
   }

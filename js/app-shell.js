@@ -39,11 +39,11 @@
   const PAPAPARSE_URL = "js/vendor-papaparse.js";
   const SCRIPTS = {
     login: ["js/vistas/login.js"],
-    inicio: ["js/servicios/rama-api.js","js/componentes/navbar.js","js/componentes/navbar/navbar_movil.js","js/componentes/navbar/navbar_modo_edicion.js","js/componentes/emojis.js","js/vistas/selector_rama_utilidades.js","js/vistas/index_rama.js","js/servicios/rama.js","js/servicios/informacion.js","js/descargas/notificador.js","js/descargas/recolector_urls.js","js/descargas/ziper.js","js/descargas/exportador_proyecto.js","js/modales/previsualizador.js","js/modales/visor_admin_integrado.js","js/modales/gestor_archivos_modal.js","js/renderizadores/mostrar_archivos.js","js/renderizadores/mostrar_datos.js"],
-    clase: ["js/vistas/clase.js","js/servicios/trimestres.js","js/vistas/volver_atras.js"],
-    asignaturas: ["js/vistas/trimestre.js","js/servicios/trimestres.js","js/vistas/volver_atras.js"],
-    asignatura: ["js/renderizadores/mostrar_archivos.js","js/renderizadores/mostrar_datos.js","js/vistas/volver_atras.js"],
-    apuntes: ["js/renderizadores/mostrar_archivos.js","js/renderizadores/apuntes_practicas_ejercicios_tareas.js","js/vistas/volver_atras.js"]
+    inicio: ["js/servicios/rama-api.js","js/componentes/navbar.js","js/componentes/navbar/navbar_movil.js","js/componentes/ajustes.js","js/componentes/navbar/navbar_modo_edicion.js","js/componentes/emojis.js","js/servicios/rama.js","js/vistas/selector_rama_utilidades.js","js/vistas/index_rama.js","js/servicios/informacion.js","js/descargas/notificador.js","js/descargas/recolector_urls.js","js/descargas/ziper.js","js/descargas/exportador_proyecto.js","js/modales/previsualizador.js","js/modales/visor_admin_integrado.js?v=41","js/modales/gestor_archivos_modal.js","js/renderizadores/mostrar_archivos.js","js/renderizadores/mostrar_datos.js"],
+    clase: ["js/componentes/ajustes.js","js/vistas/clase.js","js/servicios/trimestres.js","js/vistas/volver_atras.js"],
+    asignaturas: ["js/componentes/ajustes.js","js/vistas/trimestre.js","js/servicios/trimestres.js","js/vistas/volver_atras.js"],
+    asignatura: ["js/componentes/ajustes.js","js/renderizadores/mostrar_archivos.js","js/renderizadores/mostrar_datos.js","js/vistas/volver_atras.js"],
+    apuntes: ["js/componentes/ajustes.js","js/renderizadores/mostrar_archivos.js","js/renderizadores/apuntes_practicas_ejercicios_tareas.js","js/vistas/volver_atras.js"]
   };
   let actual = null, contexto = {}, cargadosJS = new Set(), cargadosCSS = new Set(), promesasJS = new Map(), promesasCSS = new Map();
   // Las transiciones se serializan para que al pulsar Atrás no queden cargas CSS
@@ -188,14 +188,18 @@
   async function mostrarInterno(nombre, datos={}, opciones={}) {
     nombre=String(nombre||"").toLowerCase(); if(!V.has(nombre)) nombre="inicio";
     const datosNuevos = datos || {};
-    const contextoSiguiente = {...contexto, ...datosNuevos};
+    const contextoSiguiente = {...contexto};
+    Object.entries(datosNuevos).forEach(([k, v]) => {
+      if (v === undefined || v === null || String(v) === "") delete contextoSiguiente[k];
+      else contextoSiguiente[k] = v;
+    });
     if(actual===nombre && !opciones.forzar) {
       contexto = contextoSiguiente;
       return;
     }
     contexto = contextoSiguiente;
-    if(window.Estado && Object.keys(datosNuevos).length) try {
-      window.Estado.guardarContexto?.(datosNuevos);
+    if(window.Estado) try {
+      window.Estado.establecerContexto?.(contextoSiguiente);
       Object.entries(datosNuevos).forEach(([k,v])=>window.Estado.guardar?.(k,v));
     } catch(_){}
     await montar(nombre);
@@ -253,13 +257,25 @@
       delete ctx.rama;
       delete ctx.trimestre;
       delete ctx.asignatura;
-      try { window.RamaActual?.guardar?.(""); } catch (_) {}
+      try { window.RamaActual?.limpiar?.(); } catch (_) { try { window.RamaActual?.guardar?.(""); } catch (_) {} }
       try { window.Estado?.guardar?.("rama", ""); } catch (_) {}
       return mostrar("inicio", ctx, {reemplazar:true, forzar:true});
     }
     return mostrar("inicio", {}, {reemplazar:true, forzar:true});
   };
-  window.AppViews={mostrar,navegar,irInicio:()=>mostrar("inicio"),atras:volverAtras,obtener:()=>actual,contexto:()=>({...contexto})};
+  window.AppViews={
+    mostrar,
+    navegar,
+    irInicio:()=>{
+      let rama="";
+      try { rama=String(window.Estado?.obtener?.("rama") || "").trim(); } catch (_) {}
+      if(!rama){ try { rama=String(window.RamaActual?.obtener?.() || "").trim(); } catch (_) {} }
+      return rama ? mostrar("clase",{rama},{reemplazar:true,forzar:true}) : mostrar("inicio",{},{reemplazar:true,forzar:true});
+    },
+    atras:volverAtras,
+    obtener:()=>actual,
+    contexto:()=>({...contexto})
+  };
   // La aplicación es siempre /; cualquier query usada para recuperar contexto
   // se guarda y se elimina de la barra sin convertirla en una ruta visible.
   if (window.location.pathname !== "/" && window.history?.replaceState) {
@@ -267,9 +283,12 @@
   }
   window.__mostrarVista=mostrar;
   window.addEventListener("app-navegar",e=>{const d=e.detail||{}; navegar(d.ruta||d.vista,d.contexto||{});});
-  window.addEventListener("DOMContentLoaded", async ()=>{
-    if(window.Estado && typeof Estado.navegar==="function") Estado.navegar=(r,d={})=>navegar(r,d);
-    const destino=sessionStorage.getItem("esInvitado")==="true"||window.sesionActual?"inicio":"login";
-    try { await mostrar(destino,{},{reemplazar:true,forzar:true}); } catch(e) { console.error("Error cargando la vista inicial:",e); }
+  // La ruta inicial la decide auth.js cuando Supabase ya ha resuelto la sesión.
+  // No hacemos un segundo arranque aquí: hacerlo antes provocaba que una sesión
+  // ya existente entrase primero en el selector y luego se corrigiera tarde.
+  window.addEventListener("DOMContentLoaded", ()=>{
+    if(window.Estado && typeof window.Estado.navegar==="function") {
+      window.Estado.navegar=(r,d={})=>navegar(r,d);
+    }
   },{once:true});
 })();

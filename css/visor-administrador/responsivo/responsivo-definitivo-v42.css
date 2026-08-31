@@ -1,0 +1,64 @@
+/* V42 — RESPONSIVO DEFINITIVO DEL VISOR-ADMIN */
+*,*::before,*::after{box-sizing:border-box}
+html,body{width:100%;max-width:100%;min-width:0;overflow-x:hidden!important}
+body{margin:0}
+/* El preboot no oculta la barra de navegación ni el selector de rama. */
+html.visor-preboot body{visibility:visible!important;overflow-x:hidden!important}
+html.visor-preboot #content,html.visor-preboot #fileSearchBar,html.visor-preboot #stats{visibility:hidden!important}
+#barra-superior{width:100%!important;max-width:100%!important;min-width:0!important;display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important;overflow:visible!important}
+#barra-superior .nav-left,#barra-superior .nav-right{min-width:0!important;max-width:100%!important;display:flex!important;align-items:center!important;gap:7px!important;flex-wrap:wrap!important}
+#barra-superior .nav-left{flex:1 1 auto!important;overflow:visible!important}
+#barra-superior .nav-right{flex:0 1 auto!important;margin-left:auto!important;justify-content:flex-end!important}
+#barra-superior .visor-navbar-brand{min-width:0!important;max-width:220px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#barra-superior .visor-navbar-rama{display:flex!important;align-items:center!important;min-width:180px!important;max-width:300px!important;flex:0 1 300px!important;height:40px!important;overflow:hidden!important}
+#barra-superior .visor-navbar-rama label{flex:0 0 auto!important;white-space:nowrap!important}
+#barra-superior .visor-navbar-rama select{min-width:0!important;width:100%!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#barra-superior .visor-navbar-action{min-width:40px!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#barra-superior>*,#barra-superior .nav-left>*,#barra-superior .nav-right>*{min-width:0!important}
+/* Barra de navegación del documento */
+#ov .ov-nav,#ov .ov-nav-group{min-width:0!important;max-width:100%!important}
+#ov .ov-nav{width:100%!important;display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:6px!important;overflow:hidden!important}
+#ov .ov-nav-group{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:5px!important}
+#ov .ov-nav button,#ov .ov-nav-group button{max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#ov .ov-counter{flex:0 0 auto!important;white-space:nowrap!important}
+/* Buscador, barra de apuntes y editor */
+.file-search-bar,.file-search-inner,.apuntes-barra,.visor-apunte-barra,#barra-apuntes,.editor-toolbar,.editorBox{width:100%!important;max-width:100%!important;min-width:0!important}
+.file-search-inner{display:flex!important;flex-wrap:wrap!important;min-width:0!important}
+.file-search-inner input{min-width:0!important;max-width:100%!important;flex:1 1 180px!important}
+#content,.content,.grid,.cards,.visor-grid,.ovcols,.ovcol,.doc-viewer{min-width:0!important;max-width:100%!important}
+#content{overflow-x:hidden!important}
+button,input,select,textarea{max-width:100%;font:inherit}
+button{overflow-wrap:anywhere}
+@media (max-width:1100px){
+ #barra-superior{align-items:stretch!important;padding:8px!important}
+ #barra-superior .nav-left,#barra-superior .nav-right{flex:1 1 100%!important;width:100%!important;justify-content:flex-start!important}
+ #barra-superior .nav-right{justify-content:flex-end!important;margin-left:0!important}
+ #barra-superior .visor-navbar-rama{order:3!important;flex:1 1 240px!important;max-width:100%!important}
+ #barra-superior .visor-navbar-brand{max-width:calc(100vw - 40px)!important}
+ #ov .ovcols{display:block!important;width:100%!important;overflow:hidden!important}
+ #ov .ovcol{width:100%!important;max-width:100%!important}
+ .visor-pestanas-documento{display:flex!important;flex-wrap:wrap!important;width:100%!important;gap:6px!important}
+ .visor-pestanas-documento button{flex:1 1 140px!important}
+}
+@media (max-width:600px){
+ #barra-superior .nav-left,#barra-superior .nav-right{gap:5px!important}
+ #barra-superior .visor-navbar-brand{display:none!important}
+ #barra-superior .visor-navbar-rama{flex:1 1 100%!important;width:100%!important;min-width:0!important}
+ #barra-superior .nav-right{justify-content:stretch!important}
+ #barra-superior .nav-right>*{flex:1 1 calc(50% - 5px)!important;max-width:none!important}
+ #barra-superior .nav-right .btn-modo-oscuro,#barra-superior .nav-right #boton-ajustes,#barra-superior .nav-right .btn-cerrar-sesion{flex:0 0 42px!important}
+ #ov .ov-nav{padding:6px!important;gap:5px!important}
+ #ov .ov-nav-group{width:100%!important}
+ #ov .ov-nav-group button{flex:1 1 auto!important;min-width:42px!important}
+ .file-search-inner{gap:6px!important}
+ .file-search-inner input{flex-basis:100%!important}
+ .visor-menu,.visor-menu button,.visor-menu input,.visor-menu select,.visor-menu textarea{max-width:100%!important}
+ .modal-content,.blocker-box{width:min(96vw,680px)!important;max-width:96vw!important}
+}
+@media (max-width:380px){
+ #barra-superior .nav-right>*{flex-basis:100%!important}
+ #barra-superior .nav-right .btn-modo-oscuro,#barra-superior .nav-right #boton-ajustes,#barra-superior .nav-right .btn-cerrar-sesion{flex:1 1 42px!important}
+}
+#visor-navbar-rama-box,.visor-navbar-rama{visibility:visible!important;opacity:1!important}
+#selectRamaGithub{display:block!important;visibility:visible!important;opacity:1!important}
+#selectRamaGithub:disabled{cursor:wait;opacity:.8}

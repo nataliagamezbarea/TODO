@@ -1,0 +1,202 @@
+/*
+ * V40 — RESPONSIVE UNIFICADO DEL VISOR-ADMIN
+ * Una única hoja controla navbar, listado, barra de documento, editor y PDFs.
+ * Las hojas responsive históricas ya no se cargan en panel-administrador.html.
+ */
+html, body { max-width: 100%; overflow-x: hidden !important; }
+body { box-sizing: border-box; }
+#app-root, #app-root > * { min-width: 0; max-width: 100%; box-sizing: border-box; }
+
+/* ---------- NAVBAR SUPERIOR ---------- */
+#barra-superior {
+  width: 100% !important;
+  max-width: 100vw !important;
+  min-width: 0 !important;
+  min-height: 64px !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 14px !important;
+  overflow: visible !important;
+}
+#barra-superior .nav-left,
+#barra-superior .nav-right {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: nowrap !important;
+}
+#barra-superior .nav-left { flex: 1 1 auto !important; overflow: hidden !important; }
+#barra-superior .nav-right { flex: 0 1 auto !important; margin-left: auto !important; overflow: visible !important; }
+#barra-superior .nav-left > *,
+#barra-superior .nav-right > *,
+#barra-superior .visor-navbar-action { min-width: 0 !important; box-sizing: border-box !important; }
+#barra-superior .visor-navbar-brand { min-width: 0; max-width: 24vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 0 1 auto; }
+#barra-superior .visor-navbar-rama { min-width: 180px !important; max-width: min(260px, 30vw) !important; flex: 0 1 260px !important; }
+#barra-superior .visor-navbar-rama select { min-width: 0 !important; max-width: 100% !important; overflow: hidden; text-overflow: ellipsis; }
+#barra-superior .visor-navbar-action,
+#barra-superior #btn-inicio,
+#barra-superior #volver-atras,
+#barra-superior #btn-modo-oscuro,
+#barra-superior #boton-ajustes,
+#barra-superior #btn-cerrar-sesion {
+  flex: 0 1 auto !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+}
+
+/* ---------- LISTADO ---------- */
+.file-search-bar, .stats, .wrap {
+  width: min(1280px, calc(100% - 32px)) !important;
+  max-width: calc(100vw - 24px) !important;
+  box-sizing: border-box !important;
+}
+.file-search-inner { width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; }
+.file-search-inner input { min-width: 0 !important; max-width: 100% !important; }
+.wrap { min-width: 0 !important; }
+.card, .sec, .tabs, .tab, .stats, .legend { min-width: 0; max-width: 100%; box-sizing: border-box; }
+.card .row, .card .name { overflow-wrap: anywhere; word-break: break-word; }
+
+/* ---------- VISOR DE DOCUMENTO ---------- */
+#ov, #ov * { box-sizing: border-box; }
+#ov { width: 100vw !important; max-width: 100vw !important; max-height: 100dvh !important; overflow: hidden !important; }
+#ov .ov-topbar,
+#ov .ov-actionbar,
+#ov .apunte-bar,
+#ov .editor-box,
+#ov .ovcols { width: 100% !important; max-width: 100% !important; min-width: 0 !important; }
+#ov .ov-topbar { overflow: hidden !important; }
+#ov .ov-nav-group,
+#ov .ov-right,
+#ov .ov-files { min-width: 0 !important; max-width: 100% !important; }
+#ov .ov-nav-group > *,
+#ov .ov-right > *,
+#ov .ov-actionbar > *,
+#ov .apunte-bar > *,
+#ov .editor-tools > * { min-width: 0 !important; max-width: 100% !important; }
+#ov .ov-files { overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; }
+#ov .orig-name-text, #ov .clean-name-text { overflow: hidden !important; text-overflow: ellipsis !important; }
+
+/* Botones críticos: nunca fuerzan una anchura mayor que la pantalla. */
+#ov .ov-right .btn-act,
+#ov .ov-actionbar .btn-act,
+#ov .ov-actionbar .btn-sm-restore,
+#ov .ov-actionbar .pill-check,
+#ov .apunte-bar button,
+#ov .editor-tools button {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* Barra de acciones: se permite segunda línea en vez de overflow horizontal. */
+#ov .ov-actionbar { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; align-items: center !important; gap: 6px !important; overflow-x: hidden !important; overflow-y: auto !important; }
+#ov .apunte-bar { display: flex !important; flex-wrap: wrap !important; align-items: center !important; gap: 7px !important; overflow-x: hidden !important; overflow-y: auto !important; }
+#ov .apunte-bar > div:first-child { min-width: 0 !important; flex: 1 1 420px !important; display: flex !important; align-items: center !important; gap: 7px !important; }
+#ov #inputApunteName { min-width: 80px !important; flex: 1 1 220px !important; width: auto !important; max-width: 100% !important; }
+#ov .apunte-bar > div:last-child { display: flex !important; flex: 0 1 auto !important; flex-wrap: wrap !important; gap: 6px !important; max-width: 100% !important; }
+#ov .editor-box { max-width: calc(100% - 16px) !important; margin-left: auto !important; margin-right: auto !important; }
+#ov .editor-tools { min-width: 0 !important; display: flex !important; flex-wrap: wrap !important; gap: 8px !important; }
+#ov .editor-tools > span { flex: 1 1 260px !important; min-width: 0 !important; overflow-wrap: anywhere !important; }
+#ov .editor-tools > div { flex: 1 1 360px !important; min-width: 0 !important; display: flex !important; flex-wrap: wrap !important; gap: 6px !important; }
+
+#ov .ovcols { min-height: 0 !important; overflow: hidden !important; }
+#ov .ovcol { min-width: 0 !important; max-width: 100% !important; min-height: 0 !important; overflow: hidden !important; }
+#ov .doc-viewer { min-width: 0 !important; max-width: 100% !important; overflow: auto !important; }
+#ov .doc-page, #ov .pdfjs-page { width: min(100%, 920px) !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; }
+#ov .doc-page canvas, #ov .pdfjs-page canvas, #ov .doc-page img, #ov .pdfjs-page img { display: block !important; max-width: 100% !important; height: auto !important; }
+
+/* ---------- TABLET ---------- */
+@media (max-width: 1100px) {
+  #barra-superior { flex-wrap: wrap !important; align-content: center !important; row-gap: 7px !important; }
+  #barra-superior .nav-left { flex: 1 1 100% !important; overflow: visible !important; flex-wrap: wrap !important; }
+  #barra-superior .nav-right { flex: 1 1 100% !important; justify-content: flex-end !important; flex-wrap: wrap !important; }
+  #barra-superior .visor-navbar-brand { max-width: 32vw; }
+  #barra-superior .visor-navbar-rama { flex: 1 1 240px !important; max-width: 320px !important; }
+  #ov .ov-topbar { display: grid !important; grid-template-columns: minmax(0,1fr) minmax(180px, 1fr) minmax(0,1fr) !important; gap: 7px !important; padding: 7px !important; }
+  #ov .ov-nav-group, #ov .ov-right { flex-wrap: wrap !important; }
+  #ov .ov-files { text-align: center !important; }
+  #ov .ov-actionbar { max-height: 30vh !important; }
+}
+
+/* ---------- MÓVIL ---------- */
+@media (max-width: 760px) {
+  body { padding-top: 0 !important; }
+  #barra-superior { position: sticky !important; top: 0 !important; min-height: 58px !important; padding: 7px 8px !important; gap: 6px !important; }
+  #barra-superior .nav-left,
+  #barra-superior .nav-right { width: 100% !important; flex: 1 1 100% !important; justify-content: center !important; flex-wrap: wrap !important; overflow: visible !important; }
+  #barra-superior .nav-right { margin-left: 0 !important; }
+  #barra-superior .visor-navbar-brand { max-width: 18vw; }
+  #barra-superior .visor-navbar-brand span { display: none !important; }
+  #barra-superior .visor-navbar-rama { flex: 1 1 190px !important; width: auto !important; min-width: 145px !important; max-width: 100% !important; }
+  #barra-superior .visor-navbar-action,
+  #barra-superior #btn-inicio,
+  #barra-superior #volver-atras,
+  #barra-superior #btn-modo-oscuro,
+  #barra-superior #boton-ajustes,
+  #barra-superior #btn-cerrar-sesion { min-height: 38px !important; max-height: 42px !important; padding: 0 9px !important; }
+
+  .file-search-bar, .stats, .wrap { width: calc(100% - 16px) !important; max-width: calc(100vw - 16px) !important; }
+  .file-search-inner { flex-wrap: wrap !important; gap: 6px !important; }
+  .file-search-inner input { flex: 1 1 160px !important; width: auto !important; }
+  .stats { display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 6px !important; }
+  .stats .stat { min-width: 0 !important; overflow-wrap: anywhere !important; }
+  .wrap { padding-left: 8px !important; padding-right: 8px !important; }
+
+  #ov .ov-topbar { display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 6px !important; padding: 6px !important; max-height: 32dvh !important; overflow-y: auto !important; }
+  #ov .ov-nav-group,
+  #ov .ov-right { width: 100% !important; display: grid !important; grid-template-columns: repeat(3,minmax(0,1fr)) !important; gap: 5px !important; }
+  #ov .ov-nav-group > *, #ov .ov-right > * { width: 100% !important; min-height: 34px !important; justify-content: center !important; }
+  #ov .ov-files { width: 100% !important; order: 2 !important; text-align: center !important; white-space: normal !important; overflow-wrap: anywhere !important; }
+  #ov .ov-right { order: 3 !important; }
+
+  /* Subir GitHub / Descargar / Dejar Original: siempre visibles y contenidos. */
+  #ov .ov-right .btn-act { min-height: 38px !important; padding: 6px 5px !important; white-space: normal !important; overflow-wrap: anywhere !important; }
+  #ov .ov-actionbar { display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; max-height: 28dvh !important; overflow-y: auto !important; padding: 6px !important; }
+  #ov .ov-actionbar > * { width: 100% !important; }
+  #ov .ov-actionbar .v-divider { display: none !important; }
+  #ov .pill-check, #ov .btn-sm-restore, #ov .ov-actionbar .btn-act { min-height: 35px !important; padding: 6px 5px !important; text-align: center !important; white-space: normal !important; }
+
+  #ov .apunte-bar { max-height: 24dvh !important; padding: 6px !important; }
+  #ov .apunte-bar > div:first-child { flex-basis: 100% !important; }
+  #ov .apunte-bar > div:last-child { width: 100% !important; display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  #ov .apunte-bar > div:last-child button { width: 100% !important; min-width: 0 !important; }
+  #ov .editor-box { max-height: 26dvh !important; overflow: auto !important; margin: 5px 8px !important; padding: 7px !important; }
+  #ov .editor-tools > span, #ov .editor-tools > div { flex-basis: 100% !important; }
+  #ov .editor-tools > div { display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  #ov .editor-tools button { width: 100% !important; min-height: 34px !important; white-space: normal !important; }
+
+  #ov .visor-responsive-switch { display: flex !important; width: 100% !important; gap: 5px !important; padding: 5px !important; }
+  #ov .visor-responsive-switch button { flex: 1 1 0 !important; min-width: 0 !important; max-width: 100% !important; }
+  #ov .ovcols { display: block !important; height: auto !important; overflow: hidden !important; padding: 6px !important; }
+  #ov .ovcol { display: none !important; width: 100% !important; height: calc(100dvh - 320px) !important; min-height: 300px !important; }
+  #ov .ovcol.is-responsive-active { display: grid !important; grid-template-rows: auto minmax(0,1fr) !important; }
+  #ov .doc-viewer { width: 100% !important; height: 100% !important; padding: 6px !important; overflow: auto !important; }
+  #ov .doc-page, #ov .pdfjs-page { width: 100% !important; max-width: 100% !important; }
+}
+
+@media (max-width: 480px) {
+  #barra-superior .nav-left { justify-content: flex-start !important; }
+  #barra-superior .nav-right { display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; width: 100% !important; }
+  #barra-superior .visor-navbar-rama { width: 100% !important; flex-basis: 100% !important; }
+  #barra-superior .visor-navbar-action { width: 100% !important; }
+  .file-search-bar, .stats, .wrap { width: calc(100% - 12px) !important; max-width: calc(100vw - 12px) !important; }
+  .stats { grid-template-columns: 1fr !important; }
+  #ov .ov-nav-group, #ov .ov-right { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  #ov .ov-actionbar { grid-template-columns: 1fr !important; }
+  #ov .apunte-bar > div:last-child, #ov .editor-tools > div { grid-template-columns: 1fr !important; }
+  #ov .ovcol { height: calc(100dvh - 350px) !important; min-height: 280px !important; }
+}
+
+/* Pantallas extremadamente estrechas: ocultar texto secundario, nunca crear scroll horizontal. */
+@media (max-width: 360px) {
+  #barra-superior { padding: 5px !important; }
+  #barra-superior .visor-navbar-brand { display: none !important; }
+  #barra-superior .visor-navbar-rama { min-width: 0 !important; }
+  #ov .ov-right .btn-act { font-size: 10px !important; }
+}

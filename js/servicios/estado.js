@@ -10,9 +10,13 @@ window.Estado = (() => {
     const actual = leerContexto();
     const nuevo = { ...actual };
     Object.entries(parcial).forEach(([k, v]) => {
-      if (v !== undefined && v !== null && String(v) !== "") nuevo[k] = v;
+      if (v === undefined || v === null || String(v) === "") delete nuevo[k];
+      else nuevo[k] = v;
     });
-    try { localStorage.setItem(CLAVE_CONTEXTO, JSON.stringify(nuevo)); } catch (_) {}
+    try {
+      if (Object.keys(nuevo).length) localStorage.setItem(CLAVE_CONTEXTO, JSON.stringify(nuevo));
+      else localStorage.removeItem(CLAVE_CONTEXTO);
+    } catch (_) {}
     return nuevo;
   };
 
@@ -30,10 +34,26 @@ window.Estado = (() => {
   };
 
   const guardar = (clave, valor) => {
-    if (valor !== undefined && valor !== null) {
-      try { sessionStorage.setItem(prefijo + clave, valor); } catch (_) {}
-      guardarContexto({ [clave]: valor });
+    if (valor === undefined || valor === null || String(valor) === "") {
+      try { sessionStorage.removeItem(prefijo + clave); } catch (_) {}
+      guardarContexto({ [clave]: null });
+      return;
     }
+    try { sessionStorage.setItem(prefijo + clave, valor); } catch (_) {}
+    guardarContexto({ [clave]: valor });
+  };
+
+
+  const establecerContexto = (nuevoContexto = {}) => {
+    const limpio = {};
+    Object.entries(nuevoContexto || {}).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && String(v) !== "") limpio[k] = v;
+    });
+    try {
+      if (Object.keys(limpio).length) localStorage.setItem(CLAVE_CONTEXTO, JSON.stringify(limpio));
+      else localStorage.removeItem(CLAVE_CONTEXTO);
+    } catch (_) {}
+    return limpio;
   };
 
   const navegar = (ruta, contexto = {}) => {
@@ -58,5 +78,5 @@ window.Estado = (() => {
 
   limpiarUrlVisible();
 
-  return { obtener, guardar, guardarContexto, leerContexto, navegar, limpiarUrlVisible };
+  return { obtener, guardar, guardarContexto, establecerContexto, leerContexto, navegar, limpiarUrlVisible };
 })();
