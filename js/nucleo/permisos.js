@@ -24,61 +24,135 @@ window.Permisos = (() => {
       }
 
       let perfilRol = "";
+      let perfilConsultado = false;
 
       /*
-       * El rol real sale de Supabase.
-       * Primero usamos la función SQL rol_actual(), que consulta
-       * public.perfiles con auth.uid(). Después usamos perfiles como
-       * respaldo. No confiamos en un "esAdmin=false" antiguo de
-       * sessionStorage para convertir a un usuario en invitado.
+       * El origen de verdad del rol es public.perfiles.
+       * NO tratamos el valor por defecto "invitado" de rol_actual()
+       * como un rol real: esa función devuelve "invitado" también
+       * cuando auth.uid() no encuentra una fila.
        */
       if (usuario) {
         try {
-          const { data: rolRpc, error: rpcError } =
-            await cliente.rpc("rol_actual");
+          const resultadoPerfil =
+            await window.PermisosSupabase.consultarTablaConFallback(
+              cliente,
+              "perfiles",
+              (tabla) =>
+                tabla
+                  .select("id, email, rol")
+                  .eq("id", usuario.id)
+                  .maybeSingle()
+            );
 
-          if (!rpcError && rolRpc) {
-            perfilRol = String(rolRpc).trim().toLowerCase();
+          if (
+            !resultadoPerfil.error &&
+            resultadoPerfil.data
+          ) {
+            perfilConsultado = true;
+            perfilRol = String(
+              resultadoPerfil.data.rol || ""
+            )
+              .trim()
+              .toLowerCase();
+
+            console.info(
+              "[Supabase] Perfil encontrado:",
+              {
+                id: resultadoPerfil.data.id,
+                email: resultadoPerfil.data.email,
+                rol: perfilRol
+              }
+            );
+          } else if (resultadoPerfil.error) {
+            console.warn(
+              "[Supabase] Error leyendo public.perfiles:",
+              resultadoPerfil.error
+            );
           }
 
-          if (!perfilRol || perfilRol === "invitado") {
-            const { data: perfilData, error: perfilError } =
+          /*
+           * Respaldo por email. Sirve para cuentas cuyo registro
+           * de perfil quedó con un id antiguo, pero mantiene como
+           * fuente Supabase, nunca localStorage.
+           */
+          if (!perfilConsultado) {
+            const resultadoEmail =
               await window.PermisosSupabase.consultarTablaConFallback(
                 cliente,
                 "perfiles",
                 (tabla) =>
                   tabla
-                    .select("rol")
-                    .eq("id", usuario.id)
+                    .select("id, email, rol")
+                    .eq("email", usuario.email)
                     .maybeSingle()
               );
 
-            if (!perfilError && perfilData?.rol) {
-              perfilRol =
-                String(perfilData.rol).trim().toLowerCase();
-            }
+            if (
+              !resultadoEmail.error &&
+              resultadoEmail.data
+            ) {
+              perfilConsultado = true;
+              perfilRol = String(
+                resultadoEmail.data.rol || ""
+              )
+                .trim()
+                .toLowerCase();
 
-            if (perfilError) {
+              console.info(
+                "[Supabase] Perfil encontrado por email:",
+                {
+                  email: resultadoEmail.data.email,
+                  rol: perfilRol
+                }
+              );
+            }
+          }
+
+          /*
+           * Solo si no se pudo consultar el perfil usamos RPC.
+           * Un RPC que devuelva "invitado" sin encontrar perfil NO
+           * debe pisar un rol válido de public.perfiles.
+           */
+          if (!perfilConsultado) {
+            try {
+              const {
+                data: rolRpc,
+                error: rpcError
+              } = await cliente.rpc("rol_actual");
+
+              if (
+                !rpcError &&
+                rolRpc &&
+                String(rolRpc).trim().toLowerCase() !==
+                  "invitado"
+              ) {
+                perfilRol = String(rolRpc)
+                  .trim()
+                  .toLowerCase();
+              }
+            } catch (errorRpc) {
               console.warn(
-                "[Supabase] Error leyendo public.perfiles:",
-                perfilError
+                "[Supabase] RPC rol_actual no disponible:",
+                errorRpc
               );
             }
           }
         } catch (error) {
           console.warn(
-            "[Supabase] No se pudo obtener el rol desde Supabase:",
+            "[Supabase] No se pudo obtener el perfil:",
             error
           );
         }
       }
 
       /*
-       * Solo usamos la sesión local como respaldo si Supabase no
-       * devolvió ningún rol. Un "false" guardado anteriormente no
-       * puede pisar un "admin" obtenido de Supabase.
+       * Supabase manda. Un valor local "esAdmin=true" solo se
+       * conserva como respaldo si Supabase no pudo proporcionar
+       * absolutamente ningún dato del rol.
        */
       const adminPorSesion =
+        !perfilConsultado &&
         !perfilRol &&
         sessionStorage.getItem("esAdmin") === "true";
 

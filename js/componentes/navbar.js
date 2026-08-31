@@ -83,7 +83,66 @@
     const salir = document.getElementById("btn-cerrar-sesion");
     if (salir && !salir.dataset.listener) {
       salir.dataset.listener = "1";
-      salir.onclick = async () => { sessionStorage.clear(); try { await window.supabaseClient?.auth?.signOut(); } catch (_) {} window.NavegacionApp?.ir("login") || location.replace("/"); };
+      salir.onclick = async () => {
+    /*
+     * Cerrar sesión debe limpiar también localStorage.
+     * No usamos localStorage.clear() porque el navegador puede contener
+     * datos de otras aplicaciones. Eliminamos únicamente las claves
+     * creadas por esta aplicación.
+     */
+    const clavesApp = [
+      "esAdmin",
+      "modo_oscuro",
+      "modo_edicion_live",
+      "modo_edicion",
+      "rama_actual",
+      "visor_contexto",
+      "visor_todas",
+      "visor_pos",
+      "visor_rama",
+      "last_grado",
+      "last_pos",
+      "last_open",
+      "last_archivo",
+      "last_archivo_rama",
+      "rama",
+      "grado",
+      "trimestre",
+      "asignatura"
+    ];
+
+    for (const clave of clavesApp) {
+      try {
+        localStorage.removeItem(clave);
+      } catch (_) {}
+    }
+
+    try {
+      sessionStorage.clear();
+    } catch (_) {}
+
+    /*
+     * La configuración de GitHub se vuelve a consultar desde Supabase
+     * al iniciar la siguiente sesión.
+     */
+    try {
+      delete window.GITHUB_CONFIG;
+    } catch (_) {
+      window.GITHUB_CONFIG = undefined;
+    }
+
+    try {
+      await window.supabaseClient?.auth?.signOut();
+    } catch (error) {
+      console.warn("[Auth] Error cerrando sesión de Supabase:", error);
+    }
+
+    if (window.NavegacionApp?.ir) {
+      window.NavegacionApp.ir("login");
+    } else {
+      location.replace("/");
+    }
+  };
     }
     window.__alternarModoOscuro = () => botonTema?.click();
     window.dispatchEvent(new CustomEvent("navbar-lista"));
