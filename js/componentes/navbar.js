@@ -1,8 +1,14 @@
 (function () {
   const iconos = {
-    inicio: "⌂", volver: "←", oscuro: "☾", claro: "☀",
-    ajustes: "⚙", salir: "↪", menu: "☰"
+    inicio: '<i class="fa-solid fa-house" aria-hidden="true"></i>',
+    volver: '<i class="fa-solid fa-arrow-left" aria-hidden="true"></i>',
+    oscuro: '<i class="fa-solid fa-moon" aria-hidden="true"></i>',
+    claro: '<i class="fa-solid fa-sun" aria-hidden="true"></i>',
+    ajustes: '<i class="fa-solid fa-gear" aria-hidden="true"></i>',
+    salir: '<i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>',
+    menu: '<i class="fa-solid fa-bars" aria-hidden="true"></i>'
   };
+  let actualizarIconoTema = () => {};
 
   function rutaInicio() {
     return location.pathname.includes("/modulos/") ? "../inicio.html" : "inicio.html";
@@ -17,16 +23,16 @@
     barra.className = "barra-superior";
     barra.innerHTML = `
       <div class="nav-left">
-        <a id="btn-inicio" class="btn-inicio" href="${rutaInicio()}" title="Inicio">${iconos.inicio}</a>
-        <a id="volver-atras" class="btn-volver" href="#" title="Volver atrás">${iconos.volver}</a>
+        <a id="btn-inicio" class="btn-inicio" href="${rutaInicio()}" title="Inicio" aria-label="Inicio">${iconos.inicio}</a>
+        <a id="volver-atras" class="btn-volver" href="#" title="Volver atrás" aria-label="Volver atrás">${iconos.volver}</a>
       </div>
       <button id="boton-modo-edicion" class="boton-modo-edicion" type="button" title="Modo edición">
         <span class="btn-icon">✏️</span><span class="btn-text">EDITAR</span>
       </button>
       <div class="nav-right">
-        <button id="btn-modo-oscuro" class="btn-modo-oscuro" type="button" title="Modo oscuro">${iconos.oscuro}</button>
-        <button id="boton-ajustes" class="btn-ajustes" type="button" title="Ajustes">${iconos.ajustes}</button>
-        <button id="btn-cerrar-sesion" class="btn-cerrar-sesion" type="button" title="Cerrar sesión">${iconos.salir}</button>
+        <button id="btn-modo-oscuro" class="btn-modo-oscuro" type="button" title="Modo oscuro" aria-label="Cambiar tema">${iconos.oscuro}</button>
+        <button id="boton-ajustes" class="btn-ajustes" type="button" title="Ajustes" aria-label="Ajustes">${iconos.ajustes}</button>
+        <button id="btn-cerrar-sesion" class="btn-cerrar-sesion" type="button" title="Cerrar sesión" aria-label="Cerrar sesión">${iconos.salir}</button>
       </div>`;
     document.body.prepend(barra);
     return barra;
@@ -35,6 +41,10 @@
   function tema(oscuro) {
     document.documentElement.classList.toggle("modo-oscuro", oscuro);
     document.body.classList.toggle("modo-oscuro", oscuro);
+  }
+
+  function temaActivo() {
+    return document.documentElement.classList.contains("modo-oscuro") || document.body.classList.contains("modo-oscuro");
   }
 
   function preparar() {
@@ -53,9 +63,9 @@
     const botonTema = document.getElementById("btn-modo-oscuro");
     if (botonTema && !botonTema.dataset.listener) {
       botonTema.dataset.listener = "1";
-      const actualizar = () => { botonTema.textContent = document.body.classList.contains("modo-oscuro") ? iconos.claro : iconos.oscuro; };
-      botonTema.onclick = () => { const nuevo = !document.body.classList.contains("modo-oscuro"); tema(nuevo); localStorage.setItem("modo_oscuro", String(nuevo)); actualizar(); };
-      actualizar();
+      actualizarIconoTema = () => { botonTema.innerHTML = temaActivo() ? iconos.claro : iconos.oscuro; };
+      botonTema.onclick = () => { const nuevo = !temaActivo(); tema(nuevo); localStorage.setItem("modo_oscuro", String(nuevo)); actualizarIconoTema(); };
+      actualizarIconoTema();
     }
     const salir = document.getElementById("btn-cerrar-sesion");
     if (salir && !salir.dataset.listener) {
@@ -70,6 +80,10 @@
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", preparar, { once: true });
   else preparar();
+  window.addEventListener("ajustes-servidor-cargados", () => {
+    tema(localStorage.getItem("modo_oscuro") === "true");
+    actualizarIconoTema();
+  });
   window.ComponenteNavbar = { inicializar: preparar };
 })();
 

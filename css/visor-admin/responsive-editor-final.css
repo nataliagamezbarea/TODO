@@ -3,6 +3,55 @@
 body { padding-top: 0 !important; }
 #barra-superior .icono-navbar { display:inline-flex; width:1.2em; align-items:center; justify-content:center; font-weight:800; font-size:1.15em; line-height:1; }
 #barra-superior .boton-modo-edicion { flex:0 0 auto; }
+
+/* El visor comparte la misma apariencia de navbar que el resto de vistas.
+   Sus acciones extra conservan su función, pero no introducen otro tema. */
+html:not(.modo-oscuro) #barra-superior .visor-navbar-action {
+  background: #ffffff !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
+}
+
+html:not(.modo-oscuro) #barra-superior .visor-navbar-action:hover {
+  background: #eef2ff !important;
+  color: #4338ca !important;
+  border-color: #c7d2fe !important;
+  box-shadow: 0 6px 14px rgba(79, 70, 229, 0.18) !important;
+  transform: translateY(-2px);
+}
+
+html:not(.modo-oscuro) #barra-superior #btn-modo-oscuro:hover {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  border-color: #fcd34d !important;
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.22) !important;
+}
+
+html.modo-oscuro #barra-superior .visor-navbar-action,
+body.modo-oscuro #barra-superior .visor-navbar-action {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+  border-color: #334155 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18) !important;
+}
+
+html.modo-oscuro #barra-superior .visor-navbar-action:hover,
+body.modo-oscuro #barra-superior .visor-navbar-action:hover {
+  background: #312e81 !important;
+  color: #e0e7ff !important;
+  border-color: #818cf8 !important;
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.24) !important;
+  transform: translateY(-2px);
+}
+
+html.modo-oscuro #barra-superior #btn-modo-oscuro:hover,
+body.modo-oscuro #barra-superior #btn-modo-oscuro:hover {
+  background: #fbbf24 !important;
+  color: #422006 !important;
+  border-color: #fcd34d !important;
+  box-shadow: 0 6px 16px rgba(251, 191, 36, 0.28) !important;
+}
 .editor-box { width:calc(100% - 32px); max-width:none; box-sizing:border-box; }
 .editor-tools { gap:10px !important; }
 .editor-tools > span { min-width:0; max-width:100%; overflow-wrap:anywhere; }

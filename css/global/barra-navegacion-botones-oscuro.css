@@ -37,6 +37,15 @@ a#volver-atras.cargando,
 #global-navbar-loading.on { display: flex; }
 #global-navbar-loading i { color: #6366f1; }
 
+/* Control de tema: contraste estable también sobre la navbar oscura. */
+html.modo-oscuro #barra-superior #btn-modo-oscuro:hover,
+body.modo-oscuro #barra-superior #btn-modo-oscuro:hover {
+  background: #fbbf24 !important;
+  color: #422006 !important;
+  border-color: #fcd34d !important;
+  box-shadow: 0 6px 16px rgba(251, 191, 36, 0.28) !important;
+}
+
 #barra-superior #btn-inicio:hover,
 #btn-inicio:hover {
   background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
