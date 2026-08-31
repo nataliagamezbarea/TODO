@@ -9,9 +9,9 @@
         var invitado = sessionStorage.getItem("esInvitado") === "true";
         var token = localStorage.getItem("sb-lztatgnlplpduiatmlrv-auth-token");
         if (invitado || token) {
-          window.location.replace("inicio.html");
+          window.location.replace("paginas/inicio.html");
         } else {
-          window.location.replace("modulos/iniciar-sesion.html");
+          window.location.replace("paginas/modulos/iniciar-sesion.html");
         }
       })();
     </script>

@@ -135,7 +135,7 @@ function cambiarRamaDesdeSelector(selector) {
     window.AppRouter.renderizar("clase", { rama }).catch(error => console.error("No se pudo cargar la clase:", error));
     return;
   }
-  const destino = new URL("modulos/clase.html", document.baseURI);
+  const destino = new URL("/paginas/modulos/clase.html", document.baseURI);
   destino.searchParams.set("rama", rama);
   window.location.href = destino.href;
 }

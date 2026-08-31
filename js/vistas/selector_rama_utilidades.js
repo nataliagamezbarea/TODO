@@ -33,7 +33,7 @@ function abrirVisorDesdeSelector(selector) {
     }));
     sessionStorage.setItem("visorAdminBranchMode", rama ? "branch" : "all");
     sessionStorage.setItem("visorAdminBranch", rama);
-    const url = new URL("visor-admin/panel-administrador.html", document.baseURI);
+    const url = new URL("/paginas/visor-admin/panel-administrador.html", window.location.origin);
     if (rama) url.searchParams.set("rama", rama);
     else url.searchParams.set("todas", "1");
     window.location.href = url.href;

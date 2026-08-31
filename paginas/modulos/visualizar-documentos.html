@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head><base href="/">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Visor y Gestor de Documentos</title>
@@ -14,7 +14,7 @@
   // Los accesos desde grados, trimestres y tareas siguen siendo los botones junto
   // a las descargas.
   const params = new URLSearchParams(location.search);
-  const destino = new URL("../visor-admin/panel-administrador.html", location.href);
+  const destino = new URL("/paginas/visor-admin/panel-administrador.html", location.origin);
   params.forEach((valor, clave) => destino.searchParams.set(clave, valor));
   location.replace(destino.href);
 </script>

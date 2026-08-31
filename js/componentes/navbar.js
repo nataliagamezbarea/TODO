@@ -11,8 +11,7 @@
   let actualizarIconoTema = () => {};
 
   function rutaInicio() {
-    if (document.getElementById("visor-navbar-brand")) return "../inicio.html";
-    return location.pathname.includes("/modulos/") ? "../inicio.html" : "inicio.html";
+    return "/paginas/inicio.html";
   }
 
   function crearBarra() {
@@ -71,7 +70,7 @@
     const salir = document.getElementById("btn-cerrar-sesion");
     if (salir && !salir.dataset.listener) {
       salir.dataset.listener = "1";
-      salir.onclick = async () => { sessionStorage.clear(); try { await window.supabaseClient?.auth?.signOut(); } catch (_) {} location.replace(document.getElementById("visor-navbar-brand") || location.pathname.includes("/modulos/") ? "../modulos/iniciar-sesion.html" : "modulos/iniciar-sesion.html"); };
+      salir.onclick = async () => { sessionStorage.clear(); try { await window.supabaseClient?.auth?.signOut(); } catch (_) {} location.replace("/paginas/modulos/iniciar-sesion.html"); };
     }
     window.__alternarModoOscuro = () => botonTema?.click();
     window.dispatchEvent(new CustomEvent("navbar-lista"));

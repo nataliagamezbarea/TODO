@@ -18,16 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (path.includes("apuntes")) {
-      window.location.href = `asignatura.html?asignatura=${encodeURIComponent(asignatura)}&trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
+      window.location.href = `/paginas/modulos/asignatura.html?asignatura=${encodeURIComponent(asignatura)}&trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
     } else if (path.includes("asignatura.")) {
-      window.location.href = `asignaturas.html?trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
+      window.location.href = `/paginas/modulos/asignaturas.html?trimestre=${encodeURIComponent(trimestre)}&rama=${encodeURIComponent(rama)}`;
     } else if (path.includes("asignaturas.")) {
-      window.location.href = `clase.html?rama=${encodeURIComponent(rama)}`;
+      window.location.href = `/paginas/modulos/clase.html?rama=${encodeURIComponent(rama)}`;
     } else if (path.includes("clase.")) {
-      const rutaIndex = path.includes("/modulos/") ? "../inicio.html" : "inicio.html";
+      const rutaIndex = "/paginas/inicio.html";
       window.location.href = rutaIndex;
     } else {
-      const rutaIndex = path.includes("/modulos/") ? "../inicio.html" : "inicio.html";
+      const rutaIndex = "/paginas/inicio.html";
       window.location.href = rutaIndex;
     }
   });
