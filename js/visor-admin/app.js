@@ -65,8 +65,11 @@ function _guardarContextoVisor(parcial = {}) {
 function cambiarRamaGithub(rama) {
   mostrarCargandoPagina('Cargando rama...');
   const ultima = localStorage.getItem('last_grado') || localStorage.getItem('rama_actual');
-  if (window.RamaActual) window.RamaActual.guardar(rama);
-  if (!rama) {
+  // Tanto SELECCIONAR (valor vacío) como la opción explícita
+  // "TODAS LAS RAMAS" significan exactamente lo mismo.
+  const todasLasRamas = !rama || rama === '__ALL_BRANCHES__';
+  if (window.RamaActual) window.RamaActual.guardar(todasLasRamas ? '' : rama);
+  if (todasLasRamas) {
     // SELECCIONAR = TODAS LAS RAMAS. No mostramos una pantalla intermedia.
     grad = '__TODAS__';
     _guardarContextoVisor({ rama: '', todas: true, directo: false, archivo: '', asignatura: '', trimestre: '', tarea: '' });
@@ -77,10 +80,11 @@ function cambiarRamaGithub(rama) {
     if (typeof render === 'function') render();
     requestAnimationFrame(() => setTimeout(() => ocultarCargandoPagina(), 120));
     const sel = document.getElementById('selectRamaGithub');
-    if (sel) sel.value = '';
+    if (sel) sel.value = '__ALL_BRANCHES__';
     return;
   }
   _guardarContextoVisor({ todas: false, directo: false, archivo: '', asignatura: '', trimestre: '', tarea: '' });
+  localStorage.removeItem('visor_todas');
   grad = rama;
   localStorage.setItem('last_grado', grad);
   localStorage.setItem('last_pos', '0');
@@ -185,7 +189,49 @@ document.addEventListener('click', (e) => {
 
 window.addEventListener('beforeunload', () => mostrarCargandoPagina('Cargando página...'));
 
+function _contextoAperturaInmediata() {
+  try {
+    const q = new URLSearchParams(window.location.search);
+    const ctx = JSON.parse(localStorage.getItem('visor_contexto') || '{}');
+    const archivo = q.get('archivo') || (ctx.directo ? ctx.archivo : '') || ((ctx.abrirLista === true) ? '' : localStorage.getItem('last_archivo') || '');
+    const abierto = (ctx.abrirLista === true) ? false : (q.has('archivo') || q.has('pos') || localStorage.getItem('last_open') === '1');
+    return { abierto, archivo: String(archivo || '').trim() };
+  } catch (_) {
+    return { abierto: false, archivo: '' };
+  }
+}
+
+function mostrarVisorDocumentoInmediato() {
+  const estado = _contextoAperturaInmediata();
+  if (!estado.abierto) return false;
+  const ov = document.getElementById('ov');
+  if (!ov) return false;
+
+  // El visor aparece inmediatamente. No esperamos a Supabase, GitHub ni /api/datos.
+  ov.classList.add('on', 'visor-preloading');
+  document.documentElement.classList.add('visor-document-open');
+  document.body.classList.add('visor-document-open');
+  document.body.style.overflow = 'hidden';
+
+  const nombre = estado.archivo || 'Documento';
+  const orig = document.getElementById('spanOrigName');
+  const clean = document.getElementById('spanCleanName');
+  const arrow = document.getElementById('spanRenameArrow');
+  if (orig) orig.textContent = nombre;
+  if (clean) clean.textContent = nombre;
+  if (arrow) arrow.style.display = 'none';
+
+  ['viewerOld', 'viewerNew'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el || el.children.length) return;
+    el.innerHTML = `<div class="visor-preload-document"><i class="fa-solid fa-circle-notch fa-spin"></i><strong>${i ? 'Preparando previsualización...' : 'Preparando documento...'}</strong><span>El visor ya está abierto. Cargando el PDF…</span></div>`;
+  });
+  return true;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof mostrarStatsCargando === 'function') mostrarStatsCargando('CARGANDO...');
+  mostrarVisorDocumentoInmediato();
   // La navbar es FIJA y se crea antes que el visor. El indicador de carga
   // permanece visible debajo de ella hasta que el contenido termina de renderizar.
   mostrarCargandoPagina('Cargando página...');

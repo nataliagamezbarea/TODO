@@ -1,0 +1,19 @@
+}
+
+html.modo-oscuro #barra-superior,
+body.modo-oscuro #barra-superior {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+
+html.modo-oscuro #btn-inicio,
+html.modo-oscuro a#volver-atras,
+html.modo-oscuro #btn-modo-oscuro,
+html.modo-oscuro #boton-ajustes,
+html.modo-oscuro #btn-cerrar-sesion,
+body.modo-oscuro #btn-inicio,
+body.modo-oscuro a#volver-atras,
+body.modo-oscuro #btn-modo-oscuro,
+body.modo-oscuro #boton-ajustes,
+body.modo-oscuro #btn-cerrar-sesion {
+  background: #1e293b !important;

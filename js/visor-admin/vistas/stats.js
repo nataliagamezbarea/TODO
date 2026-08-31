@@ -1,4 +1,11 @@
-/* RENDERIZADO DE ESTADÍSTICAS Y CONTADORES (< 50 lineas) */
+/* RENDERIZADO DE ESTADÍSTICAS Y CONTADORES */
+
+function mostrarStatsCargando(texto = 'CARGANDO...') {
+  const st = document.getElementById('stats');
+  if (!st) return;
+  st.classList.add('stats-loading');
+  st.innerHTML = `<div class="stats-loading-inner"><i class="fa-solid fa-circle-notch fa-spin"></i><span>${texto}</span></div>`;
+}
 
 function renderTabs() {
   const tabs = document.getElementById('tabs');
@@ -8,7 +15,13 @@ function renderTabs() {
 function renderStats() {
   const st = document.getElementById('stats');
   if (!st) return;
-  const items = Array.isArray(ITEMS) ? ITEMS : [];
+  // Mientras ITEMS todavía no existe, nunca dejamos el bloque vacío.
+  if (!Array.isArray(ITEMS)) {
+    mostrarStatsCargando();
+    return;
+  }
+  st.classList.remove('stats-loading');
+  const items = ITEMS;
   const tot = items.length;
   const enc = items.filter(e => e.type === 'e' && e.include).length;
   const ren = items.filter(e => e.cambia_nombre && e.inc_renombre !== false).length;

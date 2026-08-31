@@ -6,9 +6,11 @@ function openOv() {
   it.visto = true;
   localStorage.setItem('last_grado', grad);
   localStorage.setItem('rama_actual', grad);
+  if (grad === '__TODAS__') localStorage.setItem('visor_todas', '1');
   localStorage.setItem('last_pos', POS);
   localStorage.setItem('last_open', '1');
   if (it.archivo) localStorage.setItem('last_archivo', it.archivo);
+  if (it._rama) localStorage.setItem('last_archivo_rama', it._rama);
   const ov = document.getElementById('ov');
   if (ov) ov.classList.add('on');
   document.documentElement.classList.add('visor-document-open');
@@ -26,6 +28,7 @@ function closeOv() {
   document.body.style.overflow = '';
   localStorage.setItem('last_open', '0');
   localStorage.removeItem('last_archivo');
+  localStorage.removeItem('last_archivo_rama');
   if (typeof render === 'function') render();
 }
 
@@ -46,6 +49,7 @@ async function openPos(p) {
   localStorage.setItem('last_pos', POS);
   localStorage.setItem('last_open', '1');
   if (it.archivo) localStorage.setItem('last_archivo', it.archivo);
+  if (it._rama) localStorage.setItem('last_archivo_rama', it._rama);
 
   // La posición y la rama se conservan en el estado local del visor.
   // NO se escriben en la URL: el visor debe permanecer limpio, sin

@@ -75,7 +75,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       e.preventDefault(); e.stopPropagation();
       const rama = ramaSeleccionada();
       if (typeof window.abrirVisorAdminIntegrado !== "function") return;
-      // Sin selección = TODAS las ramas.
+      // El botón del selector abre el visor con TODOS los PDF cuando
+      // no hay una rama concreta seleccionada; así se revisan todas las ramas
+      // juntas y la navegación del visor recorre todos sus documentos.
       window.abrirVisorAdminIntegrado({ rama: rama || "", todas: !rama });
     });
   }

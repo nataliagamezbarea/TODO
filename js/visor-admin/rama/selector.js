@@ -59,8 +59,13 @@ window.RamaActual = (() => {
         select.appendChild(op);
       }
     });
+    // Añadir siempre la opción explícita de TODAS LAS RAMAS al final.
+    // No depende de que el backend la devuelva como si fuera una rama real.
+    ensureAllBranchesOption(select);
+
     // GitHub nunca puede borrar visualmente la rama actual.
     if (candidata) select.value = candidata;
+    else select.value = '';
     return ramas || [];
   };
 
@@ -90,7 +95,7 @@ function ensureAllBranchesOption(select) {
   });
   const allOpt = document.createElement("option");
   allOpt.value = "__ALL_BRANCHES__";
-  allOpt.textContent = "— TODAS LAS RAMAS —";
+  allOpt.textContent = "TODAS LAS RAMAS";
   allOpt.dataset.allBranches = "1";
   select.appendChild(allOpt);
 }

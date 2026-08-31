@@ -26,6 +26,10 @@
       // Si viene un archivo concreto, el visor puede abrirlo directamente
       // sin reconstruir todos los grados/ramas antes de mostrarlo.
       directo: !!String(archivo || "").trim(),
+      // Cuando el acceso contextual no trae un archivo concreto (p. ej.
+      // desde una asignatura/trimestre), debe abrir la LISTA filtrada y
+      // nunca reutilizar el último PDF que quedó abierto en el visor.
+      abrirLista: !String(archivo || "").trim(),
       todas: !!todas,
       returnPath: window.location.pathname,
       returnSearch: ""
@@ -44,7 +48,19 @@
     const base = script
       ? new URL('../../visor-admin/index.html', script.src)
       : new URL('../visor-admin/index.html', window.location.href);
-    guardarContextoVisor(opciones);
+    const tieneArchivo = !!String(opciones.archivo || "").trim();
+    guardarContextoVisor({ ...opciones, abrirLista: !tieneArchivo });
+    // Un acceso contextual sin archivo siempre significa "abrir la lista".
+    // Limpiamos además el estado persistido del último documento para que
+    // una navegación desde un trimestre/asignatura no vuelva al PDF anterior.
+    if (!tieneArchivo) {
+      try {
+        localStorage.setItem("last_open", "0");
+        localStorage.removeItem("last_archivo");
+        localStorage.removeItem("last_archivo_rama");
+        localStorage.removeItem("visor_pos");
+      } catch (_) {}
+    }
     // Los filtros NO viajan en la URL. Se recuperan desde localStorage.
     return new URL(base.href);
   }

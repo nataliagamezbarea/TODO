@@ -1,0 +1,70 @@
+/* Modo Oscuro para Ajustes */
+html.modo-oscuro,
+body.modo-oscuro {
+  --ajustes-btn-bg: #1e293b;
+}
+
+html.modo-oscuro #panel-ajustes,
+body.modo-oscuro #panel-ajustes {
+  background: rgba(15, 23, 42, 0.94) !important;
+  border: none !important;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+}
+
+html.modo-oscuro #panel-ajustes .cabecera-ajustes,
+body.modo-oscuro #panel-ajustes .cabecera-ajustes {
+  background: transparent !important;
+  border: none !important;
+  color: #f8fafc !important;
+}
+
+html.modo-oscuro #panel-ajustes .fila-ajuste:hover,
+body.modo-oscuro #panel-ajustes .fila-ajuste:hover {
+  background: rgba(30, 41, 59, 0.8) !important;
+}
+
+html.modo-oscuro #panel-ajustes .texto-ajuste strong,
+body.modo-oscuro #panel-ajustes .texto-ajuste strong {
+  color: #f8fafc !important;
+}
+
+html.modo-oscuro #panel-ajustes .seccion-ajustes-titulo,
+body.modo-oscuro #panel-ajustes .seccion-ajustes-titulo {
+  color: #818cf8 !important;
+  border-top-color: rgba(51, 65, 85, 0.8) !important;
+}
+
+html.modo-oscuro #panel-ajustes .btn-cerrar-ajustes,
+body.modo-oscuro #panel-ajustes .btn-cerrar-ajustes {
+  background: rgba(51, 65, 85, 0.6) !important;
+  color: #cbd5e1 !important;
+}
+
+html.modo-oscuro #panel-ajustes .btn-cerrar-ajustes:hover,
+body.modo-oscuro #panel-ajustes .btn-cerrar-ajustes:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+html.modo-oscuro #barra-superior #boton-ajustes,
+html.modo-oscuro #boton-ajustes,
+html.modo-oscuro .btn-ajustes,
+body.modo-oscuro #barra-superior #boton-ajustes,
+body.modo-oscuro #boton-ajustes,
+body.modo-oscuro .btn-ajustes {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.45) !important;
+}
+
+html.modo-oscuro #barra-superior #boton-ajustes:hover,
+html.modo-oscuro #boton-ajustes:hover,
+html.modo-oscuro .btn-ajustes:hover,
+body.modo-oscuro #barra-superior #boton-ajustes:hover,
+body.modo-oscuro #boton-ajustes:hover,
+body.modo-oscuro .btn-ajustes:hover {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(99, 102, 241, 0.6) !important;
+}

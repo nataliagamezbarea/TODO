@@ -44,7 +44,7 @@ function cardHTML(it) {
         <img id="${thumbId}" src="${LOADING_THUMB}" class="card-thumb-img is-loading" alt="Vista Previa PDF" loading="lazy" />
       </div>
       <div class="card-info-box">
-        <div style="font-weight:700;font-size:14px;word-break:break-all;color:#f3f4f6">${it.archivo}</div>
+        <div class="titulo"style="font-weight:700;font-size:14px;word-break:break-all;color:#f3f4f6">${it.archivo}</div>
         <div style="margin-top:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">${tag}${apuTag}${vbadge(it.visto, it.decision)}</div>
         ${ren}
         ${orig}

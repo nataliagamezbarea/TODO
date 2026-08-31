@@ -1,0 +1,100 @@
+body:not(.modo-oscuro) #barra-superior button,
+body:not(.modo-oscuro) #barra-superior a {
+  background: #ffffff !important;
+  color: #475569 !important;
+  border-color: #d7e0ea !important;
+  box-shadow: 0 1px 4px rgba(15,23,42,.06) !important;
+}
+
+html:not(.modo-oscuro) #barra-superior button:hover,
+html:not(.modo-oscuro) #barra-superior a:hover,
+body:not(.modo-oscuro) #barra-superior button:hover,
+body:not(.modo-oscuro) #barra-superior a:hover {
+  background: #f1f5f9 !important;
+  color: #2563eb !important;
+  border-color: #bfdbfe !important;
+}
+
+html:not(.modo-oscuro) .selector-rama,
+body:not(.modo-oscuro) .selector-rama {
+  background: rgba(255,255,255,.97) !important;
+  color: #475569 !important;
+  border-color: #dbe3ed !important;
+  box-shadow: 0 5px 18px rgba(15,23,42,.07) !important;
+}
+
+html:not(.modo-oscuro) .selector-rama select,
+body:not(.modo-oscuro) .selector-rama select {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-color: #cbd5e1 !important;
+}
+
+html:not(.modo-oscuro) .selector-rama select option,
+body:not(.modo-oscuro) .selector-rama select option {
+  background: #ffffff !important;
+  color: #1e293b !important;
+}
+
+html:not(.modo-oscuro) .flex,
+html:not(.modo-oscuro) .card,
+html:not(.modo-oscuro) .rama-accion-fila,
+body:not(.modo-oscuro) .flex,
+body:not(.modo-oscuro) .card,
+body:not(.modo-oscuro) .rama-accion-fila {
+  background: #ffffff !important;
+  color: #334155 !important;
+  border-color: #dbe3ed !important;
+  box-shadow: 0 4px 12px rgba(15,23,42,.06) !important;
+}
+
+html:not(.modo-oscuro) .flex a,
+html:not(.modo-oscuro) .flex span,
+html:not(.modo-oscuro) .rama-accion-nombre,
+body:not(.modo-oscuro) .flex a,
+body:not(.modo-oscuro) .flex span,
+body:not(.modo-oscuro) .rama-accion-nombre {
+  color: #334155 !important;
+}
+
+html:not(.modo-oscuro) .flex:hover,
+html:not(.modo-oscuro) .card:hover,
+html:not(.modo-oscuro) .rama-accion-fila:hover,
+body:not(.modo-oscuro) .flex:hover,
+body:not(.modo-oscuro) .card:hover,
+body:not(.modo-oscuro) .rama-accion-fila:hover {
+  background: #f8fafc !important;
+  border-color: #bfdbfe !important;
+  box-shadow: 0 8px 20px rgba(37,99,235,.08) !important;
+}
+
+html:not(.modo-oscuro) #sin-rama,
+html:not(.modo-oscuro) .sin-datos,
+html:not(.modo-oscuro) .mensaje-cargando,
+body:not(.modo-oscuro) #sin-rama,
+body:not(.modo-oscuro) .sin-datos,
+body:not(.modo-oscuro) .mensaje-cargando {
+  background: #ffffff !important;
+  color: #64748b !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Componentes de carga/estado que puedan venir con estilos oscuros. */
+html:not(.modo-oscuro) .mensaje-cargando,
+body:not(.modo-oscuro) .mensaje-cargando {
+  min-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  margin: 8px 0 !important;
+  border-radius: 12px !important;
+}
+
+html:not(.modo-oscuro) #global-navbar-loading,
+body:not(.modo-oscuro) #global-navbar-loading {
+  background: rgba(255,255,255,.98) !important;
+  color: #475569 !important;
+  border-color: #dbe3ed !important;
+  box-shadow: 0 6px 18px rgba(15,23,42,.10) !important;
+}

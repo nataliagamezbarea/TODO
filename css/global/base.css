@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Poppins:wght@400;600&display=swap");
+@import url("botones.css");
+
+:root {
+  --primary-color: rgba(193, 76, 138, 1);
+  --secondary-color: rgb(251 236 221);
+  --arrow-color: rgba(144, 101, 176, 1);
+  --tertiary-color: purple;
+}
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  color: black;
+  font-family: "Poppins", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  margin: 0;
+  padding-top: clamp(65px, 8vh, 85px) !important;
+  padding-bottom: clamp(24px, 4vh, 40px) !important;
+  padding-left: clamp(10px, 2.5vw, 20px) !important;
+  padding-right: clamp(10px, 2.5vw, 20px) !important;
+  box-sizing: border-box !important;
+}
+
+h1,
+h2 {
+  color: #1e293b;
+  font-family: "Poppins", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+#titulo-grado {
+  display: block !important;
+  text-align: center !important;
+  margin: 0 auto 8px auto !important;
+  font-size: clamp(1.1rem, 2.8vw, 1.65rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  max-width: min(850px, 95vw) !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+.titulo-texto {
+  display: inline !important;
+  text-align: center !important;
+  vertical-align: baseline !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+html.modo-oscuro h1,
+body.modo-oscuro h1,
+html.modo-oscuro h2,
+body.modo-oscuro h2,
+html.modo-oscuro #titulo-grado,
+body.modo-oscuro #titulo-grado,
+html.modo-oscuro .titulo-texto,
+body.modo-oscuro .titulo-texto {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.icono-exito {
+  color: #22c55e !important;
+}
+
+.icono-error {
+  color: #ef4444 !important;
+}
+
+.deshabilitado {
+  pointer-events: none !important;
+  opacity: 0.65 !important;
+}
+
+.oculto {
+  display: none !important;
+}
+
+.mensaje-cargando {
+  font-weight: 500;
+  color: #64748b;
+  padding: 10px 0;
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: "Poppins", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}
+

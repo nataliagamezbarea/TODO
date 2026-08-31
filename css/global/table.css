@@ -1,0 +1,90 @@
+  gap: clamp(6px, 1.5vw, 14px) !important;
+}
+
+
+.tabla-contenedor-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.tabla-contenedor-responsive table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(12px, 2.2vw, 14px);
+}
+
+.tabla-contenedor-responsive th,
+.tabla-contenedor-responsive td {
+  padding: 10px 12px;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.tabla-contenedor-responsive td:hover {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.item-archivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 3px 0;
+}
+
+/* ============================================================
+   CABECERA Y TITULO CON BOTON DE DESCARGA INLINE
+   ============================================================ */
+.cabecera,
+div.cabecera {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin: 20px auto 24px !important;
+  gap: 12px !important;
+}
+
+#titulo-grado,
+.cabecera h1 {
+  display: block !important;
+  text-align: center !important;
+  margin: 0 auto 6px auto !important;
+  font-size: clamp(1.1rem, 2.8vw, 1.65rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  max-width: min(850px, 95vw) !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+#titulo-grado .titulo-texto {
+  display: inline !important;
+  text-align: center !important;
+  vertical-align: baseline !important;
+}
+
+.item-archivo a,
+.item-archivo a:hover,
+.item-archivo a:focus {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.item-archivo .btn-descarga,
+.item-archivo .btn-toggle-archivo {
+  flex-shrink: 0 !important;
+}
+
+.selector-rama {
+  margin-top: 16px;
+  margin-bottom: 24px;
+}

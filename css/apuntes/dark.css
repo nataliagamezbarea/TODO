@@ -1,0 +1,62 @@
+body.modo-oscuro .valor a.enlace-archivo {
+  color: #d8b4fe !important;
+}
+
+html.modo-oscuro .item-archivo .btn-descarga,
+body.modo-oscuro .item-archivo .btn-descarga {
+  color: #d8b4fe !important;
+}
+
+html.modo-oscuro .btn-ver-mas-archivos,
+body.modo-oscuro .btn-ver-mas-archivos {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+}
+
+html.modo-oscuro .btn-ver-mas-archivos:hover,
+body.modo-oscuro .btn-ver-mas-archivos:hover {
+  background: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+html.modo-oscuro .caja-permiso-invitado,
+body.modo-oscuro .caja-permiso-invitado {
+  background: rgba(88, 28, 135, 0.35) !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+html.modo-oscuro .caja-permiso-invitado .permiso-switch,
+body.modo-oscuro .caja-permiso-invitado .permiso-switch {
+  color: #d8b4fe !important;
+}
+
+html.modo-oscuro .caja-permiso-invitado-oculto,
+body.modo-oscuro .caja-permiso-invitado-oculto {
+  background: rgba(153, 27, 27, 0.45) !important;
+  border-color: #991b1b !important;
+}
+
+html.modo-oscuro .caja-permiso-invitado-oculto .permiso-switch,
+body.modo-oscuro .caja-permiso-invitado-oculto .permiso-switch {
+  color: #fca5a5 !important;
+}
+
+html.modo-oscuro .tema-oculto-invitado,
+body.modo-oscuro .tema-oculto-invitado {
+  background: rgba(127, 29, 29, 0.25) !important;
+  border-color: #7f1d1d !important;
+  border-left: 5px solid #ef4444 !important;
+}
+
+html.modo-oscuro .archivo-oculto-admin,
+body.modo-oscuro .archivo-oculto-admin {
+  background: rgba(153, 27, 27, 0.25) !important;
+  border: 1.5px dashed #f87171 !important;
+  color: #fca5a5 !important;
+
+
+
+}
+
+

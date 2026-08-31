@@ -1,0 +1,12 @@
+.spinner-ajustes-cargando {
+  font-size: 24px;
+  color: #6366f1;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.texto-ajustes-cargando {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}

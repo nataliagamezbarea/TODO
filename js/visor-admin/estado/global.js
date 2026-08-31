@@ -69,12 +69,17 @@ async function load() {
       window.history.replaceState({}, document.title, window.location.pathname);
     } catch (_) {}
   }
-  const modoTodas = contexto.todas === true || contexto.rama === '__TODAS__';
+  const modoTodas = contexto.todas === true ||
+    contexto.rama === '__TODAS__' ||
+    contexto.rama === '__ALL_BRANCHES__' ||
+    localStorage.getItem('visor_todas') === '1' ||
+    localStorage.getItem('last_grado') === '__TODAS__';
   const savedGrado = modoTodas ? '' : (contexto.rama || localStorage.getItem('last_grado') || localStorage.getItem('rama_actual'));
   const filtroAsignatura = contexto.asignatura || '';
   const filtroTrimestre = contexto.trimestre || '';
   window.VISOR_FILTRO = { asignatura: filtroAsignatura, trimestre: filtroTrimestre };
   const archivoContexto = contexto.directo ? String(contexto.archivo || '').trim() : '';
+  const abrirListaContextual = contexto.abrirLista === true;
   const hayRamaObjetivo = !!savedGrado || modoTodas;
   const esHomeVisor = !hayRamaObjetivo && !params.get('archivo') && !params.get('pos');
   if (esHomeVisor) { contexto.todas = true; try { localStorage.setItem('visor_contexto', JSON.stringify(contexto)); } catch (_) {} }
@@ -130,9 +135,17 @@ async function load() {
   }
 
   const sel = document.getElementById('selectRamaGithub');
-  if (sel) sel.value = modoTodas ? '' : grad;
+  if (sel) sel.value = modoTodas ? '__ALL_BRANCHES__' : grad;
 
   if (modoTodas || (grad && CONFIG[grad])) {
+    if (abrirListaContextual) {
+      try {
+        localStorage.setItem('last_open', '0');
+        localStorage.removeItem('last_archivo');
+        localStorage.removeItem('last_archivo_rama');
+        localStorage.removeItem('visor_pos');
+      } catch (_) {}
+    }
     if (typeof renderTabs === 'function') renderTabs();
     buildAllItems();
     if (typeof render === 'function') render();
@@ -140,7 +153,7 @@ async function load() {
 
     // Apertura directa desde la aplicación principal: ?archivo=...
     // También permite conservar contexto de asignatura/trimestre/tarea.
-    const archivoObjetivo = urlArchivo || archivoContexto;
+    const archivoObjetivo = abrirListaContextual ? '' : (urlArchivo || archivoContexto);
     let abrioArchivoObjetivo = false;
     if (archivoObjetivo) {
       const nombreObjetivo = String(archivoObjetivo).split('/').pop();
@@ -164,23 +177,36 @@ async function load() {
 
     const openParam = params.get('pos');
     const storedPos = localStorage.getItem('visor_pos');
-    if (!abrioArchivoObjetivo && (openParam !== null || storedPos !== null)) {
+    if (!abrioArchivoObjetivo && !abrirListaContextual && (openParam !== null || storedPos !== null)) {
       const p = parseInt(openParam !== null ? openParam : storedPos, 10);
       if (p >= 0 && p < ITEMS.length) { POS = p; openOv(); }
-    } else if (!modoTodas && !abrioArchivoObjetivo && localStorage.getItem('last_open') === '1') {
+    } else if (!abrioArchivoObjetivo && !abrirListaContextual && localStorage.getItem('last_open') === '1') {
       const savedArch = localStorage.getItem('last_archivo');
+      const savedRama = localStorage.getItem('last_archivo_rama') || '';
       let idx = -1;
-      if (savedArch) idx = ITEMS.findIndex(item => item.archivo === savedArch);
+      if (savedArch) {
+        idx = ITEMS.findIndex(item => item.archivo === savedArch && (!savedRama || !modoTodas || (item._rama || '') === savedRama));
+        if (idx === -1 && modoTodas) {
+          idx = ITEMS.findIndex(item => item.archivo === savedArch);
+        }
+      }
       if (idx === -1) {
         const savedPos = parseInt(localStorage.getItem('last_pos') || '0', 10);
         if (savedPos >= 0 && savedPos < ITEMS.length) idx = savedPos;
       }
       if (idx >= 0 && idx < ITEMS.length) { POS = idx; openOv(); }
+      else if (modoTodas) {
+        localStorage.removeItem('last_open');
+        localStorage.removeItem('last_archivo');
+        localStorage.removeItem('last_archivo_rama');
+        POS = 0;
+      }
     } else {
       POS = 0;
       if (modoTodas) {
         localStorage.removeItem('last_open');
         localStorage.removeItem('last_archivo');
+        localStorage.removeItem('last_archivo_rama');
       }
     }
   } else {

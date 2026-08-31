@@ -1,0 +1,96 @@
+  border-color: transparent !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3) !important;
+}
+
+#panel-ajustes {
+  position: fixed !important;
+  top: 78px !important;
+  right: 16px !important;
+  width: min(360px, calc(100vw - 32px)) !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14) !important;
+  z-index: 100010 !important;
+  display: none !important;
+  overflow: hidden !important;
+  text-align: left !important;
+  font-family: "Poppins", -apple-system, sans-serif !important;
+}
+
+#panel-ajustes span {
+  margin: 0 !important;
+  filter: none !important;
+}
+
+#panel-ajustes.abierto,
+#panel-ajustes.visible {
+  display: block !important;
+}
+
+#panel-ajustes .cabecera-ajustes {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 14px 16px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+#panel-ajustes .btn-cerrar-ajustes {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 50% !important;
+  color: #64748b !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+#panel-ajustes .cuerpo-ajustes {
+  padding: 8px 0 !important;
+  max-height: 70vh !important;
+  overflow-y: auto !important;
+}
+
+#panel-ajustes .fila-ajuste {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 11px 16px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  cursor: pointer !important;
+}
+
+#panel-ajustes .fila-ajuste:hover {
+  background: #f8fafc !important;
+}
+
+#panel-ajustes .texto-ajuste {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+#panel-ajustes .texto-ajuste strong {
+  font-size: 13px !important;
+  color: #1e293b !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+}
