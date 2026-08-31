@@ -23,28 +23,30 @@ window.RamaAPI = window.RamaAPI || (() => {
     return String(r||'').trim();
   };
   async function listarRamas(){
-    // Primero el endpoint del Visor si existe; así ambos proyectos comparten
-    // el mismo punto de acceso cuando están detrás del backend del Visor.
+    // La app principal se sirve como sitio estático: no existe /api/ramas
+    // en Live Server/GitHub Pages. La fuente compartida es Supabase Storage
+    // y, como respaldo, GitHub. Así no se genera ningún 404 local.
     try {
-      const h={Accept:'application/json'};
-      const sc=window.supabaseClient;
-      if(sc?.auth?.getSession){ const {data}=await sc.auth.getSession(); if(data?.session?.access_token) h.Authorization=`Bearer ${data.session.access_token}`; }
-      const r=await fetch('/api/ramas',{headers:h,cache:'no-store'});
-      if(r.ok){ const d=await r.json(); if(Array.isArray(d) && d.length){ const out=sort(d); cacheSet(out); return out; } }
+      if(window.Permisos?.listarRamasStorage){
+        const d=await window.Permisos.listarRamasStorage();
+        const out=sort(d);
+        if(out.length){ cacheSet(out); return out; }
+      }
     } catch(_) {}
-    // Después GitHub directo para la aplicación principal.
+
     const rpo=repo();
     if(rpo){
       try {
-        const h={Accept:'application/vnd.github+json'}; const t=token(); if(t) h.Authorization=`Bearer ${t}`;
+        const h={Accept:'application/vnd.github+json'};
+        const t=token(); if(t) h.Authorization=`Bearer ${t}`;
         const r=await fetch(`https://api.github.com/repos/${rpo}/branches?per_page=100`,{headers:h,cache:'no-store'});
-        if(r.ok){ const d=await r.json(); const out=sort((Array.isArray(d)?d:[]).map(x=>x.name)); if(out.length){ cacheSet(out); return out; } }
+        if(r.ok){
+          const d=await r.json();
+          const out=sort((Array.isArray(d)?d:[]).map(x=>x.name));
+          if(out.length){ cacheSet(out); return out; }
+        }
       } catch(_) {}
     }
-    // Finalmente Supabase Storage/caché.
-    try {
-      if(window.Permisos?.listarRamasStorage){ const d=await window.Permisos.listarRamasStorage(); const out=sort(d); if(out.length){ cacheSet(out); return out; } }
-    } catch(_) {}
     return cacheGet();
   }
   async function poblarSelector(select, opciones={}){

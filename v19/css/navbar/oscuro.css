@@ -1,0 +1,69 @@
+/* Modo oscuro */
+html.modo-oscuro #btn-hamburguesa,
+body.modo-oscuro #btn-hamburguesa {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+html.modo-oscuro #btn-hamburguesa:hover,
+body.modo-oscuro #btn-hamburguesa:hover {
+  background: #334155;
+  color: #c084fc;
+}
+
+html.modo-oscuro #menu-hamburguesa-desplegable,
+body.modo-oscuro #menu-hamburguesa-desplegable {
+  background: #0f172a;
+  border-color: #334155;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+html.modo-oscuro .hm-item,
+body.modo-oscuro .hm-item {
+  color: #f1f5f9;
+}
+
+html.modo-oscuro .hm-item:hover,
+body.modo-oscuro .hm-item:hover {
+  background: #1e293b;
+  color: #c084fc;
+}
+
+html.modo-oscuro .hm-icon,
+body.modo-oscuro .hm-icon {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+html.modo-oscuro .hm-item:hover .hm-icon,
+body.modo-oscuro .hm-item:hover .hm-icon {
+  background: #334155;
+  border-color: #475569;
+  color: #c084fc;
+}
+
+html.modo-oscuro .hm-item-modo,
+body.modo-oscuro .hm-item-modo {
+  background: rgba(190, 24, 93, 0.15);
+  color: #f472b6;
+}
+
+html.modo-oscuro .hm-item-modo.modo-encendido,
+body.modo-oscuro .hm-item-modo.modo-encendido {
+  background: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+}
+
+html.modo-oscuro .hm-item-peligro,
+body.modo-oscuro .hm-item-peligro {
+  color: #f87171;
+}
+
+html.modo-oscuro .hm-item-peligro .hm-icon,
+body.modo-oscuro .hm-item-peligro .hm-icon {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}

@@ -1,0 +1,76 @@
+name: Compilar Apunte
+
+# Genera el PDF de un apunte LaTeX con XeLaTeX (xu-cheng/latex-action@v4, cuyo
+# contenedor ya lleva los formatos precompilados) y hace push del PDF a
+# nataliagamezbarea/GRADOS_INFORMATICOS (rama del grado, carpeta apuntes/),
+# que es donde el visor lee los apuntes compilados. Se dispara desde la app
+# (API workflow_dispatch) cuando el usuario pulsa "Compilar" en el visor.
+
+on:
+  workflow_dispatch:
+    inputs:
+      grado:
+        description: 'Grado (carpeta): Primer_grado_medio, Segundo_grado_medio o Primer_grado_superior_DAW'
+        required: true
+      nombre_apunte:
+        description: 'Nombre(s) del apunte sin extensión, varios separados por coma (p. ej. APUNTE_Tema_1,APUNTE_Tema_2). Vacío = compilar todos los .tex del grado'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Resolver apuntes a compilar
+        id: resolver
+        env:
+          GRADO: ${{ github.event.inputs.grado }}
+          NOMBRE: ${{ github.event.inputs.nombre_apunte }}
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
+          if [ -z "$NOMBRE" ]; then
+            NOMBRES=$(ls visor-admin/NUEVOS_APUNTES/"$GRADO"/*.tex 2>/dev/null | xargs -n1 basename | sed 's/\.tex$//' || true)
+          else
+            NOMBRES=$(printf '%s' "$NOMBRE" | tr ',' ' ')
+          fi
+          if [ -z "$NOMBRES" ]; then
+            echo "No hay apuntes .tex que compilar en visor-admin/NUEVOS_APUNTES/$GRADO"
+            exit 1
+          fi
+          FILES=$(printf '%s\n' $NOMBRES | sed "s#^#visor-admin/NUEVOS_APUNTES/$GRADO/#; s/\$/.tex/")
+          echo "Apuntes a compilar:"
+          printf '%s\n' $NOMBRES | sed 's/^/  - /'
+          echo "nombres=$NOMBRES" >> "$GITHUB_OUTPUT"
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "$FILES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Compilar PDFs con XeLaTeX
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: ${{ steps.resolver.outputs.files }}
+          texlive_version: 2024
+          os: debian
+          latexmk_use_xelatex: true
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode -outdir=NUEVOS_APUNTES/${{ github.event.inputs.grado }}
+        env:
+          TEXINPUTS: ".:./visor-admin:./visor-admin/bibliotecas_latex:"
+
+      - name: Subir PDFs a GRADOS_INFORMATICOS
+        env:
+          GRADO: ${{ github.event.inputs.grado }}
+          NOMBRES: ${{ steps.resolver.outputs.nombres }}
+          PAT_GRADOS: ${{ secrets.PAT_GRADOS }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+        run: |
+          bash visor-admin/build-pdf.sh "$GRADO" $NOMBRES

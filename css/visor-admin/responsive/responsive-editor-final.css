@@ -278,3 +278,71 @@ html:not(.modo-oscuro) #barra-superior #btn-cerrar-sesion:hover {
   box-shadow: 0 5px 14px rgba(220, 38, 38, .16) !important;
   transform: translateY(-1px);
 }
+
+
+/* V34 — visor de documento totalmente responsive.
+   En pantallas estrechas el documento ocupa el ancho disponible y las columnas
+   dejan de forzar un ancho fijo/overflow horizontal. */
+html.visor-document-open, body.visor-document-open {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+#ov, #ov.on, .visor-overlay, .ov-wrap {
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+#ov .ovcols, #ov .ov-actionbar, #ov .apunte-bar, #ov .ov-topbar {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#ov .ovcols {
+  width: 100%;
+}
+
+#ov .ovcol, #ov .doc-viewer, #ov .pdf-viewer, #ov .visor-pdf {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+#ov canvas, #ov iframe, #ov embed, #ov object {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 800px) {
+  #ov .ovcols {
+    width: 100%;
+    flex-direction: column !important;
+  }
+  #ov .ovcol {
+    width: 100% !important;
+    flex: 0 1 auto !important;
+    min-height: min(450px, 65vh);
+  }
+  #ov .doc-viewer {
+    width: 100% !important;
+    padding: 8px !important;
+    overflow-x: hidden !important;
+  }
+}
+
+@media (max-width: 560px) {
+  #ov .ov-topbar, #ov .ov-actionbar, #ov .apunte-bar {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap !important;
+  }
+  #ov .ov-right, #ov .ov-nav-group {
+    max-width: 100%;
+    min-width: 0;
+  }
+  #ov .ovcol {
+    min-height: 55vh;
+  }
+}

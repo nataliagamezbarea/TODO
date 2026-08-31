@@ -1,0 +1,59 @@
+/* Vista movil general (<= 500px: se activa cuando no caben los botones) */
+@media (max-width: 400px) {
+  #barra-superior {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    min-height: 52px !important;
+    padding: 6px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    z-index: 100000 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  html.modo-oscuro #barra-superior,
+  body.modo-oscuro #barra-superior {
+    background: rgba(15, 23, 42, 0.95) !important;
+    border-bottom-color: #334155 !important;
+  }
+
+  /* En movil ultra-estrecho, Inicio y Volver Atras se integran completamente dentro del menu hamburguesa */
+  #barra-superior .nav-left #btn-inicio,
+  #barra-superior .nav-left #volver-atras {
+    display: none !important;
+  }
+
+  /* Ocultar botones individuales de la derecha que estan integrados en el menu hamburguesa */
+  #barra-superior .nav-right #btn-modo-oscuro,
+  #barra-superior .nav-right #boton-ajustes,
+  #barra-superior .nav-right #btn-cerrar-sesion,
+  #barra-superior #boton-modo-edicion,
+  #boton-modo-edicion {
+    display: none !important;
+  }
+
+  /* Mostrar unicamente el boton de menu hamburguesa */
+  #btn-hamburguesa {
+    display: inline-flex !important;
+    margin-left: auto !important;
+  }
+
+  /* Ajustar contenedor de toasts para vista movil centrada */
+  #contenedor-toasts-descarga {
+    bottom: 12px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
+    width: calc(100vw - 20px) !important;
+    max-width: 360px !important;
+  }
+}

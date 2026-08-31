@@ -1,0 +1,92 @@
+body.modo-oscuro .bloque-profesor tr:hover td {
+  background-color: rgba(99, 102, 241, 0.18) !important;
+}
+
+html.modo-oscuro .bloque-profesor a,
+body.modo-oscuro .bloque-profesor a {
+  color: #818cf8 !important;
+}
+
+html.modo-oscuro .bloque-profesor a:hover,
+body.modo-oscuro .bloque-profesor a:hover {
+  color: #a5b4fc !important;
+}
+
+html.modo-oscuro .tarjeta,
+body.modo-oscuro .tarjeta {
+  background: rgba(30, 41, 59, 0.75) !important;
+  backdrop-filter: blur(14px) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+html.modo-oscuro .tarjeta h4,
+body.modo-oscuro .tarjeta h4 {
+  color: #f8fafc !important;
+}
+
+html.modo-oscuro .tarjeta a,
+body.modo-oscuro .tarjeta a {
+  color: #60a5fa !important;
+}
+
+html.modo-oscuro .fila-oculta-invitado,
+body.modo-oscuro .fila-oculta-invitado {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-left: 4px solid #ef4444 !important;
+}
+
+html.modo-oscuro .fila-oculta-invitado td,
+body.modo-oscuro .fila-oculta-invitado td {
+  border-bottom: 2px solid #7f1d1d !important;
+  border-top: 1px solid rgba(127, 29, 29, 0.4) !important;
+  color: #fca5a5 !important;
+}
+
+html.modo-oscuro .fila-oculta-invitado a,
+body.modo-oscuro .fila-oculta-invitado a {
+  color: #fca5a5 !important;
+}
+
+html.modo-oscuro .fila-oculta-invitado a:hover,
+body.modo-oscuro .fila-oculta-invitado a:hover {
+  color: #fecaca !important;
+}
+
+html.modo-oscuro .permiso-switch,
+body.modo-oscuro .permiso-switch {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+html.modo-oscuro .permiso-switch:hover,
+body.modo-oscuro .permiso-switch:hover {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+html.modo-oscuro .contenedor-tablas,
+body.modo-oscuro .contenedor-tablas {
+  background: #111827 !important;
+  border-top: 1px solid #334155 !important;
+  border-radius: 0 0 14px 14px !important;
+  color: #e5e7eb !important;
+}
+html.modo-oscuro .detalle-apuntes,
+body.modo-oscuro .detalle-apuntes {
+  background: #111827 !important;
+}
+html.modo-oscuro .detalle-apuntes .bloque-profesor,
+body.modo-oscuro .detalle-apuntes .bloque-profesor {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+}
+html.modo-oscuro .detalle-apuntes .bloque-profesor td,
+body.modo-oscuro .detalle-apuntes .bloque-profesor td {
+  background: transparent !important;
+  color: #e5e7eb !important;
+}
+html.modo-oscuro .detalle-apuntes .bloque-profesor tr:hover td,
+body.modo-oscuro .detalle-apuntes .bloque-profesor tr:hover td {
+  background: #273449 !important;
+}
